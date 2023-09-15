@@ -11,10 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.Fragment;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
@@ -23,49 +21,49 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.approvalcode.Activity.Activity_ApprovalCode;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Etc.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ApprovalEntry;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.pojo.AppCodeParams;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 import org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel.VMApprovalEntry;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallback {
+public class Fragment_ApprovalEntry extends Fragment {
 
     private VMApprovalEntry mViewModel;
+
+    private MessageBox poMesgBox;
+    private LoadDialog poLoad;
+
+    private AppCodeParams poEntryxx;
 
     private String psSysType, psSysCode, psSCAType;
 
     private AutoCompleteTextView txtBranch;
     private TextInputLayout tilReferNo;
-    private TextInputEditText txtDate, txtReferNo, txtLastNm, txtFrstNm, txtMiddNm, txtSuffix, txtRemarks;
-    private EditText txtAppCode;
-    private TextView lblAppv;
+    private TextInputEditText txtDate, txtReferNo, txtLastNm, txtFrstNm, txtMiddNm, txtSuffix, txtRemarks,txtAppCode;
+    private MaterialTextView lblAppv;
     private LinearLayout lnFullNm;
-    private MaterialButton btnCreate;
-    private ImageButton btnCopy;
-    private ApprovalEntry poEntryxx;
-    private MessageBox poMesgBox;
+    private MaterialButton btnCreate, btnCopy;
 
     private boolean createNew = true;
 
@@ -76,9 +74,11 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMApprovalEntry.class);
         View v = inflater.inflate(R.layout.fragment_approval_entry, container, false);
-        poEntryxx = new ApprovalEntry();
-        poMesgBox = new MessageBox(getActivity());
+        poEntryxx = new AppCodeParams();
+        poMesgBox = new MessageBox(requireActivity());
+        poLoad = new LoadDialog(requireActivity());
         psSysType = Activity_ApprovalCode.getInstance().getSystemType();
         psSysCode = Activity_ApprovalCode.getInstance().getSystemCode();
         psSCAType = Activity_ApprovalCode.getInstance().getPsSCAType();
@@ -86,24 +86,6 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
         poEntryxx.setSystemCd(psSysCode);
         poEntryxx.setSCAType(psSCAType);
         initWidgets(v);
-        return v;
-    }
-
-    private void initWidgets(View v){
-        txtBranch = v.findViewById(R.id.txt_appBranch);
-        tilReferNo = v.findViewById(R.id.til_appReferNox);
-        txtReferNo = v.findViewById(R.id.txt_appReferNox);
-        txtDate = v.findViewById(R.id.txt_appRequestDate);
-        lnFullNm = v.findViewById(R.id.linear_appFullname);
-        txtLastNm = v.findViewById(R.id.txt_appLastName);
-        txtFrstNm = v.findViewById(R.id.txt_appFirstName);
-        txtMiddNm = v.findViewById(R.id.txt_appMiddName);
-        txtSuffix = v.findViewById(R.id.txt_appSuffix);
-        txtRemarks = v.findViewById(R.id.txt_appRemarks);
-        txtAppCode = v.findViewById(R.id.txt_approvalCode);
-        lblAppv = v.findViewById(R.id.lbl_approval);
-        btnCreate = v.findViewById(R.id.btn_requestAppCode);
-        btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
 
         txtDate.setInputType(InputType.TYPE_NULL);
         txtDate.setOnFocusChangeListener((view, b) -> {
@@ -141,22 +123,14 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
             String message;
             if (!KnoxPin.isEmpty()) {
                 new CopyToClipboard(getActivity()).CopyTextClip("Knox_Pin", KnoxPin);
-                message = "Knox pin copied to clipboard.";
+                message = "Approval code copied to clipboard.";
             } else {
                 message = "Unable to copy empty content.";
             }
-            Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
         });
-    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMApprovalEntry.class);
-
-        mViewModel.getApprovalDesc(psSysCode).observe(getViewLifecycleOwner(), s -> {
+        mViewModel.GetApprovalCodeDescription(psSysCode).observe(getViewLifecycleOwner(), s -> {
             try {
                 lblAppv.setText(s);
             } catch (Exception e){
@@ -164,19 +138,30 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
             }
         });
 
-        mViewModel.getBranchNameList().observe(getViewLifecycleOwner(), strings -> {
-            ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-            txtBranch.setAdapter(loAdapter);
-        });
-
-        txtBranch.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
-            for(int x = 0; x < eBranchInfos.size(); x++){
-                if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
-                    poEntryxx.setBranchCd(eBranchInfos.get(x).getBranchCd());
-                    break;
+        mViewModel.GetAllBranchInfo().observe(getViewLifecycleOwner(), eBranchInfos -> {
+            try{
+                ArrayList<String> loNames = new ArrayList<>();
+                for(int x = 0; x < eBranchInfos.size(); x++){
+                    loNames.add(eBranchInfos.get(x).getBranchNm());
                 }
+
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, loNames.toArray(new String[0]));
+                txtBranch.setAdapter(loAdapter);
+
+                txtBranch.setOnItemClickListener((parent, view, position, id) -> {
+                    for(int x = 0; x < eBranchInfos.size(); x++){
+                        loNames.add(eBranchInfos.get(x).getBranchNm());
+                        if(txtBranch.getText().toString().equalsIgnoreCase(eBranchInfos.get(x).getBranchNm())){
+                            poEntryxx.setBranchCd(eBranchInfos.get(x).getBranchCd());
+                            break;
+                        }
+                    }
+                });
+
+            } catch (Exception e){
+                e.printStackTrace();
             }
-        }));
+        });
 
         btnCreate.setOnClickListener(view -> {
             if(!createNew){
@@ -184,6 +169,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
                 poMesgBox.setTitle("Approval Code");
                 poMesgBox.setMessage("Create new approval code?");
                 poMesgBox.setPositiveButton("Yes", (view13, dialog) -> {
+                    dialog.dismiss();
                     txtBranch.setEnabled(true);
                     txtReferNo.setEnabled(true);
                     txtLastNm.setEnabled(true);
@@ -193,7 +179,7 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
                     txtRemarks.setEnabled(true);
                     createNew = true;
 
-                    btnCreate.setText("Request Approval Code");
+                    btnCreate.setText("Generate Approval Code");
                 });
                 poMesgBox.setNegativeButton("No", (view12, dialog) -> dialog.dismiss());
                 poMesgBox.show();
@@ -205,14 +191,32 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
                 poEntryxx.setSuffix(Objects.requireNonNull(txtSuffix.getText()).toString());
                 poEntryxx.setMiddName(Objects.requireNonNull(txtMiddNm.getText()).toString());
                 poEntryxx.setRemarks(Objects.requireNonNull(txtRemarks.getText()).toString());
-                mViewModel.CreateApprovalCode(poEntryxx, new VMApprovalEntry.CodeApprovalCreatedListener() {
+                mViewModel.GenerateCode(poEntryxx, new VMApprovalEntry.OnGenerateApprovalCodeListener() {
                     @Override
-                    public void OnCreate(String args) {
-                        txtAppCode.setText(args);
+                    public void OnGenerate(String title, String message) {
+                        poLoad.initDialog(title, message, false);
+                        poLoad.show();
                     }
 
                     @Override
-                    public void OnCreateFailed(String message) {
+                    public void OnSuccess(String args) {
+                        poLoad.dismiss();
+                        txtAppCode.setText(args);
+                        txtBranch.setEnabled(false);
+                        txtReferNo.setEnabled(false);
+                        txtLastNm.setEnabled(false);
+                        txtFrstNm.setEnabled(false);
+                        txtMiddNm.setEnabled(false);
+                        txtSuffix.setEnabled(false);
+                        txtRemarks.setEnabled(false);
+                        createNew = false;
+
+                        btnCreate.setText("Generate New");
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poLoad.dismiss();
                         poMesgBox.initDialog();
                         poMesgBox.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                         poMesgBox.setTitle("Approval Code");
@@ -222,34 +226,23 @@ public class Fragment_ApprovalEntry extends Fragment implements ViewModelCallbac
                 });
             }
         });
+        return v;
     }
 
-    @Override
-    public void OnLoadData(String Title, String Message) {
-
-    }
-
-    @Override
-    public void OnSuccessResult(String args) {
-        txtAppCode.setText(args);
-        txtBranch.setEnabled(false);
-        txtReferNo.setEnabled(false);
-        txtLastNm.setEnabled(false);
-        txtFrstNm.setEnabled(false);
-        txtMiddNm.setEnabled(false);
-        txtSuffix.setEnabled(false);
-        txtRemarks.setEnabled(false);
-        createNew = false;
-
-        btnCreate.setText("Create New");
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        poMesgBox.initDialog();
-        poMesgBox.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMesgBox.setTitle("Approval Code");
-        poMesgBox.setMessage(message);
-        poMesgBox.show();
+    private void initWidgets(View v){
+        txtBranch = v.findViewById(R.id.txt_appBranch);
+        tilReferNo = v.findViewById(R.id.til_appReferNox);
+        txtReferNo = v.findViewById(R.id.txt_appReferNox);
+        txtDate = v.findViewById(R.id.txt_appRequestDate);
+        lnFullNm = v.findViewById(R.id.linear_appFullname);
+        txtLastNm = v.findViewById(R.id.txt_appLastName);
+        txtFrstNm = v.findViewById(R.id.txt_appFirstName);
+        txtMiddNm = v.findViewById(R.id.txt_appMiddName);
+        txtSuffix = v.findViewById(R.id.txt_appSuffix);
+        txtRemarks = v.findViewById(R.id.txt_appRemarks);
+        txtAppCode = v.findViewById(R.id.txt_approvalCode);
+        lblAppv = v.findViewById(R.id.lbl_approval);
+        btnCreate = v.findViewById(R.id.btn_requestAppCode);
+        btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
     }
 }

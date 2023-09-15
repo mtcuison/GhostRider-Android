@@ -23,10 +23,20 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
 import org.rmj.g3appdriver.dev.DataManager;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMDataManager;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
@@ -37,7 +47,7 @@ public class Activity_DataManager extends AppCompatActivity {
     private VMDataManager mViewModel;
 
     private ProgressBar loProgress;
-    private TextView lblStatus;
+    private MaterialTextView lblStatus;
     private MaterialButton btnClear;
 
     @Override

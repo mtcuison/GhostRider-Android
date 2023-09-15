@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="15dp"
+    app:cardPreventCornerOverlap="true"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_dateFilter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_header">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Itinerary Detail"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linear_captions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_title" >
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_dateSched"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Itinerary Detail"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_tripTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Itinerary Detail"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Itinerary Detail"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_regular"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Itinerary Detail"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_regular"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            style="@style/MaterialButtonAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linear_captions" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

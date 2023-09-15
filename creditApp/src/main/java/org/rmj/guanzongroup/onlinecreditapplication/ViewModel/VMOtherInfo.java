@@ -1,126 +1,80 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.graphics.Color;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECountryInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCountry;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.gocas.pojo.OtherInfo;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.OtherInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.PersonalReferenceInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.OtherReference;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Reference;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class VMOtherInfo extends AndroidViewModel {
+public class VMOtherInfo extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMReviewLoanApp.class.getSimpleName();
 
-    private static final String TAG = VMOtherInfo.class.getSimpleName();
+    private final CreditApp poApp;
+    private final OtherReference poModel;
 
-    private String psTransNox;
-    private final MutableLiveData<String> lsProvID = new MutableLiveData<>();
+    private String TransNox;
 
-    private final MutableLiveData<List<PersonalReferenceInfoModel>> poReference = new MutableLiveData<>();
-    public final MutableLiveData<String> psTranNo = new MutableLiveData<>();
-    private ECreditApplicantInfo poInfo;
-
-    private final GOCASApplication poGoCas;
-    private final RCreditApplicant poApplcnt;
-    private final RProvince RProvince;
-    private final RTown RTown;
-    private final RCountry RCountry;
-    private final LiveData<List<EProvinceInfo>> provinceInfoList;
+    private String message;
+    private MutableLiveData<List<Reference>> loList = new MutableLiveData<>();
 
     public VMOtherInfo(@NonNull Application application) {
         super(application);
-        this.poApplcnt = new RCreditApplicant(application);
-        RProvince = new RProvince(application);
-        RTown = new RTown(application);
-        RCountry = new RCountry(application);
-        provinceInfoList = RProvince.getAllProvinceInfo();
-        poGoCas = new GOCASApplication();
-        poReference.setValue(new ArrayList<>());
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Other_Info);
+        this.poModel = new OtherReference();
+        this.loList.setValue(new ArrayList<>());
     }
 
-    public void setTransNox(String transNox){
-        this.psTransNox = transNox;
-        this.psTranNo.setValue(transNox);
+    public OtherReference getModel() {
+        return poModel;
     }
 
-    //    public void setRetrievedReference(PersonalReferenceInfoModel foRefs) {
-////        Objects.requireNonNull(poReference.getValue()).add(foRefs);
-//        poReference.getValue().add(foRefs);
-//    }
-    public void setRetrievedReferenceList(List<PersonalReferenceInfoModel> foRefs) {
-        Objects.requireNonNull(poReference).getValue().clear();
-        Objects.requireNonNull(poReference).setValue(foRefs);
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
+        return poApp.GetTownProvinceList();
     }
 
-    public LiveData<ECreditApplicantInfo> getCreditApplicationInfo(){
-        return poApplcnt.getCreditApplicantInfoLiveData(psTranNo.getValue());
+    public void setListOfReference(List<Reference> foList) {
+        loList.getValue().clear();
+        loList.setValue(foList);
+//        Objects.requireNonNull(loList).getValue().clear();
+//        Objects.requireNonNull(loList).setValue(foList);
     }
 
-    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
-        try{
-            poInfo = applicantInfo;
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public LiveData<List<Reference>> getReferenceList() {
+        return loList;
     }
 
-    public LiveData<List<PersonalReferenceInfoModel>> getReferenceList(){
-        return poReference;
-    }
-    public boolean addReference(PersonalReferenceInfoModel poInfo, AddPersonalInfoListener listener){
-        try{
-            if(poInfo.isDataValid()){
-                Objects.requireNonNull(poReference.getValue()).add(poInfo);
+    public boolean addReference(Reference poInfo, AddPersonalInfoListener listener) {
+        try {
+            if (poInfo.isDataValid()) {
+                List<Reference> refList = loList.getValue();
+                refList.add(poInfo);
+                loList.setValue(refList);
                 listener.OnSuccess();
                 return true;
             } else {
                 listener.onFailed(poInfo.getMessage());
                 return false;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             listener.onFailed(e.getMessage());
             return false;
@@ -129,261 +83,183 @@ public class VMOtherInfo extends AndroidViewModel {
 
     public boolean removeReference(int position) {
         try {
-            poReference.getValue().remove(position);
+            loList.getValue().remove(position);
             return true;
-        } catch(Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public LiveData<List<EProvinceInfo>> getProvinceInfoList(){
-        return provinceInfoList;
-    }
-
-    public LiveData<List<ETownInfo>> getTownInfoList(){
-        return RTown.getTownInfoFromProvince(lsProvID.getValue());
-    }
-
-    public LiveData<List<ECountryInfo>> getCountryInfoList(){
-        return RCountry.getAllCountryInfo();
-    }
-
-    public LiveData<String[]> getProvinceNameList(){
-        return RProvince.getAllProvinceNames();
-    }
-
-    public LiveData<String[]> getAllTownNames(){
-        return RTown.getTownNamesFromProvince(lsProvID.getValue());
-    }
-
-    public LiveData<DTownInfo.TownProvinceName> getLiveTownProvinceNames(String TownID) {
-        return RTown.getLiveTownProvinceNames(TownID);
-    }
-
-    public void setProvID(String ProvID) { this.lsProvID.setValue(ProvID); }
-    public LiveData<ArrayAdapter<String>> getUnitUser(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER));
-        return liveData;
-//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
-    }
-
-    public LiveData<ArrayAdapter<String>> getOtherUnitUser(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS));
-//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
-        try {
-            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
-                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS));
-            } else {
-//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
-                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getUnitPurpose(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PURPOSE));
-        return liveData;
-    }
-
-    public ArrayAdapter<String> getUnitPayer(){
-        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
-    }
-
-    public LiveData<ArrayAdapter<String>> getPayerBuyer(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER));
-        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
-        try {
-            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
-                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER));
-            } else {
-//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
-                liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE));
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-//        return adapter;
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getIntCompanyInfoSource()  {
-
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-
-        ArrayAdapter<String> adapter;
-
-//        JSONObject loJson = new JSONObject(poInfo.getApplInfo());
-        if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
-//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US);
-            liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US));
-        }else{
-//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE);
-            liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE));
-        }
-        return liveData;
-    }
-
-
-//
-//    public ArrayAdapter<String> getUnitUser(){
-//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
-//    }
-//
-//    public ArrayAdapter<String> getOtherUnitUser(){
-//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
-//        try {
-//            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS);
-//            } else {
-//                adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER_OTHERS_NO_SPOUSE);
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return adapter;
-//    }
-//
-//    public ArrayAdapter<String> getUnitPurpose(){
-//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PURPOSE);
-//    }
-//
-//    public ArrayAdapter<String> getUnitPayer(){
-//        return CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_USER);
-//    }
-//
-//    public ArrayAdapter<String> getPayerBuyer(){
-//        ArrayAdapter<String> adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
-//        try {
-//            if ("1".equalsIgnoreCase(poInfo.getIsSpouse())) {
-//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER);
-//            } else {
-//                adapter =  CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.UNIT_PAYER_NO_SPOUSE);
-//            }
-//        } catch (NullPointerException e){
-//            e.printStackTrace();
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return adapter;
-//    }
-//
-//    public ArrayAdapter<String> getIntCompanyInfoSource(){
-//        ArrayAdapter<String> adapter;
-//        if (poGoCas.ApplicantInfo().getCivilStatus().equalsIgnoreCase("1")){
-//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US);
-//        }else{
-//            adapter = CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INTO_US_NO_SPOUSE);
-//        }
-//        return adapter;
-//    }
-
-    public boolean SubmitOtherInfo(OtherInfoModel otherInfo, ViewModelCallBack callBack) {
-        try {
-            new UpdateTask(poApplcnt, poInfo, otherInfo, callBack).execute();
-            return true;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            callBack.onFailedResult("NullPointerException error");
-            return false;
         } catch (Exception e) {
             e.printStackTrace();
-            callBack.onFailedResult("Exception error");
             return false;
         }
     }
-    private class UpdateTask extends AsyncTask<RCreditApplicant, Void, String> {
-        private final RCreditApplicant poDcp;
-        private final OtherInfoModel infoModel;
-        private final ViewModelCallBack callback;
-        private final ECreditApplicantInfo poInfo;
-        public UpdateTask(RCreditApplicant poDcp,ECreditApplicantInfo poInfo, OtherInfoModel infoModel, ViewModelCallBack callback) {
-            this.poDcp = poDcp;
-            this.infoModel = infoModel;
-            this.poInfo = poInfo;
-            this.callback = callback;
-        }
 
-        @Override
-        protected String doInBackground(RCreditApplicant... rApplicant) {
-            try{
-                infoModel.setPersonalReferences(poReference.getValue());
-                if(infoModel.isDataValid()){
-
-                    org.json.simple.JSONObject loJson = new org.json.simple.JSONObject();
-
-                    loJson.put("sUnitUser", infoModel.getsUnitUser());
-                    loJson.put("sUsr2Buyr", infoModel.getsUsr2Buyr());
-                    loJson.put("sUnitPayr", infoModel.getsUnitPayr());
-                    loJson.put("sPyr2Buyr", infoModel.getsPyr2Buyr());
-                    loJson.put("sPurposex", infoModel.getsPurposex());
-                    if (infoModel.getSource().equalsIgnoreCase("Others")){
-                        loJson.put("sSrceInfo", infoModel.getCompanyInfoSource());
-                    }else{
-                        loJson.put("sSrceInfo", infoModel.getSource());
-                    }
-                    @SuppressLint({"NewApi", "LocalSuppress"})
-                    org.json.simple.JSONArray reference = new  org.json.simple.JSONArray();
-
-                    for(int x = 0; x < Objects.requireNonNull(poReference.getValue()).size(); x++){
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("sRefrNmex", poReference.getValue().get(x).getFullname());
-                        jsonObject.put("sRefrTown", poReference.getValue().get(x).getTownCity());
-                        jsonObject.put("sRefrMPNx", poReference.getValue().get(x).getContactN());
-                        jsonObject.put("sRefrAddx", poReference.getValue().get(x).getAddress1());
-                        reference.add(x,jsonObject);
-
-                    }
-                    loJson.put("personal_reference", reference);
-                    poGoCas.OtherInfo().setData(loJson);
-                    poInfo.setTransNox(Objects.requireNonNull(psTranNo.getValue()));
-                    poInfo.setOthrInfo(poGoCas.OtherInfo().toJSONString());
-                    poDcp.updateGOCasData(poInfo);
-//                    poDcp.updateOtherInfo(psTransNox, loJson.toString());
-                    Log.e(TAG, loJson.toString());
-                    return "success";
-
-                } else {
-                    return infoModel.getMessage();
-                }
-            }catch (NullPointerException e){
-                e.printStackTrace();
-                return e.getMessage();
-            }
-            catch (Exception e){
-                e.printStackTrace();
-                return e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.onSaveSuccessResult(psTranNo.getValue());
-            } else {
-                callback.onFailedResult(s);
-            }
-        }
-    }
-    public interface ExpActionListener{
-        void onSuccess(String message);
-        void onFailed(String message);
-    }
-
-    public interface AddPersonalInfoListener{
+    public interface AddPersonalInfoListener {
         void OnSuccess();
+
         void onFailed(String message);
+    }
+
+    @Override
+    public void InitializeApplication(Intent params) {
+        this.TransNox = params.getStringExtra("sTransNox");
+    }
+
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return poApp.GetApplication(TransNox);
+    }
+
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+//        new ParseDataTask(listener).execute(args);
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
+                try {
+                    OtherReference loDetail = (OtherReference) poApp.Parse(lsApp);
+
+                    if (loDetail == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+
+                    return loDetail;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                OtherReference lsResult = (OtherReference) object;
+                if (lsResult == null) {
+                    Log.e(TAG, message);
+                } else {
+                    listener.OnParse(lsResult);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void Validate(Object args) {
+
+    }
+
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                OtherReference lsInfo = (OtherReference) args;
+                int lnResult = poApp.Validate(lsInfo);
+
+                if (lnResult != 1) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                String lsResult = poApp.Save(lsInfo);
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (!lsSuccess) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(TransNox);
+                }
+
+            }
+        });
     }
 }
+//    @SuppressLint("StaticFieldLeak")
+//    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, OtherReference> {
+//
+//        private final OnParseListener listener;
+//
+//        public ParseDataTask(OnParseListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected OtherReference doInBackground(ECreditApplicantInfo... app) {
+//            try{
+//                OtherReference loDetail = (OtherReference) poApp.Parse(app[0]);
+//
+//                if(loDetail == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//
+//                return loDetail;
+//            } catch (NullPointerException e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(OtherReference result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                Log.e(TAG, message);
+//            } else {
+//                listener.OnParse(result);
+//            }
+//        }
+//    }
+//
+//    @SuppressLint("StaticFieldLeak")
+//    private class SaveDetailTask extends AsyncTask<OtherReference, Void, Boolean>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public SaveDetailTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(OtherReference... info) {
+//            int lnResult = poApp.Validate(info[0]);
+//
+//            if(lnResult != 1){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            String lsResult = poApp.Save(info[0]);
+//            if(lsResult == null){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean isSuccess) {
+//            super.onPostExecute(isSuccess);
+//            if(!isSuccess){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSave(TransNox);
+//            }
+//        }
+//    }
+//}

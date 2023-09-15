@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    tools:context=".Activities.Activity_MeansInfoSelection">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_MeansInfoSelection"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Application Means Info"
+            android:textSize="22sp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/guanzon_orange" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Please select the source of income of client. If client doesn't have any source of income you can skip this area."
+            tools:ignore="HardcodedText" />
+        <org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rgMeans"
+            grid:columnCount="2"
+            grid:useDefaultMargins="true"
+            >
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_employed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Employed"
+                grid:layout_columnWeight="1"/>
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_finance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                grid:layout_columnWeight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Finance" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_sEmployed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                grid:layout_columnWeight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Self Employed" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/rb_pension"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                grid:layout_columnWeight="1"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Pension" />
+        </org.rmj.guanzongroup.onlinecreditapplication.Etc.RadioGridGroup>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_creditAppPrvs"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/sbtnPrvs"
+                tools:ignore="RelativeOverlap" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_creditAppNext"
+                style="@style/NavigationButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="@string/sbtnNext"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

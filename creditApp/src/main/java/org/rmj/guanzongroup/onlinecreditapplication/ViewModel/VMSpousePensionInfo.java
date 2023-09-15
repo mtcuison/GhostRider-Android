@@ -1,107 +1,208 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.SpousePensionInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.SpousePension;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
-import java.util.Objects;
 
-public class VMSpousePensionInfo extends AndroidViewModel {
-    private static final String TAG = VMSpousePensionInfo.class.getSimpleName();
-    private final GOCASApplication poGoCas;
-    private final RCreditApplicant poCreditApp;
-    private ECreditApplicantInfo poInfo;
+public class VMSpousePensionInfo extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMPensionInfo.class.getSimpleName();
 
-    private final MutableLiveData<String> psTransNo = new MutableLiveData<>();
-    private final MutableLiveData<String> psPensionSec = new MutableLiveData<>();
+    private final CreditApp poApp;
+    private final SpousePension poModel;
+
+    private String TransNox;
+
+    private String message;
 
     public VMSpousePensionInfo(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
-        this.poCreditApp = new RCreditApplicant(application);
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Spouse_Pension_Info);
+        this.poModel = new SpousePension();
     }
 
-    public boolean setTransNox(String transNox) {
-        this.psTransNo.setValue(transNox);
-        if(!this.psTransNo.getValue().equalsIgnoreCase(transNox)) {
-            return false;
-        }
-        return true;
+    public SpousePension getModel() {
+        return poModel;
     }
 
-    public boolean setPensionSec(String fsPensionSec) {
-        this.psPensionSec.setValue(fsPensionSec);
-        if(!this.psPensionSec.getValue().equalsIgnoreCase(fsPensionSec)) {
-            return false;
-        }
-        return true;
+    @Override
+    public void InitializeApplication(Intent params) {
+        this.TransNox = params.getStringExtra("sTransNox");
     }
 
-    public LiveData<ECreditApplicantInfo> getActiveGOCasApplication(){
-        return poCreditApp.getCreditApplicantInfoLiveData(psTransNo.getValue());
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return poApp.GetApplication(TransNox);
     }
 
-    public boolean setDetailInfo(ECreditApplicantInfo fsDetailInfo){
-        try{
-            poInfo = fsDetailInfo;
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+//        new ParseDataTask(listener).execute(args);
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
+                try {
+                    SpousePension loDetail = (SpousePension) poApp.Parse(lsApp);
+                    if (loDetail == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+                    return loDetail;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                SpousePension lsResult = (SpousePension) object;
+                if (lsResult == null) {
+                    Log.e(TAG, message);
+                } else {
+                    listener.OnParse(lsResult);
+                }
+            }
+        });
     }
 
-    public boolean Save(SpousePensionInfoModel infoModel, ViewModelCallBack callBack) {
-        try{
-            infoModel.setsPensionSector(psPensionSec.getValue());
-            if(infoModel.isPensionDataValid()) {
-                poGoCas.SpouseMeansInfo().PensionerInfo().setSource(infoModel.getsPensionSector());
-                poGoCas.SpouseMeansInfo().PensionerInfo().setAmount(infoModel.getsPensionAmt());
-                poGoCas.SpouseMeansInfo().PensionerInfo().setYearRetired(infoModel.getsRetirementYr());
-                poGoCas.SpouseMeansInfo().setOtherIncomeNature(infoModel.getsOtherSrc());
-                poGoCas.SpouseMeansInfo().setOtherIncomeAmount(infoModel.getsOtherSrcIncx());
+    @Override
+    public void Validate(Object args) {
 
-                poInfo.setSpsPensn(poGoCas.SpouseMeansInfo().toJSONString());
-                poCreditApp.updateGOCasData(poInfo);
+    }
 
-                Log.e(TAG, poGoCas.SpouseMeansInfo().toJSONString());
-                Log.e(TAG, "GOCAS Full JSON String : " + poGoCas.toJSONString());
-                callBack.onSaveSuccessResult("Success");
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                SpousePension lsInfo = (SpousePension) args;
+                int lnResult = poApp.Validate(lsInfo);
+
+                if (lnResult != 1) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                String lsResult = poApp.Save(lsInfo);
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                TransNox = lsInfo.getTransNox();
                 return true;
             }
-            else {
-                callBack.onFailedResult(infoModel.getsMgs());
-                return false;
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            callBack.onFailedResult(e.getMessage());
-            return false;
-        }
-    }
 
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (!lsSuccess) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(TransNox);
+                }
+            }
+        });
+    }
 }
+//    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, SpousePension>{
+//
+//        private final OnParseListener listener;
+//
+//        public ParseDataTask(OnParseListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected SpousePension doInBackground(ECreditApplicantInfo... app) {
+//            try {
+//                SpousePension loDetail = (SpousePension) poApp.Parse(app[0]);
+//                if(loDetail == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//                return loDetail;
+//            } catch (NullPointerException e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(SpousePension result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                Log.e(TAG, message);
+//            } else {
+//                listener.OnParse(result);
+//            }
+//        }
+//    }
+
+//    private class SaveDetailTask extends AsyncTask<SpousePension, Void, Boolean>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public SaveDetailTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(SpousePension... info) {
+//            int lnResult = poApp.Validate(info[0]);
+//
+//            if(lnResult != 1){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            String lsResult = poApp.Save(info[0]);
+//            if(lsResult == null){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            TransNox = info[0].getTransNox();
+//            return true;
+//        }
+//
+//        @Override
+//
+//        protected void onPostExecute(Boolean isSuccess) {
+//            super.onPostExecute(isSuccess);
+//            if(!isSuccess){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSave(TransNox);
+//            }
+//        }
+//    }
+//}

@@ -11,22 +11,15 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.utils.WebApi;
 
 import static org.junit.Assert.*;
-
-import java.io.IOException;
 
 /**
  * Instrumented test, which will execute on an Android device.

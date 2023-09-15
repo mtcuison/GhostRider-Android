@@ -14,15 +14,15 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCashCount;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECashCount;
-import org.rmj.g3appdriver.GRider.Etc.CashFormatter;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCashCount;
+import org.rmj.g3appdriver.etc.CashFormatter;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class CashCountLogAdapter extends RecyclerView.Adapter<CashCountLogAdapte
 
     public static class CashCountViewHolder extends RecyclerView.ViewHolder{
 
-        TextView lblTransNox, lblEntryDte, lblBranchCde, lblSendStat, lblTotalEntry;
+        MaterialTextView lblTransNox, lblEntryDte, lblBranchCde, lblSendStat, lblTotalEntry;
 
         public CashCountViewHolder(@NonNull View itemView) {
             super(itemView);

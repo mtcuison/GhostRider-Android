@@ -11,196 +11,163 @@
 
 package org.rmj.guanzongroup.ghostrider.approvalcode.ViewModel;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_SAVE_APPROVAL;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONObject;
-import org.rmj.appdriver.mob.lib.RequestApproval;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECodeApproval;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RApprovalCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.ApprovalCode;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.model.SCA;
+import org.rmj.g3appdriver.GCircle.Apps.ApprovalCode.pojo.AppCodeParams;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.g3appdriver.utils.WebClient;
-import org.rmj.guanzongroup.ghostrider.approvalcode.Model.ApprovalEntry;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMApprovalEntry extends AndroidViewModel {
     private static final String TAG = VMApprovalEntry.class.getSimpleName();
-    private final Application instance;
-    private final RBranch poBranchx;
-    private final RApprovalCode poAppCdeR;
-    private final SessionManager poSession;
-    private final ConnectionUtil poConnect;
-    private final HttpHeaders poHeaders;
-    private final String psPackage;
-    private final MutableLiveData<ECodeApproval> mCodeApproval = new MutableLiveData<>();
+    private final SCA poSys;
+    private final ConnectionUtil poConn;
+    private String message;
+
+    public interface OnGenerateApprovalCodeListener {
+        void OnGenerate(String title, String message);
+
+        void OnSuccess(String args);
+
+        void OnFailed(String message);
+    }
 
     public VMApprovalEntry(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        poBranchx = new RBranch(application);
-        this.poAppCdeR = new RApprovalCode(application);
-        this.poSession = new SessionManager(application);
-        this.poConnect = new ConnectionUtil(application);
-        this.poHeaders = HttpHeaders.getInstance(application);
-        this.psPackage = application.getPackageName();
+        this.poSys = new ApprovalCode(application).getInstance(ApprovalCode.eSCA.SYSTEM_CODE);
+        this.poConn = new ConnectionUtil(application);
     }
 
-    public LiveData<String> getApprovalDesc(String AppCode){
-        return poAppCdeR.getApprovalDesc(AppCode);
+    public LiveData<String> GetApprovalCodeDescription(String AppCode) {
+        return poSys.GetApprovalCodeDescription(AppCode);
     }
 
-    public LiveData<String[]> getBranchNameList(){
-        return poBranchx.getAllBranchNames();
+    public LiveData<List<EBranchInfo>> GetAllBranchInfo() {
+        return poSys.GetBranchList();
     }
 
-    public LiveData<List<EBranchInfo>> getAllBranchInfo(){
-        return poBranchx.getAllBranchInfo();
-    }
+    public void GenerateCode(AppCodeParams foVal, OnGenerateApprovalCodeListener listener) {
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");
+            }
 
-    public void CreateApprovalCode(ApprovalEntry foEntry, CodeApprovalCreatedListener callback){
-        new CreateCodeTask(instance, psPackage, callback).execute(foEntry);
-    }
-
-    private static class CreateCodeTask extends AsyncTask<ApprovalEntry, Void, String>{
-        private final SessionManager loSession;
-        private final String lsPackage;
-        private final ConnectionUtil poConn;
-        private final HttpHeaders poHeaders;
-        private final RApprovalCode poApproval;
-        private final CodeApprovalCreatedListener listener;
-
-        public CreateCodeTask(Application instance, String lsPackage, CodeApprovalCreatedListener listener) {
-            this.loSession = new SessionManager(instance);
-            this.lsPackage = lsPackage;
-            this.listener = listener;
-            this.poConn = new ConnectionUtil(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poApproval = new RApprovalCode(instance);
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(ApprovalEntry... approvalEntries) {
-            String lsResponse = "";
-            try{
-                if(approvalEntries[0].isDataValid()) {
-                    RequestApproval loApprovl = new RequestApproval(lsPackage);
-                    loApprovl.setDeptIDxx(loSession.getDeptID());
-                    loApprovl.setEmpLevID(loSession.getEmployeeLevel());
-                    loApprovl.setEmployID(loSession.getEmployeeID());
-                    loApprovl.setRemarks(approvalEntries[0].getRemarks());
-
-                    String lsAppCode = loApprovl.Generate(
-                            approvalEntries[0].getBranchCd(),
-                            approvalEntries[0].getReqDatex(),
-                            approvalEntries[0].getSystemCd(),
-                            approvalEntries[0].getMiscInfo());
-
-                    if (lsAppCode.isEmpty()) {
-                        lsResponse = AppConstants.APPROVAL_CODE_EMPTY(loApprovl.getMessage());
-                    } else {
-                        lsResponse = AppConstants.APPROVAL_CODE_GENERATED(lsAppCode);
-
-                        if(!poConn.isDeviceConnected()){
-                            Log.d(TAG, "No internet.");
-                        } else {
-                            List<ECodeApproval> laForPost = poApproval.getSystemApprovalForUploading();
-                            for (int x = 0; x < laForPost.size(); x++) {
-                                ECodeApproval detail = laForPost.get(x);
-                                JSONObject param = new JSONObject();
-                                param.put("sTransNox", detail.getTransNox());
-                                param.put("dTransact", detail.getTransact());
-                                param.put("sSystemCD", detail.getSystemCD());
-                                param.put("sReqstdBy", detail.getReqstdBy());
-                                param.put("dReqstdxx", detail.getReqstdxx());
-                                param.put("cIssuedBy", detail.getIssuedBy());
-                                param.put("sMiscInfo", detail.getMiscInfo());
-                                param.put("sRemarks1", detail.getRemarks1());
-                                param.put("sRemarks2", detail.getApprCode() == null ? "" : detail.getRemarks2());
-                                param.put("sApprCode", detail.getApprCode());
-                                param.put("sEntryByx", detail.getEntryByx());
-                                param.put("sApprvByx", detail.getApprvByx());
-                                param.put("sReasonxx", detail.getReasonxx() == null ? "" : detail.getReasonxx());
-                                param.put("sReqstdTo", detail.getReqstdTo() == null ? "" : detail.getReqstdTo());
-                                param.put("cTranStat", detail.getTranStat());
-
-                                String response = WebClient.httpsPostJSon(URL_SAVE_APPROVAL, param.toString(), poHeaders.getHeaders());
-                                if (response == null) {
-                                    Log.d(TAG, "Server no response");
-                                } else {
-                                    JSONObject loResponse = new JSONObject(response);
-                                    String result = loResponse.getString("result");
-                                    if (result.equalsIgnoreCase("success")) {
-                                        String TransNox = loResponse.getString("sTransNox");
-                                        poApproval.updateUploaded(detail.getTransNox(), TransNox);
-                                        Log.d(TAG, "Approval Code has been uploaded to server");
-                                    } else {
-                                        JSONObject loError = loResponse.getJSONObject("error");
-                                        String message = loError.getString("message");
-                                        Log.d(TAG, "Failed to upload approval code. " + message);
-                                    }
-                                }
-
-                                Thread.sleep(1000);
-                            }
-
-                            int unposted = poApproval.getUnpostedApprovalCode();
-                            if (unposted > 0) {
-                                Log.d(TAG, "Approval Code has been uploaded to server");
-                            } else {
-                                Log.d(TAG, "Approval Code has been uploaded to server");
-                            }
-                        }
+            @Override
+            public Object DoInBackground(Object args) {
+                AppCodeParams lsParams = (AppCodeParams) args;
+                try {
+                    if (!lsParams.isDataValid()) {
+                        message = lsParams.getMessage();
+                        return null;
                     }
-                } else {
-                    lsResponse = AppConstants.APPROVAL_CODE_EMPTY(approvalEntries[0].getMessage());
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            return lsResponse;
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loResponse = new JSONObject(s);
-                String lsResult = loResponse.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    listener.OnCreate(loResponse.getString("code"));
-                } else {
-                    JSONObject loError = loResponse.getJSONObject("error");
-                    String lsMessage = loError.getString("message");
-                    listener.OnCreateFailed(lsMessage);
-                    Log.e(TAG, s);
-                }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            this.cancel(false);
-        }
-    }
+                    String lsCode = poSys.GenerateCode(lsParams);
 
-    public interface CodeApprovalCreatedListener{
-        void OnCreate(String args);
-        void OnCreateFailed(String message);
+                    if (lsCode == null) {
+                        message = poSys.getMessage();
+                        return null;
+                    }
+
+                    if (!poConn.isDeviceConnected()) {
+                        message = poConn.getMessage();
+                        Log.e(TAG, message);
+                    }
+
+                    if (!poSys.Upload(lsCode)) {
+                        message = poSys.getMessage();
+                        Log.e(TAG, message);
+                    }
+
+                    return lsCode;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                String lsResult = (String) object;
+                if (lsResult == null) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSuccess(lsResult);
+                }
+            }
+        });
     }
 }
+//    private class GenerateCodeTask extends AsyncTask<AppCodeParams, Void, String>{
+//
+//        private final OnGenerateApprovalCodeListener listener;
+//
+//        private String message;
+//
+//        public GenerateCodeTask(OnGenerateApprovalCodeListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            listener.OnGenerate("Approval Code", "Generating approval code. Please wait...");
+//        }
+//
+//        @Override
+//        protected String doInBackground(AppCodeParams... params) {
+//            try{
+//                if(!params[0].isDataValid()){
+//                    message = params[0].getMessage();
+//                    return null;
+//                }
+//
+//                String lsCode = poSys.GenerateCode(params[0]);
+//
+//                if(lsCode == null){
+//                    message = poSys.getMessage();
+//                    return null;
+//                }
+//
+//                if(!poConn.isDeviceConnected()){
+//                    message = poConn.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//
+//                if(!poSys.Upload(lsCode)){
+//                    message = poSys.getMessage();
+//                    Log.e(TAG, message);
+//                }
+//
+//                return lsCode;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSuccess(result);
+//            }
+//        }
+//    }
+//}

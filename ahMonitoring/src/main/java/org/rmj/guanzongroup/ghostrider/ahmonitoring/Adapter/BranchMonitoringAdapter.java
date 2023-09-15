@@ -15,12 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -81,10 +82,7 @@ public class BranchMonitoringAdapter extends RecyclerView.Adapter<BranchMonitori
 
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView txtArea;
-        public TextView lblSpSales;
-        public TextView lblMcSales;
-        public TextView lblJbOrder;
+        public MaterialTextView txtArea,lblSpSales,lblMcSales,lblJbOrder;
         public ProgressBar mcSales;
         public ProgressBar spSales;
         public ProgressBar jbOrder;

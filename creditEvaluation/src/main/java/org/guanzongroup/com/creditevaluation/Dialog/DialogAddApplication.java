@@ -19,13 +19,22 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
-import org.guanzongroup.com.creditevaluation.Model.AdditionalInfoModel;
+
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 
 public class DialogAddApplication {
     private static final String TAG = DialogAddApplication.class.getSimpleName();
@@ -49,8 +58,8 @@ public class DialogAddApplication {
         tilAddApp = view.findViewById(R.id.til_add_application);
         TextInputEditText txtTransN = view.findViewById(R.id.tie_add_application);
 
-        Button btnDownLoad = view.findViewById(R.id.btn_confirm);
-        Button btnCancel = view.findViewById(R.id.btn_cancel);
+        MaterialButton btnDownLoad = view.findViewById(R.id.btn_confirm);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
         btnDownLoad.setOnClickListener(view1 -> {
             if(txtTransN.getText().toString().trim().isEmpty()) {

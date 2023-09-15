@@ -17,14 +17,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 
-import java.util.ArrayList;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -34,11 +35,10 @@ import java.util.Objects;
  */
 
 public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
-    private Context context;
+    private final Context context;
 
-    private List<ParentObject> poParentLst = new ArrayList<>();
-    private List<ChildObject> poChildLst;
-    private HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
+    private final List<ParentObject> poParentLst;
+    private final HashMap<ParentObject, List<ChildObject>> poChild;
 
     public ExpandableListDrawerAdapter(Context context, List<ParentObject> foParent, HashMap<ParentObject, List<ChildObject>> foChild) {
         this.context = context;
@@ -60,11 +60,10 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final String childText = getChild(groupPosition, childPosition).getChildMenuName();
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.drawer_list_item, null);
-        }
+        LayoutInflater infalInflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = infalInflater.inflate(R.layout.drawer_list_item, parent, false);
+
         TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         txtListChild.setText(childText);
         return convertView;
@@ -99,15 +98,12 @@ public class ExpandableListDrawerAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         String headerTitle = getGroup(groupPosition).getMenuName();
         int headerIcon = getGroup(groupPosition).getMenuIcon();
-//        int layoutView = getGroup(groupPosition).visibility;
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.drawer_list_header, null);
-        }
+        LayoutInflater infalInflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = infalInflater.inflate(R.layout.drawer_list_header, parent, false);
 
-        TextView lblListHeader = convertView.findViewById(R.id.lblHeader);
-        ImageView iconImg = convertView.findViewById(R.id.iconimage);
+        MaterialTextView lblListHeader = convertView.findViewById(R.id.lblHeader);
+        ShapeableImageView iconImg = convertView.findViewById(R.id.iconimage);
         iconImg.setImageResource(headerIcon);
         lblListHeader.setTypeface(null, Typeface.NORMAL);
         lblListHeader.setText(headerTitle);

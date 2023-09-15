@@ -11,19 +11,24 @@
 
 package org.guanzongroup.com.creditevaluation.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+
+import com.google.android.material.textview.MaterialTextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DCreditOnlineApplicationCI;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,40 +46,41 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
     private String evaluation;
 //    private final SearchFilter poSearch;
 
-    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, String val,OnApplicationClickListener onApplicationClickListener) {
+    public CreditEvaluationListAdapter(List<DCreditOnlineApplicationCI.oDataEvaluationInfo> plLoanApp, String val, OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
         this.evaluation = val;
-//        this.poSearch = new SearchFilter();
     }
+
     public interface OnItemClickListener {
         void OnClick(int position);
-
         void OnActionButtonClick();
     }
+
     @NonNull
     @Override
     public CreditEvaluationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        Log.e(TAG, String.valueOf(viewType));
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ci_list_item, parent, false);
         return new CreditEvaluationViewHolder(view,onApplicationClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CreditEvaluationViewHolder holder, int position) {
-        DCreditOnlineApplicationCI.oDataEvaluationInfo poLoan = plLoanApp.get(position);
-
-        holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.sTransNox);
-        holder.lblClientName.setText(poLoan.sClientNm);
-        holder.lblAppltnDate.setText(poLoan.dTransact);
-        holder.lblBranch.setText(poLoan.sBranchNm);
-        holder.lnRcmdtnx1.setVisibility(View.GONE);
-        if (evaluation.equalsIgnoreCase("CI Evaluation History")){
-            holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
-            if(poLoan.sRcmdtnx1 != null){
-                holder.lblRcmdtnx1.setText(poLoan.sRcmdtnx1);
+        try {
+            DCreditOnlineApplicationCI.oDataEvaluationInfo poLoan = plLoanApp.get(position);
+            holder.lblTransNoxxx.setText("Transaction No.: " + poLoan.sTransNox);
+            holder.lblClientName.setText(poLoan.sClientNm);
+            holder.lblAppltnDate.setText(FormatUIText.formatGOCasBirthdate(poLoan.dTransact));
+            holder.lblBranch.setText(poLoan.sBranchNm);
+            holder.lnRcmdtnx1.setVisibility(View.GONE);
+            if (evaluation.equalsIgnoreCase("CI Evaluation History")) {
+                holder.lnRcmdtnx1.setVisibility(View.VISIBLE);
+                holder.lblRcmdtnx1.setText(poLoan.cRcmdtnx1);
+                Log.e("cRcmdtnx1", poLoan.cRcmdtnx1);
             }
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
     }
@@ -87,14 +93,15 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
 //    public SearchFilter getSearchFilter(){
 //        return poSearch;
 //    }
+
     public class CreditEvaluationViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView lblTransNoxxx;
-        private TextView lblClientName;
-        private TextView lblAppltnDate;
-        private TextView lblBranch;
-        private TextView lblRcmdtnx1;
-        private LinearLayout lnRcmdtnx1;
+        private final MaterialTextView lblTransNoxxx;
+        private final MaterialTextView lblClientName;
+        private final MaterialTextView lblAppltnDate;
+        private final MaterialTextView lblBranch;
+        private final MaterialTextView lblRcmdtnx1;
+        private final LinearLayout lnRcmdtnx1;
 
         public CreditEvaluationViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
@@ -146,7 +153,8 @@ public class CreditEvaluationListAdapter extends RecyclerView.Adapter<CreditEval
                     for (DCreditOnlineApplicationCI.oDataEvaluationInfo row : plLoanApp1) {
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or category in match match
-                        if (row.sClientNm.toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.sClientNm.toLowerCase().contains(charString.toLowerCase()) ||
+                                row.sTransNox.toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
 

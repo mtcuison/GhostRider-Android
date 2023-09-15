@@ -15,13 +15,14 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.imageview.ShapeableImageView;
+
+import org.rmj.g3appdriver.GCircle.room.Entities.EInventoryDetail;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
@@ -66,10 +67,10 @@ public class InventoryItemAdapter extends RecyclerView.Adapter<InventoryItemAdap
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         public EInventoryDetail item;
-        public TextView lblTransNox;
-        public TextView lblItemCode;
-        public TextView lblItemDesc;
-        public ImageView imgStatusx;
+        public MaterialTextView lblTransNox,
+                                     lblItemCode,
+                                     lblItemDesc;
+        public ShapeableImageView imgStatusx;
 
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);

@@ -11,265 +11,292 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
+import static android.app.Activity.RESULT_OK;
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.LocationRetriever;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.etc.WebFileServer;
+
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_Transaction;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AddressInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.MobileInfoAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.OnInitializeCameraCallback;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMCustomerNotAround;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.ViewModelCallback;
-import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
+public class Fragment_CustomerNotAround extends Fragment {
 
-public class Fragment_CustomerNotAround extends Fragment implements ViewModelCallback {
     private VMCustomerNotAround mViewModel;
-    private AddressUpdate addressInfoModel;
-    private MobileUpdate mobileInfoModel;
+    private LoadDialog poDialog;
+    private MessageBox poMessage;
+    private CustomerNotAround poCna;
+    private AddressUpdate poAddress;
+    private MobileUpdate poMobile;
     private MobileInfoAdapter mobileAdapter;
     private AddressInfoAdapter addressAdapter;
-    private EImageInfo poImageInfo;
 
-    private ImageFileCreator poImage;
-
-    private MessageBox poMessage;
-    private CheckBox cbPrimeContact, cbPrimary;
-    private TextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
+    private MaterialCheckBox cbPrimeContact, cbPrimary;
+    private MaterialTextView lblBranch, lblAddress, lblAccNo, lblClientNm, lblClientAddress;
     private RadioGroup rg_CNA_Input, rg_addressType;
-    private RadioButton rb_permanent, rb_present;
+    private MaterialRadioButton rb_permanent, rb_present;
     private TextInputEditText txtContact, txtHouseNox, txtAddress, txtRemarks;
-    private AutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
+    private MaterialAutoCompleteTextView txtTown, txtBrgy, spnRequestCode;
     private LinearLayout lnContactNox,
             lnAddress;
     private MaterialButton btnAdd, btnSubmit;
     private RecyclerView rvCNAOutputs;
-    private String Remarksx;
 
-    private String sRqstCode, sPrimaryx , psPhotox;
-    private static final int MOBILE_DIALER = 104;
+    private boolean isMobileToggled = true;
 
-    private boolean isAddressAdded, isMobileAdded, isMobileToggled = true;
+    private String transNo;
+
+    ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> InitializeCamera());
+
+    private final ActivityResultLauncher<Intent> poCamera = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK) {
+                mViewModel.SaveTransaction(poCna, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Selfie Log", "Saving promise to pay. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poDialog.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage("Customer not around has been save.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                            requireActivity().finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialog.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Daily Collection Plan");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                        poMessage.show();
+                    }
+                });
+            }
+        }
+    });
+
+    private final ActivityResultLauncher<Intent> poDialer = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK){
+
+        } else {
+
+        }
+    });
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMCustomerNotAround.class);
         View view = inflater.inflate(R.layout.fragment_customer_not_around_fragment, container, false);
-        addressInfoModel = new AddressUpdate();
-        poMessage = new MessageBox(getActivity());
-        poImageInfo = new EImageInfo();
+        poCna = new CustomerNotAround();
+        poAddress = new AddressUpdate();
+        poMobile = new MobileUpdate();
+        poDialog = new LoadDialog(requireActivity());
+        poMessage = new MessageBox(requireActivity());
 
+        transNo = Activity_Transaction.getInstance().getTransNox();
+        String AccountN = Activity_Transaction.getInstance().getAccntNox();
+        int EntryNox = Activity_Transaction.getInstance().getEntryNox();
         initWidgets(view);
 
-        return view;
-    }
+        mViewModel.GetUserInfo().observe(getViewLifecycleOwner(), user -> {
+            try{
+                lblBranch.setText(user.sBranchNm);
+                lblAddress.setText(user.sAddressx);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        mViewModel.GetCollectionDetail(transNo, AccountN, String.valueOf(EntryNox)).observe(getViewLifecycleOwner(), detail -> {
+            try{
+                poCna.setTransNox(detail.getTransNox());
+                poCna.setAccountNo(detail.getAcctNmbr());
+                poCna.setEntryNox(String.valueOf(detail.getEntryNox()));
 
-        String TransNox = Activity_Transaction.getInstance().getTransNox();
-        int EntryNox = Activity_Transaction.getInstance().getEntryNox();
-        try {
-            mViewModel = ViewModelProviders.of(this).get(VMCustomerNotAround.class);
+                poAddress.setsClientID(detail.getClientID());
+                poMobile.setClientID(detail.getClientID());
 
-            mViewModel.setParameter(TransNox, EntryNox);
+                lblAccNo.setText(detail.getAcctNmbr());
+                lblClientNm.setText(detail.getFullName());
+                lblClientAddress.setText(detail.getAddressx());
+                InitMobileList();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
 
-            mViewModel.getCollectionDetail().observe(getViewLifecycleOwner(), collectionDetail -> {
-                try {
-                    lblAccNo.setText(collectionDetail.getAcctNmbr());
-                    lblClientNm.setText(collectionDetail.getFullName());
-                    lblClientAddress.setText(collectionDetail.getAddressx());
-
-                    mViewModel.setClientID(collectionDetail.getClientID());
-                    mViewModel.setCurrentCollectionDetail(collectionDetail);
-
-                    mViewModel.setAccountNo(collectionDetail.getAcctNmbr());
-                    poImage = new ImageFileCreator(getActivity(), AppConstants.SUB_FOLDER_DCP, TransNox);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.getUserBranchEmployee().observe(getViewLifecycleOwner(), eBranchInfo -> {
-                try {
-                    lblBranch.setText(eBranchInfo.getBranchNm());
-                    lblAddress.setText(eBranchInfo.getAddressx());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
-                try {
-                    mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
-                        @Override
-                        public void OnDelete(int position) {
-                            //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
-                            mViewModel.deleteMobile(position);
-                            GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                            mobileAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void OnMobileNoClick(String MobileNo) {
-                            Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                            startActivityForResult(mobileIntent, MOBILE_DIALER);
-                        }
-                    });
-                    rvCNAOutputs.setAdapter(mobileAdapter);
-                    mobileAdapter.setMobileNox(mobileNox);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            // Province
-            mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
-                String[] townProvince = new String[townProvinceInfos.size()];
+        mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
+            try {
+                List<String> loTownList = new ArrayList<>();
                 for (int x = 0; x < townProvinceInfos.size(); x++) {
-                    townProvince[x] = townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName;
+                    loTownList.add(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName);
                 }
 
-                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, townProvince);
+                ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, loTownList.toArray(new String[0]));
                 txtTown.setAdapter(loAdapter);
-            });
 
-            txtTown.setOnItemClickListener((adapterView, view, i, l) -> {
-                String lsTown = txtTown.getText().toString();
-                String[] town = lsTown.split(", ");
-                mViewModel.getTownProvinceInfo().observe(getViewLifecycleOwner(), townProvinceInfos -> {
+                txtTown.setOnItemClickListener((adapterView, v, i, l) -> {
+                    String lsTown = txtTown.getText().toString();
                     for (int x = 0; x < townProvinceInfos.size(); x++) {
                         if (lsTown.equalsIgnoreCase(townProvinceInfos.get(x).sTownName + ", " + townProvinceInfos.get(x).sProvName)) {
-                            addressInfoModel.setsProvName(townProvinceInfos.get(x).sProvName);
-                            addressInfoModel.setsTownName(townProvinceInfos.get(x).sTownName);
-                            addressInfoModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
-                            mViewModel.setTownID(townProvinceInfos.get(x).sTownIDxx);
+                            poAddress.setsProvIDxx(townProvinceInfos.get(x).sProvIDxx);
+                            poAddress.setTownID(townProvinceInfos.get(x).sTownIDxx);
                             break;
                         }
                     }
 
-                    mViewModel.getBarangayNameList().observe(getViewLifecycleOwner(), strings -> {
-                        ArrayAdapter<String> loAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, strings);
-                        txtBrgy.setAdapter(loAdapter);
-                    });
-                });
-            });
+                    mViewModel.GetBarangayList(poAddress.getTownID()).observe(getViewLifecycleOwner(), barangays -> {
+                        List<String> loBrgyList = new ArrayList<>();
+                        for(int x = 0; x < barangays.size(); x++){
+                            loBrgyList.add(barangays.get(x).getBrgyName());
+                        }
+                        ArrayAdapter<String> loBrgy = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, loBrgyList.toArray(new String[0]));
+                        txtBrgy.setAdapter(loBrgy);
 
-            txtBrgy.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.getBarangayInfoList().observe(getViewLifecycleOwner(), eBarangayInfos -> {
-                for (int x = 0; x < eBarangayInfos.size(); x++) {
-                    if (txtBrgy.getText().toString().equalsIgnoreCase(eBarangayInfos.get(x).getBrgyName())) {
-                        addressInfoModel.setBarangayID(eBarangayInfos.get(x).getBrgyIDxx());
-                        addressInfoModel.setsBrgyName(eBarangayInfos.get(x).getBrgyName());
-                        mViewModel.setBrgyID(eBarangayInfos.get(x).getBrgyIDxx());
-                        break;
-                    }
-                }
-            }));
-
-            mViewModel.getRequestCodeOptions().observe(getViewLifecycleOwner(), stringArrayAdapter -> {
-                spnRequestCode.setAdapter(stringArrayAdapter);
-                spnRequestCode.setDropDownBackgroundResource(R.drawable.bg_gradient_light);
-            });
-
-            btnSubmit.setOnClickListener(v -> {
-                poMessage.initDialog();
-                poMessage.setTitle("Customer Not Around");
-                poMessage.setMessage("Please take a selfie in customer's place in order to confirm transaction.");
-                poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                    dialog.dismiss();
-                    poImage.CreateFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
-                        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude1, longitude1) -> {
-                            psPhotox = photPath;
-                            poImageInfo.setSourceNo(TransNox);
-                            poImageInfo.setSourceCD("DCPa");
-                            poImageInfo.setImageNme(FileName);
-                            poImageInfo.setFileLoct(photPath);
-                            poImageInfo.setFileCode("0020");
-                            poImageInfo.setLatitude(String.valueOf(latitude1));
-                            poImageInfo.setLongitud(String.valueOf(longitude1));
-                            mViewModel.setImagePath(photPath);
-                            mViewModel.setImgFileNme(FileName);
-                            startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
+                        txtBrgy.setOnItemClickListener((adapterView1, v1, i1, l1) -> {
+                            for (int x = 0; x < barangays.size(); x++) {
+                                if (txtBrgy.getText().toString().equalsIgnoreCase(barangays.get(x).getBrgyName())) {
+                                    poAddress.setBarangayID(barangays.get(x).getBrgyIDxx());
+                                    break;
+                                }
+                            }
                         });
                     });
                 });
-                poMessage.setNegativeButton("Cancel", (view, dialog) -> {
-                    dialog.dismiss();
-                });
-                poMessage.show();
-            });
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ImageFileCreator.GCAMERA) {
-            if (resultCode == RESULT_OK) {
-                if (isMobileToggled) {
-                    mViewModel.saveMobileToLocal(Fragment_CustomerNotAround.this);
-                } else {
-                    mViewModel.saveAddressToLocal(Fragment_CustomerNotAround.this);
-                }
-
-                try{
-                    poImageInfo.setMD5Hashx(WebFileServer.createMD5Hash(psPhotox));
-                    mViewModel.saveImageInfo(poImageInfo);
-                    mViewModel.updateCollectionDetail(DCP_Constants.getRemarksCode(Remarksx));
-                    Log.e("Fragment_CNA:", "Image Info Save");
-                    OnSuccessResult(new String[]{"Customer Not Around Info has been saved."});
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                }catch (RuntimeException e){
-                    e.printStackTrace();
-                }
-            } else {
-                requireActivity().finish();
+            } catch (Exception e){
+                e.printStackTrace();
             }
-        }
+        });
+
+        spnRequestCode.setAdapter(DCP_Constants.getAdapter(requireActivity(), DCP_Constants.REQUEST_CODE));
+
+        btnAdd.setOnClickListener(view1 -> {
+            if(isMobileToggled) {
+                poMobile.setMobileNo(txtContact.getText().toString());
+                poMobile.setRemarksx(txtRemarks.getText().toString());
+                mViewModel.SaveNewMobile(poMobile, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Customer Not Around", "Saving mobile update. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poDialog.dismiss();
+                        Toast.makeText(requireActivity(), "New record save!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialog.dismiss();
+                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                poAddress.setHouseNumber(txtHouseNox.getText().toString());
+                poAddress.setAddress(txtAddress.getText().toString());
+                poAddress.setsRemarksx(txtRemarks.getText().toString());
+                mViewModel.SaveNewAddress(poAddress, new ViewModelCallback() {
+                    @Override
+                    public void OnStartSaving() {
+                        poDialog.initDialog("Customer Not Around", "Saving address update. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poDialog.dismiss();
+                        Toast.makeText(requireActivity(), "New record save!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void OnFailedResult(String message) {
+                        poDialog.dismiss();
+                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        btnSubmit.setOnClickListener(v -> {
+            if(txtRemarks.getText().toString().trim().isEmpty()){
+                Toast.makeText(requireActivity(), "Please enter remarks", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            poCna.setRemarksx(txtRemarks.getText().toString());
+            if(checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+                poRequest.launch(new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.CAMERA});
+            } else {
+                InitializeCamera();
+            }
+        });
+        return view;
     }
 
     private void initWidgets(View v){
-        Remarksx = Activity_Transaction.getInstance().getRemarksCode();
         lblBranch = v.findViewById(R.id.lbl_headerBranch);
         lblAddress = v.findViewById(R.id.lbl_headerAddress);
         lblAccNo = v.findViewById(R.id.lbl_dcpAccNo);
@@ -299,88 +326,14 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         rvCNAOutputs.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCNAOutputs.setHasFixedSize(true);
 
-        btnAdd.setOnClickListener(view -> addMobile());
         rg_CNA_Input.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
         rg_addressType.setOnCheckedChangeListener(new Fragment_CustomerNotAround.OnRadioButtonSelectListener());
-        spnRequestCode.setOnItemClickListener((adapterView, view, i, l) -> mViewModel.setRequestCode(String.valueOf(i)));
+        spnRequestCode.setOnItemClickListener((adapterView, view, i, l) -> {
+            poMobile.setReqstCde(String.valueOf(i));
+            poAddress.setRequestCode(String.valueOf(i));
+        });
         cbPrimary.setOnCheckedChangeListener(new OnCheckboxSetListener());
         cbPrimeContact.setOnCheckedChangeListener(new OnCheckboxSetListener());
-    }
-
-    private void addAddress() {
-        addressInfoModel.setHouseNumber(Objects.requireNonNull(Objects.requireNonNull(txtHouseNox.getText()).toString()));
-        addressInfoModel.setAddress(Objects.requireNonNull(Objects.requireNonNull(txtAddress.getText()).toString()));
-        new LocationRetriever(getActivity(), getActivity()).getLocation((message, latitude, longitude) -> {
-            addressInfoModel.setLatitude(String.valueOf(latitude));
-            addressInfoModel.setLongitude(String.valueOf(longitude));
-        });
-        addressInfoModel.setsRemarksx(Objects.requireNonNull(Objects.requireNonNull(txtRemarks.getText()).toString()));
-
-        isAddressAdded = mViewModel.addAddressToList(addressInfoModel, Fragment_CustomerNotAround.this);
-        checkIfAddressAdded(isAddressAdded);
-    }
-
-    private void addMobile() {
-        mViewModel.getRequestCode().observe(getViewLifecycleOwner(), string -> sRqstCode = string);
-        mViewModel.getPrimeContact().observe(getViewLifecycleOwner(), string -> sPrimaryx = string);
-
-        String sMobileNo = Objects.requireNonNull(txtContact.getText()).toString();
-        String sRemarks = Objects.requireNonNull(txtRemarks.getText()).toString();
-
-        mobileInfoModel = new MobileUpdate(sRqstCode, sMobileNo, sPrimaryx,sRemarks);
-        isMobileAdded = mViewModel.AddMobileToList(mobileInfoModel, Fragment_CustomerNotAround.this);
-        checkIfMobileAdded(isMobileAdded);
-    }
-
-    @Override
-    public void OnStartSaving() {
-
-    }
-
-    @Override
-    public void OnSuccessResult(String[] args) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Success");
-        poMessage.setMessage(args[0]);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            getActivity().finish();
-        });
-        poMessage.show();
-    }
-
-    @Override
-    public void OnFailedResult(String message) {
-        poMessage.initDialog();
-        poMessage.setTitle("Transaction Failed");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
-    }
-
-    private void checkIfAddressAdded(boolean isAddressAdded) {
-        if(isAddressAdded) {
-            spnRequestCode.setSelection(0);
-            rb_permanent.setChecked(false);
-            rb_present.setChecked(false);
-            txtHouseNox.setText("");
-            txtAddress.setText("");
-            txtTown.setText("");
-            txtBrgy.setText("");
-            cbPrimary.setChecked(false);
-            txtRemarks.setText("");
-            addressAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void checkIfMobileAdded(boolean isMobileAdded) {
-        if(isMobileAdded) {
-            spnRequestCode.setSelection(0);
-            cbPrimeContact.setChecked(false);
-            txtContact.setText("");
-            txtRemarks.setText("");
-            mobileAdapter.notifyDataSetChanged();
-        }
     }
 
     private class OnRadioButtonSelectListener implements RadioGroup.OnCheckedChangeListener {
@@ -400,34 +353,8 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     txtBrgy.setText("");
                     cbPrimary.setChecked(false);
                     txtRemarks.setText("");
-                    btnAdd.setOnClickListener(view -> addMobile());
-
-                    mViewModel.getMobileRequestListForClient().observe(getViewLifecycleOwner(), mobileNox -> {
-                        try {
-                            mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
-                                @Override
-                                public void OnDelete(int position) {
-                                    //mViewModel.deleteMobile(mobileNox.get(position).getTransNox());
-                                    mViewModel.deleteMobile(position);
-                                    GToast.CreateMessage(getActivity(), "Mobile number deleted.", GToast.INFORMATION).show();
-                                    mobileAdapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void OnMobileNoClick(String MobileNo) {
-                                    Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
-                                    startActivityForResult(mobileIntent, MOBILE_DIALER);
-                                }
-                            });
-                            rvCNAOutputs.setAdapter(mobileAdapter);
-                            mobileAdapter.setMobileNox(mobileNox);
-                        }
-                        catch(Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-                else if(checkedId == R.id.rb_address){
+                    InitMobileList();
+                } else if(checkedId == R.id.rb_address){
                     isMobileToggled = false;
                     lnContactNox.setVisibility(View.GONE);
                     lnAddress.setVisibility(View.VISIBLE);
@@ -435,30 +362,15 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
                     cbPrimeContact.setChecked(false);
                     txtContact.setText("");
                     txtRemarks.setText("");
-                    btnAdd.setOnClickListener(view -> addAddress());
-
-                    mViewModel.getAddressRequesListForClient().observe(getViewLifecycleOwner(), eAddressUpdates -> {
-                        try {
-                            addressAdapter = new AddressInfoAdapter(position -> {
-                                //mViewModel.deleteAddress(addressNme.get(position).sTransNox);
-                                mViewModel.deleteAddress(position);
-                                GToast.CreateMessage(getActivity(), "Address deleted.", GToast.INFORMATION).show();
-                                addressAdapter.notifyDataSetChanged();
-                            });
-                            rvCNAOutputs.setAdapter(addressAdapter);
-                            addressAdapter.setAddress(eAddressUpdates);
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
+                    InitAddressList();
                 }
             }
             else if(group.getId() == R.id.rg_address_type) {
                 if(checkedId == R.id.rb_permanent) {
-                    mViewModel.setAddressType("0");
+                    poAddress.setcAddrssTp("0");
                 }
                 else if(checkedId == R.id.rb_present) {
-                    mViewModel.setAddressType("1");
+                    poAddress.setcAddrssTp("1");
                 }
             }
         }
@@ -468,13 +380,119 @@ public class Fragment_CustomerNotAround extends Fragment implements ViewModelCal
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(buttonView.isChecked()){
-                mViewModel.setPrimeAddress("1");
-                mViewModel.setPrimeContact("1");
-            }
-            else{
-                mViewModel.setPrimeAddress("0");
-                mViewModel.setPrimeContact("0");
+                poMobile.setPrimaryx("1");
+                poAddress.setPrimaryStatus("1");
+            } else{
+                poMobile.setPrimaryx("0");
+                poAddress.setPrimaryStatus("0");
             }
         }
+    }
+
+    private void InitializeCamera(){
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            Toast.makeText(requireActivity(), "Please enable your location service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        poMessage.initDialog();
+        poMessage.setTitle("Daily Collection Plan");
+        poMessage.setMessage("Please take a selfie with the customer or within the area of the customer.");
+        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+            dialog.dismiss();
+            mViewModel.InitCameraLaunch(requireActivity(), transNo, new OnInitializeCameraCallback() {
+                @Override
+                public void OnInit() {
+                    poDialog.initDialog("Daily Collection Plan", "Initializing camera. Please wait...", false);
+                    poDialog.show();
+                }
+
+                @Override
+                public void OnSuccess(Intent intent, String[] args) {
+                    poDialog.dismiss();
+                    poCna.setFilePath(args[0]);
+                    poCna.setFileName(args[1]);
+                    poCna.setLatitude(args[2]);
+                    poCna.setLongtude(args[3]);
+                    poCamera.launch(intent);
+                }
+
+                @Override
+                public void OnFailed(String message, Intent intent, String[] args) {
+                    poDialog.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Daily Collection Plan");
+                    poMessage.setMessage(message + "\n Proceed taking selfie?");
+                    poMessage.setPositiveButton("Continue", (view, dialog) -> {
+                        dialog.dismiss();
+                        poCna.setFilePath(args[0]);
+                        poCna.setFileName(args[1]);
+                        poCna.setLatitude(args[2]);
+                        poCna.setLongtude(args[3]);
+                        poCamera.launch(intent);
+                    });
+                    poMessage.setNegativeButton("Cancel", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+                }
+            });
+        });
+        poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
+    }
+
+    private void InitMobileList(){
+        mViewModel.GetMobileUpdates(poMobile.getClientID()).observe(getViewLifecycleOwner(), mobileNox -> {
+            try {
+                mobileAdapter = new MobileInfoAdapter(new MobileInfoAdapter.OnItemInfoClickListener() {
+                    @Override
+                    public void OnDelete(int position) {
+                        mViewModel.RemoveMobile(mobileNox.get(position).sTransNox, new VMCustomerNotAround.OnRemoveDetailCallback() {
+                            @Override
+                            public void OnSuccess() {
+                                Toast.makeText(requireActivity(), "Mobile info remove.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void OnFailed(String message) {
+                                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void OnMobileNoClick(String MobileNo) {
+                        Intent mobileIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", MobileNo, null));
+                        poDialer.launch(mobileIntent);
+                    }
+                });
+                rvCNAOutputs.setAdapter(mobileAdapter);
+                mobileAdapter.setMobileNox(mobileNox);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void InitAddressList(){
+        mViewModel.GetAddressUpdates(poAddress.getClientID()).observe(getViewLifecycleOwner(), address -> {
+            try {
+                addressAdapter = new AddressInfoAdapter(position -> mViewModel.RemoveAddress(address.get(position).sTransNox, new VMCustomerNotAround.OnRemoveDetailCallback() {
+                    @Override
+                    public void OnSuccess() {
+                        Toast.makeText(requireActivity(), "Mobile info remove.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show();
+                    }
+                }));
+                rvCNAOutputs.setAdapter(addressAdapter);
+                addressAdapter.setAddress(address);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 }

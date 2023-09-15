@@ -16,8 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.Activity_BranchApplications"
-    android:background="@drawable/bg_gradient_light"
+    tools:context=".Activities.Activity_BranchApplications"
     android:theme="@style/GhostRiderMaterialTheme"
     tools:ignore="MissingDefaultResource">
     <com.google.android.material.appbar.AppBarLayout
@@ -25,12 +24,84 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_branchApplications"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="15dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="15dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Branch Application List"
+                        android:textSize="22sp"
+                        android:fontFamily="@font/roboto"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="GMC Dagupan - Honda"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_light"
+                        android:layout_marginTop="5dp"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guanzon Bldg., Perez Blvd."
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_light"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:layout_marginTop="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search Client Name"
+                    style="@style/TextInputStyleHeaders">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_branch_search"
+                        style="@style/TextInputStyle.Edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,88 +115,8 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progressTint="@color/guanzon_orange"
             tools:targetApi="lollipop" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_samsungknox"
-        android:gravity="center_horizontal"
-        android:paddingHorizontal="15dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="15dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Branch Application List"
-                    android:textSize="22sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/textColor_White"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="GMC Dagupan - Honda"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"
-                    android:layout_marginTop="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Guanzon Bldg., Perez Blvd."
-                    android:textSize="15sp"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/textColor_White"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_marginTop="5dp"
-            android:background="#fff"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp">
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search Client Name"
-                style="@style/TextInputStyleHeaders">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_branch_search"
-                    style="@style/TextInputStyle.Edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fbfbfb"
-                    android:fontFamily="@font/roboto"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapWords"
-                    android:maxLines="1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -148,15 +139,14 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
             android:visibility="gone"
-            android:padding="10dp"
-            android:background="@drawable/background_no_record"
-            >
+            android:padding="10dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_toast_warning"
@@ -166,14 +156,13 @@
             </LinearLayout>
 
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/guanzon_digital_orange"
                 android:fontFamily="@font/roboto_medium"
                 android:text="No record found."/>
         </LinearLayout>

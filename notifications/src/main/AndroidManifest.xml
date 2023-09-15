@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.rmj.guanzongroup.ghostrider.notifications">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <activity android:name=".Activity.Activity_Container" />
         <activity
-            android:name=".Activity.Activity_NotificationList"
+            android:name=".Activity.Activity_ViewNotification"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
-            android:name=".Activity.Activity_Notifications"
+            android:name=".Activity.Activity_UserMessages"
+            android:exported="false"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -30,13 +30,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.WebFileServer;
 import org.rmj.guanzongroup.ghostrider.griderscanner.adapter.FileCodeAdapter;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
@@ -46,7 +44,7 @@ import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.VMMainScanner;
 import org.rmj.guanzongroup.ghostrider.griderscanner.viewModel.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.imgcapture.ImageFileCreator;
-import org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder;
+import org.rmj.guanzongroup.ghostrider.notifications.Notifications.GNotifBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.rmj.guanzongroup.ghostrider.notifications.Object.GNotifBuilder.APP_SYNC_DATA;
+import static org.rmj.guanzongroup.ghostrider.notifications.Notifications.GNotifBuilder.APP_SYNC_DATA;
 
 public class ClientInfo extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -149,7 +147,7 @@ public class ClientInfo extends AppCompatActivity {
                         poDocumentsInfo = new ECreditApplicationDocuments();
                         poFilexx = new ImageFileCreator(ClientInfo.this , ScannerConstants.SubFolder, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
                         // poFilexx = new ImageFileCreator(ClientInfo.this , AppConstants.APP_PUBLIC_FOLDER, AppConstants.SUB_FOLDER_CREDIT_APP, fileCodeDetails.get(position).sFileCode,fileCodeDetails.get(position).nEntryNox, TransNox);
-                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName, latitude, longitude) -> {
+                        poFilexx.CreateScanFile((openCamera, camUsage, photPath, FileName) -> {
                             mCurrentPhotoPath = photPath;
                             ScannerConstants.Usage =camUsage;
                             ScannerConstants.FileCode = fileCodeDetails.get(position).sFileCode;
@@ -157,8 +155,8 @@ public class ClientInfo extends AppCompatActivity {
                             ScannerConstants.EntryNox = (position + 1);
                             ScannerConstants.FileName = FileName;
                             ScannerConstants.FileDesc = fileCodeDetails.get(position).sBriefDsc;
-                            ScannerConstants.Latt = latitude;
-                            ScannerConstants.Longi = longitude;
+//                            ScannerConstants.Latt = latitude;
+//                            ScannerConstants.Longi = longitude;
                             startActivityForResult(openCamera, ImageFileCreator.GCAMERA);
                         });
                     }else{

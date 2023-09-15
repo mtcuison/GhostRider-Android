@@ -14,9 +14,12 @@ package org.rmj.guanzongroup.ghostrider.epacss.Object;
 import android.content.Context;
 import android.content.Intent;
 
+import org.rmj.guanzongroup.ganado.Activities.Activity_CategorySelection;
+import org.rmj.guanzongroup.ganado.Activities.Activity_ProductInquiry;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity.Activity_Browser;
 import org.rmj.guanzongroup.ghostrider.dataChecker.Activity.Activity_DB_Explorer;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
+import org.rmj.guanzongroup.pacitareward.Activity.Activity_BranchList;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_DigitalGcard;
 
 public class ParentObject {
@@ -66,6 +69,15 @@ public class ParentObject {
             case "db explorer":
                 lnIcon = R.drawable.ic_settings_localdata;
                 break;
+            case "employee itinerary":
+                lnIcon = R.drawable.ic_baseline_checklist_24;
+                break;
+            case "pacita evaluation":
+                lnIcon = R.drawable.ic_rating_24;
+                break;
+            case "product inquiry":
+                lnIcon = R.drawable.ic_product_inquiry;
+                break;
         }
         return lnIcon;
     }
@@ -89,6 +101,10 @@ public class ParentObject {
 
             case "db explorer":
                 loIntent = new Intent(context, Activity_DB_Explorer.class);
+                break;
+
+            case "pacita evaluation":
+                loIntent = new Intent(context, Activity_BranchList.class);
                 break;
 
             default:

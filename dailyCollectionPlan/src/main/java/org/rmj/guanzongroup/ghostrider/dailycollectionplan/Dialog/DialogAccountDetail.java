@@ -19,53 +19,43 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textview.MaterialTextView;
+
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.LiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EClientUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EClientUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.lib.Etc.Town;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
-
-import java.util.Arrays;
 
 public class DialogAccountDetail {
     private static final String TAG = DialogAccountDetail.class.getSimpleName();
     private AlertDialog poDialogx;
     private final Context context;
-    private org.rmj.g3appdriver.GRider.Database.Repositories.RTown RTown;
+    private Town poTown;
     private RDailyCollectionPlan poDCPRepo;
     private MessageBox poMessage;
 
     private String[] civilStatus = DCP_Constants.CIVIL_STATUS;
     private String[] gender = {"Male", "Female", "LGBT"};
 
-    private TextView dFullName;
-    private TextView dAddress;
-    private TextView dGender;
-    private TextView dCivil;
-    private TextView dBDate;
-    private TextView dBPlace;
-    private TextView dTelNo;
-    private TextView dMobileNo;
-    private TextView dEmail;
-    private TextView dRemarks;
-    private TextView lblBalnce;
-    private TextView lblDelayx;
-    private TextView lblLastPy;
-    private TextView lblLastPd;
+    private MaterialTextView dFullName,dAddress, dGender, dCivil, dBDate,
+                                                dBPlace, dTelNo, dMobileNo, dEmail, dRemarks,
+                                                lblBalnce, lblDelayx, lblLastPy, lblLastPd;
 
     public DialogAccountDetail(Context context){
         this.context = context;
@@ -80,16 +70,16 @@ public class DialogAccountDetail {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        RTown = new RTown(activity.getApplication());
+        poTown = new Town(activity.getApplication());
         poDCPRepo = new RDailyCollectionPlan(activity.getApplication());
-        TextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
-        TextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
-        TextView lblClientN = view.findViewById(R.id.lbl_dcpClientNm);
-        TextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
-        TextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
-        TextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
-        TextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
-        TextView transType = view.findViewById(R.id.lbl_transaction_type);
+        MaterialTextView lblReferNo = view.findViewById(R.id.lbl_dcpReferNo);
+        MaterialTextView lblTransNo = view.findViewById(R.id.lbl_dcpTransNo);
+        MaterialTextView lblClientN = view.findViewById(R.id.lbl_dcpClientNm);
+        MaterialTextView lblAccntNo = view.findViewById(R.id.lbl_dcpAccNo);
+        MaterialTextView lblSerialx = view.findViewById(R.id.lbl_dcpPRNo);
+        MaterialTextView lblAmountx = view.findViewById(R.id.lbl_dcpAmountDue);
+        MaterialTextView lblDueDate = view.findViewById(R.id.lbl_dcpDueDate);
+        MaterialTextView transType = view.findViewById(R.id.lbl_transaction_type);
         LinearLayout linearLayout = view.findViewById(R.id.linear_lunInfo);
         dFullName = view.findViewById(R.id.dialog_fullName);
         dAddress = view.findViewById(R.id.dialog_address);
@@ -106,9 +96,10 @@ public class DialogAccountDetail {
         lblLastPy = view.findViewById(R.id.lbl_dcpAmountLastPay);
         lblLastPd = view.findViewById(R.id.lbl_dcpLastPaid);
 
-        Spinner spnTransact = view.findViewById(R.id.spn_transaction);
-        Button btnConfirm = view.findViewById(R.id.btn_confirm);
-        Button btnCancelx = view.findViewById(R.id.btn_cancel);
+        MaterialAutoCompleteTextView  spnTransact = view.findViewById(R.id.spn_transaction);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_confirm);
+        MaterialButton btnCancelx = view.findViewById(R.id.btn_cancel);
+
         spnTransact.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, DCP_Constants.TRANSACTION_TYPE));
 
         if(foDetail.getRemCodex() == null || foDetail.getRemCodex().isEmpty()){
@@ -140,14 +131,14 @@ public class DialogAccountDetail {
         lblClientN.setText(foDetail.getFullName());
         lblAccntNo.setText(foDetail.getAcctNmbr());
         lblSerialx.setText(foDetail.getSerialNo());
-        lblAmountx.setText(FormatUIText.getCurrencyUIFormat(foDetail.getAmtDuexx()));
+        lblAmountx.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(foDetail.getAmtDuexx())));
         lblDueDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getDueDatex()));
         lblBalnce.setText(FormatUIText.getCurrencyUIFormat(foDetail.getABalance()));
-        lblDelayx.setText(foDetail.getDelayAvg());
-        lblLastPy.setText(FormatUIText.getCurrencyUIFormat(foDetail.getLastPaym()));
+        lblDelayx.setText(String.valueOf(foDetail.getDelayAvg()));
+        lblLastPy.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(foDetail.getLastPaym())));
         lblLastPd.setText(FormatUIText.formatGOCasBirthdate(foDetail.getLastPaid()));
         btnConfirm.setOnClickListener(view1 -> {
-            listener.OnClick(poDialogx, spnTransact.getSelectedItem().toString());
+            listener.OnClick(poDialogx, spnTransact.getText().toString());
         });
 
         btnCancelx.setOnClickListener(view12 -> dismiss());
@@ -176,11 +167,11 @@ public class DialogAccountDetail {
         return poDCPRepo.getClientUpdateInfo(AccountNox);
     }
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getBrgyTownProvinceInfo(String fsID){
-        return RTown.getBrgyTownProvinceInfo(fsID);
+        return poTown.getBrgyTownProvinceInfo(fsID);
     }
 
     public LiveData<DTownInfo.BrgyTownProvinceInfo> getTownProvinceInfo(String fsID){
-        return RTown.getTownProvinceInfo(fsID);
+        return poTown.getTownProvinceInfo(fsID);
     }
     @SuppressLint("SetTextI18n")
     public void showClientUpdateInfo(Activity_CollectionList activities, EDCPCollectionDetail foDetails) {

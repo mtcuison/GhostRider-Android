@@ -14,15 +14,13 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DMobileRequest;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileRequest;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -67,9 +65,9 @@ public class MobileInfoAdapter_Log extends RecyclerView.Adapter<MobileInfoAdapte
     }
 
     class MobilenoxHolder extends RecyclerView.ViewHolder {
-        private TextView tvDetails;
-        private TextView tvPrimary;
-        private TextView tvRemarks;
+        private MaterialTextView tvDetails;
+        private MaterialTextView tvPrimary;
+        private MaterialTextView tvRemarks;
 
         public MobilenoxHolder(@NonNull View itemView, OnItemInfoClickListener listener) {
             super(itemView);

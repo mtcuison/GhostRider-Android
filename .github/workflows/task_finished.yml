@@ -1,0 +1,24 @@
+name: Task Finished
+on:
+  issues:
+    types:
+      - closed
+jobs:
+  addDateFinishedLabel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Date Finished Label
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const dateFinishedLabel = 'Date Finished';
+
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            await octokit.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: [dateFinishedLabel],
+            });
+

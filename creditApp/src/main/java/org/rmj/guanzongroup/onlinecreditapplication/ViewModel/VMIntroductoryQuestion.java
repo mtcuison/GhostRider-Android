@@ -1,283 +1,214 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.graphics.Color;
+import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.simple.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DRawDao;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcBrand;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMcModel;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RMcBrand;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RMcModel;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RRawData;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.gocas.pricelist.PriceFactory;
-import org.rmj.gocas.pricelist.Pricelist;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.PurchaseInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
-import org.rmj.guanzongroup.onlinecreditapplication.R;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.LoanInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMcModel;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
 
-public class VMIntroductoryQuestion extends AndroidViewModel {
-    public static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
-    private final DecimalFormat currency_total = new DecimalFormat("###,###,###.###");
-    private final RBranch RBranch;
-    private final RMcBrand oBrandRepo;
-    private final RMcModel oModelRepo;
-    private final RCreditApplicant oCredtRepo;
-    private final RRawData RRawData;
-    private final Pricelist poPrice;
+public class VMIntroductoryQuestion extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMIntroductoryQuestion.class.getSimpleName();
 
-    private final MutableLiveData<String> psAppType = new MutableLiveData<>();
-    private final MutableLiveData<String> psCusType = new MutableLiveData<>();
-    private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
+    private final CreditOnlineApplication poApp;
+    private final LoanInfo poModel;
+
     private final MutableLiveData<String> psBrandID = new MutableLiveData<>();
-    private final MutableLiveData<String> psModelCd = new MutableLiveData<>();
-    private final MutableLiveData<JSONObject> poDpInfo = new MutableLiveData<>();
-    private final MutableLiveData<JSONObject> poMAInfo = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psIntTerm = new MutableLiveData<>();
-    private final MutableLiveData<String> psDwnPymt = new MutableLiveData<>();
-    private final MutableLiveData<String> psMonthly = new MutableLiveData<>();
+    private final MutableLiveData<String> psModelID = new MutableLiveData<>();
+    private final MutableLiveData<DMcModel.McAmortInfo> poAmort = new MutableLiveData<>();
 
-    private final LiveData<String[]> paBranchNm;
-    private final LiveData<String[]> paBrandNme;
-    public VMIntroductoryQuestion(@NonNull Application application) {
-        super(application);
-        RBranch = new RBranch(application);
-        oBrandRepo = new RMcBrand(application);
-        oModelRepo = new RMcModel(application);
-        oCredtRepo = new RCreditApplicant(application);
-        RRawData = new RRawData(application);
-        paBranchNm = RBranch.getAllMcBranchNames();
-        paBrandNme = oBrandRepo.getAllBrandNames();
-       // oCredtRepo.deleteAllCredit();
-        poPrice = PriceFactory.make(PriceFactory.ProductType.MOTORCYCLE);
-        psIntTerm.setValue(36);
+    private String message;
+
+    public VMIntroductoryQuestion(@NonNull Application instance) {
+        super(instance);
+        this.poApp = new CreditOnlineApplication(instance);
+        this.poModel = new LoanInfo();
     }
 
-    public void setCustomerType(String type){
-        this.psCusType.setValue(type);
+    public LoanInfo getModel() {
+        return poModel;
     }
 
-    public void setApplicationType(String type){
-        this.psAppType.setValue(type);
+    public void setBrandID(String args) {
+        this.psBrandID.setValue(args);
     }
 
-    public void setBanchCde(String psBrnchCd) {
-        this.psBrnchCd.setValue(psBrnchCd);
-    }
-
-    public LiveData<String> getBrandID(){
+    public LiveData<String> GetBrandID() {
         return psBrandID;
     }
 
-    public void setLsBrandID(String lsBrandID) {
-        this.psBrandID.setValue(lsBrandID);
+    public void setModelID(String args) {
+        this.psModelID.setValue(args);
     }
 
-    public LiveData<String> getModelID(){
-        return psModelCd;
+    public LiveData<String> GetModelID() {
+        return psModelID;
     }
 
-    public void setLsModelCd(String lsModelCd) {
-        this.psModelCd.setValue(lsModelCd);
+    public void setModelAmortization(DMcModel.McAmortInfo args) {
+        this.poAmort.setValue(args);
     }
 
-    public void setLsIntTerm(int lsIntTerm) {
-        this.psIntTerm.setValue(lsIntTerm);
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo() {
+        return poApp.GetUserInfo();
     }
 
-    public LiveData<Integer> getSelectedInstallmentTerm(){
-        return psIntTerm;
+    public LiveData<List<EBranchInfo>> GetAllBranchInfo() {
+        return poApp.getAllBranchInfo();
     }
 
-    public void setLoDpInfo(JSONObject loJson){
-        this.poDpInfo.setValue(loJson);
-        try{
-            if(poPrice.setModelInfo(poDpInfo.getValue())){
-                psDwnPymt.setValue(String.valueOf(poPrice.getDownPayment()));
-                poPrice.setPaymentTerm(36);
+    public LiveData<List<EMcBrand>> GetAllMcBrand() {
+        return poApp.getAllMcBrand();
+    }
+
+    public LiveData<List<EMcModel>> GetAllBrandModelInfo(String args) {
+        return poApp.getAllBrandModelInfo(args);
+    }
+
+    public LiveData<DMcModel.McDPInfo> GetInstallmentPlanDetail(String ModelID) {
+        return poApp.GetInstallmentPlanDetail(ModelID);
+    }
+
+    public boolean InitializeTermAndDownpayment(DMcModel.McDPInfo args) {
+        return poApp.InitializeMcInstallmentTerms(args);
+    }
+
+    public LiveData<DMcModel.McAmortInfo> GetAmortizationDetail(String args, int args1) {
+        return poApp.GetMonthlyPayment(args, args1);
+    }
+
+    public double GetMinimumDownpayment() {
+        return poApp.GetMinimumDownpayment();
+    }
+
+    public double GetMonthlyPayment(double args1) {
+        return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
+    }
+
+    public double GetMonthlyPayment(int args1) {
+        return poApp.GetMonthlyAmortization(poAmort.getValue(), args1);
+    }
+
+    @Override
+    public void InitializeApplication(Intent params) {
+        Log.d(TAG, "No data to initialize on introductory question");
+    }
+
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return null;
+    }
+
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+        Log.d(TAG, "No data to parse on introductory question");
+    }
+
+    @Override
+    public void Validate(Object args) {
+    }
+
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new CreateNewApplicationTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+
+                LoanInfo loDetail = (LoanInfo) args;
+                try {
+
+                    if (!loDetail.isDataValid()) {
+                        message = loDetail.getMessage();
+                        return null;
+                    }
+
+                    String lsResult = poApp.CreateApplication(loDetail);
+
+                    if (lsResult == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+
+                    return lsResult;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void setLoMonthlyInfo(JSONObject loJson){
-        this.poMAInfo.setValue(loJson);
-        try{
-            poPrice.setPaymentTerm(36);
-            poPrice.setDownPayment(poPrice.getDownPayment());
-            BigDecimal price = new BigDecimal(String.valueOf(poPrice.getMonthlyAmort(poMAInfo.getValue())));
-            psMonthly.setValue(String.valueOf(currency_total.format(price)));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public LiveData<List<EBranchInfo>> getAllBranchInfo(){
-        return RBranch.getAllMcBranchInfo();
-    }
-
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return RBranch.getUserBranchInfo();
-    }
-
-    public LiveData<String[]> getAllBranchNames(){
-        return paBranchNm;
-    }
-
-    public LiveData<List<EMcBrand>> getAllMcBrand(){
-        return oBrandRepo.getAllBrandInfo();
-    }
-
-    public LiveData<String[]> getAllBrandNames(){
-        return paBrandNme;
-    }
-
-
-    public LiveData<List<EMcModel>> getAllBrandModelInfo(){
-        return oModelRepo.getMcModelFromBrand(psBrandID.getValue());
-    }
-
-    public LiveData<String[]> getAllBrandModelName(String lsBrandID){
-        return oModelRepo.getAllMcModelName(lsBrandID);
-    }
-
-    public LiveData<ArrayAdapter<String>> getApplicationType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.APPLICATION_TYPE));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getCustomerType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.CUSTOMER_TYPE));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getInstallmentTerm(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.INSTALLMENT_TERM));
-        return liveData;
-    }
-
-    public LiveData<String> getDownpayment(){
-        return psDwnPymt;
-    }
-
-    public LiveData<DRawDao.McDPInfo> getDpInfo(String ModelCd){
-        return RRawData.getDownpayment(ModelCd);
-    }
-
-    public LiveData<DRawDao.McAmortInfo> getMonthlyAmortInfo(String ModelCd){
-        return RRawData.getMonthlyAmortInfo(ModelCd, 36);
-    }
-
-    public LiveData<String> getMonthlyAmort(){
-        return psMonthly;
-    }
-
-    public void calculateMonthlyPayment(){
-        try {
-            if(poMAInfo.getValue() != null) {
-            poPrice.setPaymentTerm(psIntTerm.getValue());
-            poPrice.setDownPayment(poPrice.getDownPayment());
-                BigDecimal price = new BigDecimal(String.valueOf(poPrice.getMonthlyAmort(poMAInfo.getValue())));
-                psMonthly.setValue(String.valueOf(currency_total.format(price)));
+            @Override
+            public void OnPostExecute(Object object) {
+                String lsResult = (String) object;
+                if (lsResult == null) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(lsResult);
+                }
             }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void calculateMonthlyPayment(String Downpayment){
-        try {
-            poPrice.setPaymentTerm(psIntTerm.getValue());
-            poPrice.setDownPayment(Double.parseDouble(Downpayment));
-            BigDecimal price = new BigDecimal(String.valueOf(poPrice.getMonthlyAmort(poMAInfo.getValue())));
-            psMonthly.setValue(String.valueOf(currency_total.format(price)));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void CreateNewApplication(PurchaseInfoModel model,ViewModelCallBack callBack){
-        try {
-            String transnox = oCredtRepo.getGOCasNextCode();
-
-            Log.e("TransNox", transnox);
-            model.setsBranchCde(psBrnchCd.getValue());
-            if(model.isPurchaseInfoValid()) {
-                GOCASHolder.getInstance().initGOCASApp();
-                GOCASApplication loGoCas = GOCASHolder.getInstance().getGOCAS();
-                loGoCas.PurchaseInfo().setAppliedFor("0");
-                loGoCas.PurchaseInfo().setTargetPurchase(model.getdTargetDte());
-                loGoCas.PurchaseInfo().setCustomerType(model.getsCustTypex());
-                loGoCas.PurchaseInfo().setPreferedBranch(model.getsBranchCde());
-                loGoCas.PurchaseInfo().setBrandName(model.getsBrandIDxx());
-                loGoCas.PurchaseInfo().setModelID(model.getsModelIDxx());
-                loGoCas.PurchaseInfo().setDownPayment(model.getsDownPaymt());
-                loGoCas.PurchaseInfo().setAccountTerm(model.getsAccTermxx());
-                loGoCas.PurchaseInfo().setDateApplied(model.getDateApplied());
-                loGoCas.PurchaseInfo().setMonthlyAmortization(model.getsMonthlyAm());
-
-                ECreditApplicantInfo creditApp = new ECreditApplicantInfo();
-                creditApp.setPurchase(loGoCas.PurchaseInfo().toJSONString());
-                creditApp.setDownPaym(loGoCas.PurchaseInfo().getDownPayment());
-                creditApp.setAppliedx(loGoCas.PurchaseInfo().getDateApplied());
-                creditApp.setCreatedx(new AppConstants().DATE_MODIFIED);
-                creditApp.setTransact(new AppConstants().CURRENT_DATE);
-                creditApp.setBranchCd(loGoCas.PurchaseInfo().getPreferedBranch());
-                creditApp.setTranStat("0");
-                creditApp.setTransNox(transnox);
-                oCredtRepo.insertGOCasData(creditApp);
-                callBack.onSaveSuccessResult(transnox);
-            } else {
-                callBack.onFailedResult(model.getMessage());
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-            callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
-        } catch (Exception e){
-            e.printStackTrace();
-            callBack.onFailedResult("Something went wrong. Required information might not provided by user.");
-        }
+        });
     }
 }
+//    private class CreateNewApplicationTask extends AsyncTask<LoanInfo, Void, String>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public CreateNewApplicationTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected String doInBackground(LoanInfo... loanInfos) {
+//            try {
+//                LoanInfo loDetail = loanInfos[0];
+//
+//                if (!loDetail.isDataValid()) {
+//                    message = loDetail.getMessage();
+//                    return null;
+//                }
+//
+//                String lsResult = poApp.CreateApplication(loDetail);
+//
+//                if (lsResult == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//
+//                return lsResult;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSave(result);
+//            }
+//        }
+//    }
+//}

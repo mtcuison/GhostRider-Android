@@ -22,16 +22,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
 import org.rmj.g3appdriver.etc.AppAssistantConfig;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.guanzongroup.ghostrider.settings.R;
 import org.rmj.guanzongroup.ghostrider.settings.ViewModel.VMHelp;
 import org.rmj.guanzongroup.ghostrider.settings.adapter.ViewPagerAdapter;
 import org.rmj.guanzongroup.ghostrider.settings.etc.SettingsConstants;
-
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_ADD_COLLECTION_DCP;
-import static org.rmj.g3appdriver.GRider.Constants.AppConstants.INTENT_DCP_POST_COLLECTION;
 
 public class Activity_Help extends AppCompatActivity {
     private ViewPager viewPager;

@@ -30,8 +30,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
@@ -55,12 +55,13 @@ public class Fragment_GetPin extends Fragment implements ViewModelCallBack {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMGetPin.class);
         View v = inflater.inflate(R.layout.fragment_get_pin, container, false);
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
         txtPIN = v.findViewById(R.id.txt_KnoxPIN);
-        ImageButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
+        MaterialButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
         btnCopy.setOnClickListener(view -> {
             String KnoxPin = txtPIN.getText().toString();
             String message;
@@ -75,18 +76,12 @@ public class Fragment_GetPin extends Fragment implements ViewModelCallBack {
             toast.show();
         });
         btnGetPIN = v.findViewById(R.id.btn_knoxGetPIN);
-
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMGetPin.class);
         btnGetPIN.setOnClickListener(view -> {
             String lsDevcIDx = Objects.requireNonNull(txtImei.getText()).toString();
             mViewModel.GetPIN(lsDevcIDx, Fragment_GetPin.this);
         });
+
+        return v;
     }
 
     @Override
@@ -96,7 +91,7 @@ public class Fragment_GetPin extends Fragment implements ViewModelCallBack {
     }
 
     @Override
-    public void OnRequestSuccess(String args) {
+    public void OnRequestSuccess(String args, String args1, String args2, String args3) {
         dialog.dismiss();
         txtPIN.setText(args);
     }

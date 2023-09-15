@@ -15,19 +15,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 
 public class VMMessageListTest {
 
-    @Mock
+//    @Mock
     JSONArray rcpts = new JSONArray();
 
-    @Mock
+//    @Mock
     JSONObject rcpt = new JSONObject();
 
-    @Mock
+//    @Mock
     JSONObject param = new JSONObject();
 
     @Before

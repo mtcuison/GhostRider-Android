@@ -12,20 +12,17 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.google.android.material.textview.MaterialTextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments.Fragment_CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressRequest;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -68,11 +65,11 @@ public class AddressInfoAdapter_Log extends RecyclerView.Adapter<AddressInfoAdap
     }
 
     class AddressHolder extends RecyclerView.ViewHolder {
-        private TextView tvPrimary;
-        private TextView tvAddressTp;
-        private TextView tvDetails;
-        private TextView tvAddress;
-        private TextView tvRemarks;
+        private MaterialTextView tvPrimary;
+        private MaterialTextView tvAddressTp;
+        private MaterialTextView tvDetails;
+        private MaterialTextView tvAddress;
+        private MaterialTextView tvRemarks;
 
         public AddressHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,0 +1,60 @@
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.g3appdriver
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:17 PM
+  -->
+
+<resources>
+    <string name="app_name">g3appdriver</string>
+
+    <string name="free_text_restriction">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz1234567890@ēāéñễấũ.,/-</string>
+    <string name="decimal_only">0123456789.</string>
+
+    <!-- Kent -->
+    <string name="sLblgCircle">Guanzon Circle</string>
+    <string name="sLblCompName">Guanzon Group of Companies</string>
+    <string name="sLblCopyright">© All Rights Reserved MIS-SEG 2023</string>
+    <string name="sLblSamsungKnox_Activate">Activate Mobile</string>
+    <string name="sLblSamsungKnox_Unlock">Unlock Mobile</string>
+    <string name="sLblSamsungKnox_Pin">Generate PIN</string>
+    <string name="sLblSamsungKnox_Pin_Offline">Get Offline PIN</string>
+    <string name="sLblSamsungKnox_Status">Show Status</string>
+    <string name="sLblAddApplication">Add Application</string>
+    <string name="lblBuildVersion">GhostRider Build v.1.0.1 - 01122021</string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="agree">I agree</string>
+    <string name="terms_and_conditions">with the <b>Terms and Conditions.</b></string>
+    <string name="user_authentication">Login</string>
+    <string name="lblRetrievePassword">Retrieve Password</string>
+    <string name="create_account_description">Please provide all information requested to create your account.</string>
+    <string name="email_retrieval_message">Please enter your email address to receive password info.</string>
+
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_middle_name">Middle Name</string>
+    <string name="hint_suffix">Suffix</string>
+
+
+    <string name="hint_mobile_number">Mobile Number</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_send_email">Send Email</string>
+    <string name="button_send_verification">Send Verification</string>
+
+
+    <string name="location_on_summary">Location Permission Enabled</string>
+    <string name="location_off_summary">Location Permission Disabled</string>
+    <string name="peso_sign">₱</string>
+
+    <string name="summary_settings_dMode">Use by developers and implementors for testing phase. Only MIS-SEG are able to use this mode.</string>
+</resources>

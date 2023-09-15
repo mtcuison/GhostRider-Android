@@ -15,12 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.AddressHolder> {
 
-    private List<DAddressRequest.CustomerAddressInfo> addressUpdates = new ArrayList<>();
+    private List<DAddressUpdate.AddressUpdateInfo> addressUpdates = new ArrayList<>();
     private final OnDeleteInfoListener mListener;
 
     public AddressInfoAdapter(OnDeleteInfoListener listener){
@@ -45,7 +46,7 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AddressHolder holder, int position) {
-        DAddressRequest.CustomerAddressInfo current = addressUpdates.get(position);
+        DAddressUpdate.AddressUpdateInfo current = addressUpdates.get(position);
         if(current.cPrimaryx.equalsIgnoreCase("1")){
             holder.tvPrimary.setVisibility(View.VISIBLE);
             holder.tvPrimary.setText("Primary");
@@ -61,16 +62,16 @@ public class AddressInfoAdapter extends RecyclerView.Adapter<AddressInfoAdapter.
         return addressUpdates.size();
     }
 
-    public void setAddress(List<DAddressRequest.CustomerAddressInfo> addressUpdates) {
+    public void setAddress(List<DAddressUpdate.AddressUpdateInfo> addressUpdates) {
         this.addressUpdates = addressUpdates;
         notifyDataSetChanged();
     }
 
     static class AddressHolder extends RecyclerView.ViewHolder {
-        private final TextView tvPrimary;
-        private final TextView tvAddressTp;
-        private final TextView tvDetails;
-        private final TextView tvAddress;
+        private final MaterialTextView tvPrimary;
+        private final MaterialTextView tvAddressTp;
+        private final MaterialTextView tvDetails;
+        private final MaterialTextView tvAddress;
 
         public AddressHolder(@NonNull View itemView, OnDeleteInfoListener listener) {
             super(itemView);

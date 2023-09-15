@@ -11,7 +11,7 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
+import org.rmj.g3appdriver.etc.FormatUIText;
 
 public class CollectionPlan {
 

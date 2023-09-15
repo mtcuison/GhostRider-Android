@@ -11,26 +11,28 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.AlertDialog;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EInventoryDetail;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.GToast;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RandomItem;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventoryEntry;
@@ -45,7 +47,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
 
     private MessageBox poMessage;
 
-    private TextView lblTransNox, lblItemxx;
+    private MaterialTextView lblTransNox, lblItemxx, lblBarcode;
     private TextInputEditText txtDate,
             txtRemarks1,
             txtEntryNox1,
@@ -65,32 +67,30 @@ public class Activity_InventoryEntry extends AppCompatActivity {
         String lsTransNox = getIntent().getStringExtra("transno");
         String lsPartIDxx = getIntent().getStringExtra("partID");
         String lsBarCodex = getIntent().getStringExtra("barcode");
-        mViewModel.getInventoryItemDetail(lsTransNox, lsPartIDxx, lsBarCodex).observe(Activity_InventoryEntry.this, new Observer<EInventoryDetail>() {
-            @Override
-            public void onChanged(EInventoryDetail item) {
-                try{
-                    poItem = new RandomItem(item.getTransNox(), item.getPartsIDx(), item.getBarrCode());
-                    lblItemxx.setText(item.getDescript());
-                    lblTransNox.setText(item.getTransNox());
-                    txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE));
-                    txtEntryNox1.setText(String.valueOf(item.getEntryNox()));
-                    txtQtyOnHand.setText(String.valueOf(item.getQtyOnHnd()));
-                    txtWareHouse.setText(item.getWHouseNm());
-                    txtSection.setText(item.getSectnNme());
-                    txtBin.setText(item.getBinNamex());
-                    if(item.getTranStat().equalsIgnoreCase("1")){
-                        txtActualQty.setText(String.valueOf(item.getActCtr01()));
-                        txtRemarks1.setText(item.getRemarksx());
-                    }
-                } catch (Exception e){
-                    e.printStackTrace();
+        mViewModel.getInventoryItemDetail(lsTransNox, lsPartIDxx, lsBarCodex).observe(Activity_InventoryEntry.this, item -> {
+            try{
+                poItem = new RandomItem(item.getTransNox(), item.getPartsIDx(), item.getBarrCode());
+                lblItemxx.setText(item.getDescript());
+                lblBarcode.setText(item.getBarrCode());
+                lblTransNox.setText(item.getTransNox());
+                txtDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
+                txtEntryNox1.setText(String.valueOf(item.getEntryNox()));
+                txtQtyOnHand.setText(String.valueOf(item.getQtyOnHnd()));
+                txtWareHouse.setText(item.getWHouseNm());
+                txtSection.setText(item.getSectnNme());
+                txtBin.setText(item.getBinNamex());
+                if(item.getTranStat().equalsIgnoreCase("1")){
+                    txtActualQty.setText(String.valueOf(item.getActCtr01()));
+                    txtRemarks1.setText(item.getRemarksx());
                 }
+            } catch (Exception e){
+                e.printStackTrace();
             }
         });
         btnSave.setOnClickListener(v -> {
-            if(!txtActualQty.getText().toString().isEmpty()) {
+            if(!Objects.requireNonNull(txtActualQty.getText()).toString().isEmpty()) {
                 poItem.setItemQtyx(Integer.parseInt(txtActualQty.getText().toString()));
-                poItem.setRemarksx(txtRemarks1.getText().toString());
+                poItem.setRemarksx(Objects.requireNonNull(txtRemarks1.getText()).toString());
                 mViewModel.saveInventoryUpdate(poItem, new VMInventoryEntry.OnInventoryUpdateCallBack() {
                     @Override
                     public void OnUpdate(String message) {
@@ -118,6 +118,7 @@ public class Activity_InventoryEntry extends AppCompatActivity {
         getSupportActionBar().setTitle("Inventory");
         lblTransNox = findViewById(R.id.lbl_invTransNox);
         lblItemxx = findViewById(R.id.lbl_inventoryItem);
+        lblBarcode = findViewById(R.id.lbl_itemBarcode);
         txtDate = findViewById(R.id.txt_invDate);
         txtRemarks1 = findViewById(R.id.txt_invRemarks1);
         txtEntryNox1 = findViewById(R.id.txt_invEntryNox1);

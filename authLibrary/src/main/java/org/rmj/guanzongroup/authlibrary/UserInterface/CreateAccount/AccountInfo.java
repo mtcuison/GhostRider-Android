@@ -14,7 +14,7 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.CreateAccount;
 import android.text.TextUtils;
 import android.util.Patterns;
 
-class AccountInfo {
+public class AccountInfo {
 
     private String LastName;
     private String FrstName;

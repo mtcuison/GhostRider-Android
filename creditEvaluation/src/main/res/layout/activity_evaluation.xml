@@ -6,64 +6,61 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/GhostRiderMaterialTheme"
-    android:background="@drawable/bg_gradient_light"
     tools:context=".Activity.Activity_Evaluation">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_ci_evaluation"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_samsungknox"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Loan Applicant Evaluation"
-                android:textColor="@color/textColor_White"
-                android:textSize="22sp" />
+                android:layout_marginVertical="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/roboto_light"
-                android:text="GMC Dagupan - Honda"
-                android:textColor="@color/textColor_White"
-                android:textSize="15sp" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Loan Applicant Evaluation"
+                    android:textSize="22sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
-                android:textColor="@color/textColor_White"
-                android:textSize="15sp" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:text="GMC Dagupan - Honda"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:text="Guanzon Bldg., Perez Blvd., Dagupan City"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -87,29 +84,26 @@
                     android:paddingRight="10dp"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_ci_transNox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Garcia, Michael Permison"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
                         tools:targetApi="jelly_bean"/>
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:padding="3dp"
-                        android:background="@color/guanzon_orange"/>
+                        android:padding="3dp"/>
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/lbl_ci_applicantName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Garcia, Michael Permison"
                         android:textSize="16sp"
-                        android:textColor="@color/textColor_Black"
                         tools:ignore="HardcodedText"
                         android:fontFamily="@font/roboto_medium"
                         tools:targetApi="jelly_bean"/>
@@ -119,25 +113,23 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="5dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
                             android:text="Date Applied :"
                             android:textSize="16sp"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="start"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
                             tools:targetApi="jelly_bean"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_ci_applicationDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="December 12, 2019"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="end"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
@@ -151,19 +143,18 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="5dp">
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".5"
                             android:text="Branch :"
                             android:textSize="16sp"
-                            android:textColor="@color/textColor_Black"
                             android:gravity="start"
                             tools:ignore="HardcodedText"
                             android:fontFamily="@font/roboto_regular"
                             tools:targetApi="jelly_bean"/>
 
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/lbl_ci_branch"
                             android:layout_width="0dp"
                             android:layout_height="22dp"
@@ -171,76 +162,82 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="end"
                             android:text="December 12, 2019"
-                            android:textColor="@color/textColor_Black"
                             tools:ignore="HardcodedText"
                             tools:targetApi="jelly_bean" />
 
                     </LinearLayout>
-                    <View
+                    <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_marginTop="5dp"
-                        android:padding="3dp"
-                        android:background="@color/guanzon_orange"/>
+                        android:padding="3dp"/>
 
                 </LinearLayout>
                 <!-- START ADDRESS-->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cvForEvaluation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:cardBackgroundColor="@color/material_lightgrey"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    android:background="@color/material_lightgrey"
                     app:cardPreventCornerOverlap="true">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
+                        <com.google.android.material.textview.MaterialTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/HeaderLabelBlack"
                             android:fontFamily="@font/roboto_bold"
                             android:text="Data for Evaluation"/>
+
                         <org.guanzongroup.com.creditevaluation.Adapter.NoScrollExListView
                             android:id="@+id/expListview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="true"
                             android:padding="5dp"
+                            android:scrollbars="none"
                             android:groupIndicator="@null"
-                            />
-<!--                        <ExpandableListView-->
-<!--                            android:id="@+id/expListview"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:groupIndicator="@null"-->
-<!--                            android:nestedScrollingEnabled="true"/>-->
+                            android:visibility="gone"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"/>
+
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+
+                </com.google.android.material.card.MaterialCardView>
                 <!-- END ADDRESS-->
 
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/material_lightgrey"
                     app:cardUseCompatPadding="true"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="3dp"
-                    android:background="@color/material_lightgrey"
                     app:cardPreventCornerOverlap="true">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            style="@style/HeaderLabelBlack"
-                            android:text="Additional Info"/>
+                            android:orientation="horizontal">
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/HeaderLabelBlack"
+                                android:layout_weight="1"
+                                android:text="Additional Info"/>
+
+                        </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -251,12 +248,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Barangay Record :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -272,42 +268,24 @@
                                         android:orientation="horizontal"
                                         android:layout_gravity="center_vertical|center_horizontal">
 
-                                        <RadioButton
+                                        <com.google.android.material.radiobutton.MaterialRadioButton
                                             android:id="@+id/rb_ci_noRecord"
                                             android:layout_width="wrap_content"
                                             android:layout_height="fill_parent"
                                             android:fontFamily="@font/roboto_regular"
                                             android:text="No Barangay Record"
                                             android:layout_weight=".2"
-                                            tools:targetApi="jelly_bean"
-                                            android:buttonTint="@color/guanzon_digital_orange" />
+                                            tools:targetApi="jelly_bean"/>
 
-                                        <RadioButton
+                                        <com.google.android.material.radiobutton.MaterialRadioButton
                                             android:id="@+id/rb_ci_withRecord"
                                             android:layout_width="wrap_content"
                                             android:layout_height="fill_parent"
                                             android:text="Has Barangay Record"
                                             android:layout_weight=".2"
                                             android:fontFamily="@font/roboto_regular"
-                                            tools:targetApi="jelly_bean"
-                                            android:buttonTint="@color/guanzon_digital_orange"/>
+                                            tools:targetApi="jelly_bean"/>
                                     </RadioGroup>
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.65"
-                                        android:orientation="horizontal">
-
-                                        <com.google.android.material.button.MaterialButton
-                                            android:id="@+id/btnSaveRecord"
-                                            android:layout_width="fill_parent"
-                                            android:layout_height="fill_parent"
-                                            android:layout_gravity="center_horizontal|center|center_vertical"
-                                            app:icon="@android:drawable/ic_menu_save"
-                                            app:iconTint="@color/guanzon_digital_orange"
-                                            app:iconGravity="textStart"
-                                            app:iconPadding="0dp" />
-                                    </LinearLayout>
                                 </LinearLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -324,7 +302,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:inputType="textCapWords"
-                                        android:textColor="@color/material_black"
+                                        android:digits="@string/free_text_restriction"
                                         android:maxLength="50"/>
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
@@ -351,20 +329,19 @@
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
                                             android:imeOptions="actionNext"
+                                            android:digits="@string/free_text_restriction"
                                             android:nextFocusForward="@id/tie_ci_asstPosition"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPersonnel"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+<!--                                    <com.google.android.material.button.MaterialButton-->
+<!--                                        android:id="@+id/btnSaveAsstPersonnel"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="fill_parent"-->
+<!--                                        android:layout_weight="1.5"-->
+<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
+<!--                                        app:icon="@android:drawable/ic_menu_save"-->
+<!--                                        app:iconGravity="textStart"-->
+<!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -383,21 +360,21 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
-                                            android:nextFocusForward="@id/tie_ci_asstPhoneNo"
-                                            android:textColor="@color/material_black"
+                                            android:nextFocusForward="@id/tie_ci_asstPhoneNumber"
                                             android:maxLength="50" />
+
                                     </com.google.android.material.textfield.TextInputLayout>
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPosition"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+<!--                                    <com.google.android.material.button.MaterialButton-->
+<!--                                        android:id="@+id/btnSaveAsstPosition"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="fill_parent"-->
+<!--                                        android:layout_weight="1.5"-->
+<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
+<!--                                        app:icon="@android:drawable/ic_menu_save"-->
+<!--                                        app:iconGravity="textStart"-->
+<!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -419,7 +396,6 @@
 <!--                                            android:inputType="textCapWords"-->
 <!--                                            android:imeOptions="actionNext"-->
 <!--                                            android:nextFocusForward="@id/tie_ci_neighborName1"-->
-<!--                                            android:textColor="@color/material_black"-->
 <!--                                            android:maxLength="50" />-->
 <!--                                    </com.google.android.material.textfield.TextInputLayout>-->
 
@@ -432,40 +408,70 @@
                                         android:orientation="horizontal">
 
                                         <com.google.android.material.textfield.TextInputEditText
-                                            android:id="@+id/tie_ci_asstPhoneNo"
+                                            android:id="@+id/tie_ci_asstPhoneNumber"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:maxLength="11"
+                                            android:digits="@string/free_text_restriction"
                                             android:inputType="number|none"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName1"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
 
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/btnSaveAsstPhoneNo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="fill_parent"
-                                        android:layout_weight="1.5"
-                                        android:layout_gravity="center_horizontal|center|center_vertical"
-                                        app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
-                                        app:iconGravity="textStart"
-                                        app:iconPadding="0dp" />
+<!--                                    <com.google.android.material.button.MaterialButton-->
+<!--                                        android:id="@+id/btnSaveAsstPhoneNo"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="fill_parent"-->
+<!--                                        android:layout_weight="1.5"-->
+<!--                                        android:layout_gravity="center_horizontal|center|center_vertical"-->
+<!--                                        app:icon="@android:drawable/ic_menu_save"-->
+<!--                                        app:iconGravity="textStart"-->
+<!--                                        app:iconPadding="0dp" />-->
                                 </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_margin="10dp"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_weight="1.5"/>
 
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnSaveBrgyRecords"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Save"
+                                        android:layout_weight=".5"
+                                        style="@style/MaterialButtonAccent"
+                                        android:layout_marginLeft="10dp"/>
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditBrgyRecords"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Edit"
+                                        android:visibility="gone"
+                                        android:layout_weight=".5"
+                                        style="@style/MaterialButtonAccent"
+                                        android:layout_marginLeft="10dp"/>
+
+                                </LinearLayout>
                             </LinearLayout>
                             <!--    Neighbor 1-->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 1 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -485,11 +491,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName2"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor1"
                                         android:layout_width="wrap_content"
@@ -497,7 +504,17 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
@@ -508,12 +525,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 2 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -533,11 +549,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
                                             android:nextFocusForward="@id/tie_ci_neighborName3"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor2"
                                         android:layout_width="wrap_content"
@@ -545,7 +562,17 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
@@ -557,12 +584,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                                <TextView
+                                <com.google.android.material.textview.MaterialTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Neighbor 3 :"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:textColor="@color/material_black"
                                     />
 
                                 <LinearLayout
@@ -582,12 +608,13 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:inputType="textCapWords"
+                                            android:digits="@string/free_text_restriction"
                                             android:imeOptions="actionNext"
-                                            android:textColor="@color/material_black"
                                             android:maxLength="50" />
 <!--                                        android:nextFocusForward="@id/tie_ci_neighborName2"-->
 
                                     </com.google.android.material.textfield.TextInputLayout>
+
                                     <com.google.android.material.button.MaterialButton
                                         android:id="@+id/btnSaveNeighbor3"
                                         android:layout_width="wrap_content"
@@ -595,45 +622,74 @@
                                         android:layout_weight="1.5"
                                         android:layout_gravity="center_horizontal|center|center_vertical"
                                         app:icon="@android:drawable/ic_menu_save"
-                                        app:iconTint="@color/guanzon_digital_orange"
+                                        app:iconGravity="textStart"
+                                        app:iconPadding="0dp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnEditNeighbor3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:layout_weight="1.5"
+                                        android:visibility="gone"
+                                        android:layout_gravity="center_horizontal|center|center_vertical"
+                                        app:icon="@android:drawable/ic_menu_edit"
                                         app:iconGravity="textStart"
                                         app:iconPadding="0dp" />
                                 </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginLeft="5dp">
 
+                                <LinearLayout
+                                    android:id="@+id/linear_upload"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_weight="1"
+                                    android:visibility="gone"
+                                    android:padding="5dp">
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnUpload"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent"
+                                        android:text="Upload"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        style="@style/MaterialButtonAccent"
+                                        tools:ignore="RelativeOverlap" />
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/linear_approve"
+                                    android:layout_weight="1"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    android:padding="5dp">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnSave"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:text="Approval"
+                                        style="@style/MaterialButtonAccent"
+                                        tools:ignore="RelativeOverlap" />
+                                </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp">
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <Button
-                        android:id="@+id/btnSave"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:text="Save"
-                        style="@style/GhostRider_Button"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        tools:ignore="RelativeOverlap" />
-                </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

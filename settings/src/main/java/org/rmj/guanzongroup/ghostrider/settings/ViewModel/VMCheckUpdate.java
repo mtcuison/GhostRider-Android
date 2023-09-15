@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.ghostrider.settings.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,12 +29,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,8 +42,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import static org.rmj.g3appdriver.utils.WebApi.URL_DOWNLOAD_UPDATE;
 
 public class VMCheckUpdate extends AndroidViewModel {
 
@@ -84,13 +83,14 @@ public class VMCheckUpdate extends AndroidViewModel {
         private final CheckUpdateCallback callback;
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
 
         public CheckUpdate(Application application, CheckUpdateCallback callback){
             this.callback = callback;
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
-            this.poApi = new WebApi(application);
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(application);
+            this.poApi = new GCircleApi(application);
         }
 
         @Override
@@ -108,7 +108,8 @@ public class VMCheckUpdate extends AndroidViewModel {
                 if(!poConn.isDeviceConnected()){
                     lsResult = AppConstants.NO_INTERNET();
                 } else {
-                    lsResult = WebClient.sendRequest(poApi.URL_CHANGE_PASSWORD(), param.toString(), poHeaders.getHeaders());
+//                    lsResult = WebClient.sendRequest(poApi.getUrlCheckUpdate(), param.toString(), poHeaders.getHeaders());
+                    lsResult = "";
                     if(lsResult == null){
                         lsResult = AppConstants.SERVER_NO_RESPONSE();
                     }
@@ -130,7 +131,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                     callback.OnSuccess();
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callback.OnFailed(message);
                 }
             } catch (JSONException e) {
@@ -154,7 +155,7 @@ public class VMCheckUpdate extends AndroidViewModel {
         private final ConnectionUtil poConn;
         private final HttpHeaders poHeaders;
         private final String PATH;
-        private final WebApi poApi;
+        private final GCircleApi poApi;
 
         public DownloadUpdate(Application application, SystemUpateCallback callback) {
             this.instance = application;
@@ -162,7 +163,8 @@ public class VMCheckUpdate extends AndroidViewModel {
             this.poConn = new ConnectionUtil(application);
             this.poHeaders = HttpHeaders.getInstance(application);
             PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
-            this.poApi = new WebApi(application);
+            AppConfigPreference loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new GCircleApi(application);
         }
 
         @Override
@@ -177,7 +179,7 @@ public class VMCheckUpdate extends AndroidViewModel {
             try {
                 if(poConn.isWifiConnected()) {
                     if (poConn.isDeviceConnected()) {
-                        URL url = new URL(URL_DOWNLOAD_UPDATE);
+                        URL url = new URL(poApi.getUrlDownloadUpdate());
                         HttpURLConnection c = (HttpURLConnection) url.openConnection();
                         c.setRequestMethod("GET");
                         c.setDoOutput(true);
@@ -243,7 +245,7 @@ public class VMCheckUpdate extends AndroidViewModel {
                     callback.OnFinishDownload(intent);
                 } else {
                     JSONObject loError = loJson.getJSONObject("error");
-                    callback.OnFailedDownload(loError.getString("message"));
+                    callback.OnFailedDownload(getErrorMessage(loError));
                 }
             } catch (Exception e){
                 e.printStackTrace();

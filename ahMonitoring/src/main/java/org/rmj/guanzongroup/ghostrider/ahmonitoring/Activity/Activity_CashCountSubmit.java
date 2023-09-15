@@ -11,47 +11,36 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
-import org.rmj.g3appdriver.dev.DeptCode;
-import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.Apps.CashCount.QuickSearchNames;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.DialogKwikSearch;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.RequestNamesInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCountSubmit;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Activity_CashCountSubmit extends AppCompatActivity implements VMCashCountSubmit.OnKwikSearchCallBack, VMCashCountSubmit.OnSaveCashCountCallBack {
+public class Activity_CashCountSubmit extends AppCompatActivity {
     public static final String TAG = Activity_CashCountSubmit.class.getSimpleName();
     private VMCashCountSubmit mViewModel;
-    private CashCountInfoModel infoModel;
-    private TextInputLayout tilRequestID;
-    private TextInputLayout tilOfflRecpt;
-    private TextInputLayout tilSalesRcpt;
-    private TextInputLayout tilPrvnlRcpt;
-    private TextInputLayout tilCllctRcpt;
 
     private TextInputEditText txtCurr_DateTime,
             txtRequestID,
@@ -64,85 +53,160 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
             txtDeliveryRcpt,
             txtPettyCashxxx,
             txtTotalSalesxx,
-            txtTransNox;
-    private Button btnSendToServer;
+            txtTransNox,
+            txtRemarksx;
+    private MaterialButton btnSendToServer;
 
-    private TextView lblBranch, lblAddxx;
-    ImageButton btnQuickSearch;
+    private MaterialTextView lblBranch, lblAddxx;
+
+    private MaterialButton btnQuickSearch;
 
     private LoadDialog poDialogx;
     private MessageBox poMessage;
 
     private String BranchCd = "";
     private String EmployID = ""; //EmployeeID of requesting employee
+    
+    private JSONObject params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMCashCountSubmit.class);
         setContentView(R.layout.activity_cash_count_submit);
         initWidgets();
-        infoModel = new CashCountInfoModel();
-        mViewModel = new ViewModelProvider(this).get(VMCashCountSubmit.class);
+
+        BranchCd = getIntent().getStringExtra("BranchCd");
         mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCountSubmit.this, eBranchInfo -> {
             try {
+                params = new JSONObject(getIntent().getStringExtra("params"));
+                txtTotalSalesxx.setText(FormatUIText.getCurrencyUIFormat(params.getString("nTotSales")));
+                txtCurr_DateTime.setText(new AppConstants().CURRENT_DATE_WORD);
                 lblBranch.setText(eBranchInfo.getBranchNm());
                 lblAddxx.setText(eBranchInfo.getAddressx());
-                BranchCd = eBranchInfo.getBranchCd();
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
-        mViewModel.getTransNox().observe(Activity_CashCountSubmit.this, s-> {
-            try {
-                JSONObject loJson = getParameters();
-                txtTransNox.setText(s);
-                txtTotalSalesxx.setText(FormatUIText.getCurrencyUIFormat(loJson.getString("nTotSales")));
-                txtCurr_DateTime.setText(new AppConstants().CURRENT_DATE_WORD);
-            } catch (Exception e){
-                e.printStackTrace();
+        
+        btnQuickSearch.setOnClickListener(v -> mViewModel.GetSearchList(Objects.requireNonNull(txtRequestID.getText()).toString(), new VMCashCountSubmit.OnKwikSearchCallBack() {
+            @Override
+            public void onStartKwikSearch() {
+                poDialogx.initDialog("Cash Count", "Searching name of employee. Please wait...", false);
+                poDialogx.show();
             }
-        });
-        btnQuickSearch.setOnClickListener(v ->  {
-            if (txtRequestID.getText().toString().isEmpty()){
-                emptNameDialog();
-            }else {
-                mViewModel.importRequestNames(txtRequestID.getText().toString(), Activity_CashCountSubmit.this);
+
+            @Override
+            public void onSuccessKwikSearch(List<QuickSearchNames> infoList) {
+                poDialogx.dismiss();
+                DialogKwikSearch loDialog = new DialogKwikSearch(Activity_CashCountSubmit.this, infoList);
+                loDialog.initDialogKwikSearch((dialog, name, employID) -> {
+                    txtRequestID.setText(name);
+                    EmployID = employID;
+                    loDialog.dismiss();
+                });
+                loDialog.show();
             }
-        });
+
+            @Override
+            public void onKwikSearchFailed(String message) {
+                poDialogx.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Cash Count");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) ->{
+                    dialog.dismiss();
+                });
+                poMessage.show();
+            }
+        }));
+
         btnSendToServer.setOnClickListener(v->{
-            JSONObject parameters = getParameters();
             try{
-                parameters.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
-                parameters.put("sBranchCd", BranchCd);
-                parameters.put("nPettyAmt", Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
-                parameters.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
-                parameters.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
-                parameters.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
-                parameters.put("sCRNoxxxx", Objects.requireNonNull(txtCollectionReceipt.getText()).toString());
-                parameters.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
-                parameters.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
-                parameters.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
-                parameters.put("dTransact", AppConstants.CURRENT_DATE);
-                parameters.put("dEntryDte", new AppConstants().DATE_MODIFIED);
-                parameters.put("sReqstdBy", EmployID);
-                infoModel.setCrNoxxxx(txtCollectionReceipt.getText().toString());
-                infoModel.setPrNoxxxx(txtProvisionalReceipt.getText().toString());
-                infoModel.setSiNoxxxx(txtSalesInvoice.getText().toString());
-                infoModel.setOrNoxxxx(txtOfficialReceipt.getText().toString());
-                infoModel.setEntryTme(new AppConstants().DATE_MODIFIED);
-                mViewModel.saveCashCount(infoModel, parameters, Activity_CashCountSubmit.this);
+                double lnPetty = 0.0;
+                if(!txtPettyCashxxx.getText().toString().trim().isEmpty()){
+                    lnPetty = Double.parseDouble(Objects.requireNonNull(txtPettyCashxxx.getText()).toString().replace(",", ""));
+                }
+                params.put("sTransNox", Objects.requireNonNull(txtTransNox.getText()).toString());
+                params.put("sBranchCd", BranchCd);
+                params.put("nPettyAmt", lnPetty);
+                params.put("sORNoxxxx", Objects.requireNonNull(txtOfficialReceipt.getText()).toString());
+                params.put("sSINoxxxx", Objects.requireNonNull(txtSalesInvoice.getText()).toString());
+                params.put("sPRNoxxxx", Objects.requireNonNull(txtProvisionalReceipt.getText()).toString());
+                params.put("sCRNoxxxx", Objects.requireNonNull(txtCollectionReceipt.getText()).toString());
+                params.put("sORNoxNPt", Objects.requireNonNull(txtORNorthPoint.getText()).toString());
+                params.put("sPRNoxNPt", Objects.requireNonNull(txtPRNorthPoint.getText()).toString());
+                params.put("sDRNoxxxx", Objects.requireNonNull(txtDeliveryRcpt.getText()).toString());
+                params.put("dTransact", AppConstants.CURRENT_DATE());
+                params.put("dEntryDte", new AppConstants().DATE_MODIFIED);
+                params.put("sReqstdBy", EmployID);
+                params.put("sRemarksx", Objects.requireNonNull(txtRemarksx.getText()).toString());
+                
+                mViewModel.SaveCashCount(params, new VMCashCountSubmit.OnSaveCashCountCallBack() {
+                    @Override
+                    public void OnSaving() {
+                        poDialogx.initDialog("Cash Count", "Saving cash count entry. Please wait...", false);
+                        poDialogx.show();
+                    }
+
+                    @Override
+                    public void OnSuccess() {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Cast Count");
+                        poMessage.setMessage("Cash count has been saved successfully.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+                            if(BranchCd.charAt(0) == 'M') {
+                                Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                                loIntent.putExtra("BranchCd", BranchCd);
+                                startActivity(loIntent);
+                            }
+                            dialog.dismiss();
+                            try {
+                                Activity_CashCounter.getInstance().finish();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnSaveToLocal(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Cast Count");
+                        poMessage.setMessage("Cash count has been saved successfully.");
+                        poMessage.setPositiveButton("Okay", (view, dialog) ->{
+                            if(BranchCd.charAt(0) == 'M') {
+                                Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
+                                loIntent.putExtra("BranchCd", BranchCd);
+                                startActivity(loIntent);
+                            }
+                            dialog.dismiss();
+                            Activity_CashCounter.getInstance().finish();
+                            finish();
+                        });
+                        poMessage.show();
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialogx.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Cash Count");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                        });
+                        poMessage.show();
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         });
-    }
-    public void emptNameDialog(){
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Kwik Search");
-        poMessage.setMessage("Request Name Required!");
-        poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-        poMessage.show();
     }
 
     public void initWidgets(){
@@ -165,101 +229,16 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
         txtPettyCashxxx = findViewById(R.id.txtPettyCash);
         txtTotalSalesxx = findViewById(R.id.txtTotalSales);
         txtTransNox = findViewById(R.id.txtTransNox);
+        txtRemarksx = findViewById(R.id.txtccRemarks);
         btnSendToServer = findViewById(R.id.btnSendToServer);
         txtCurr_DateTime = findViewById(R.id.txtCurrentDateTime);
         txtRequestID = findViewById(R.id.txt_nameSearch);
 
         btnQuickSearch = findViewById(R.id.btn_quick_search);
 
-        tilOfflRecpt = findViewById(R.id.til_ccOR);
-        tilSalesRcpt = findViewById(R.id.til_ccSI);
-        tilPrvnlRcpt = findViewById(R.id.til_ccPR);
-        tilCllctRcpt = findViewById(R.id.til_ccCR);
-
         txtPettyCashxxx.addTextChangedListener(new FormatUIText.CurrencyFormat(txtPettyCashxxx));
     }
-
-    @Override
-    public void onStartKwikSearch() {
-        poDialogx.initDialog("Kwik Search", "Sending request. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccessKwikSearch(List<RequestNamesInfoModel> infoList) {
-        poDialogx.dismiss();
-        initDialog(infoList);
-    }
-
-    @Override
-    public void onKwikSearchFailed(String message) {
-        poDialogx.dismiss();
-        poMessage.initDialog();
-        poMessage.setTitle("Kwik Search");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) ->{
-            dialog.dismiss();
-        });
-        poMessage.show();
-
-    }
-    public void initDialog(List<RequestNamesInfoModel> infoList){
-        DialogKwikSearch loDialog = new DialogKwikSearch(Activity_CashCountSubmit.this,infoList);
-        loDialog.initDialogKwikSearch((dialog, name, employID) -> {
-            txtRequestID.setText(name);
-            EmployID = employID;
-            loDialog.dismiss();
-        });
-        loDialog.show();
-    }
-    /**
-     * Get the parameters from
-     * Cash counter activity which is pass through intent
-     * JSON is converted into string...*/
-    private JSONObject getParameters(){
-        try {
-            return new JSONObject(getIntent().getStringExtra("params"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void initDialog(String title, String message){
-        poMessage.initDialog();
-        poMessage.setTitle(title);
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
-            dialog.dismiss();
-            checkEmployeeLevelForInventory();
-        });
-        poMessage.show();
-    }
-
-    @Override
-    public void onStartSaveCashCount() {
-        poDialogx.initDialog("Cash Count", "Sending cash count. Please wait...", false);
-        poDialogx.show();
-    }
-
-    @Override
-    public void onSuccessSaveCashCount() {
-        poMessage.initDialog();
-        poMessage.setTitle("Cast Count");
-        poMessage.setMessage("Cash count has been saved successfully.");
-        poMessage.setPositiveButton("Okay", (view, dialog) ->{
-            dialog.dismiss();
-            checkEmployeeLevelForInventory();
-        });
-        poMessage.show();
-    }
-
-    @Override
-    public void onSaveCashCountFailed(String message) {
-        initDialog("Cash Count",message);
-//        checkEmployeeLevelForInventory();
-    }
-
+    
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -271,29 +250,5 @@ public class Activity_CashCountSubmit extends AppCompatActivity implements VMCas
     @Override
     public void onBackPressed() {
         finish();
-    }
-
-    private void checkEmployeeLevelForInventory(){
-        if(mViewModel.getEmployeeLevel().equalsIgnoreCase(String.valueOf(DeptCode.LEVEL_AREA_MANAGER))) {
-            mViewModel.CheckConnectivity(isDeviceConnected -> {
-                if (!isDeviceConnected) {
-                    Activity_CashCounter.getInstance().finish();
-                    finish();
-                } else if(!AppConfigPreference.getInstance(Activity_CashCountSubmit.this).hasInventory()){
-                    Activity_CashCounter.getInstance().finish();
-                    finish();
-                } else {
-                    Intent loIntent = new Intent(Activity_CashCountSubmit.this, Activity_Inventory.class);
-                    loIntent.putExtra("BranchCd", BranchCd);
-                    startActivity(loIntent);
-                    Activity_CashCounter.getInstance().finish();
-                    finish();
-                }
-            });
-        } else {
-            Activity_CashCounter.getInstance().finish();
-            finish();
-            this.overridePendingTransition(R.anim.anim_pop_in,R.anim.anim_pop_out);
-        }
     }
 }

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    tools:context=".Activities.Activity_SpouseEmploymentInfo">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_SpouseEmploymentInfo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/HeaderLabelBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sHeaderLabelSpouseEmploymentTypeSector" />
+
+            <RadioGroup
+                android:id="@+id/rg_sector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rb_private"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/sLabelPrivate" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rb_government"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sLabelGovernment" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/rb_ofw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sLabelOFW" />
+
+            </RadioGroup>
+
+            <!--Government Sector-->
+            <LinearLayout
+                android:id="@+id/linear_governmentSector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/HeaderLabelBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sLabelUniformPersonnel" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_UniformPersonnelYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/HeaderLabelBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sLabelMilitaryPersonnel" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cb_MilitaryPersonalYes"
+                    style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Yes" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_cmpLevel"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Company Level (Required)">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spn_employmentLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/DropdownStyleTheme"
+                    android:padding="16dp"
+                    android:nextFocusForward="@+id/spn_employeeLevel"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_empLvl"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Employee Level (Required)">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spn_employeeLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/DropdownStyleTheme"
+                    android:padding="16dp"
+                    android:nextFocusForward="@+id/txt_countryNme"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_countryNme"
+                style="@style/TextInputStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sHintCountryNm"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/txt_countryNme"
+                    style="@style/AutoCompleteStyleTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textAutoComplete|textCapWords"
+                    android:maxLength="50"
+                    android:nextFocusForward="@+id/spn_businessNature"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_bizNature"
+                style="@style/CustomDropDownTilStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spn_businessNature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/DropdownStyleTheme"
+                    android:hint="Nature of Business (Required)"
+                    android:padding="16dp"
+                    android:nextFocusForward="@+id/txt_companyNme"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_employmentInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_companyNme"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintCompanyNme">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_companyNme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:inputType="textCapWords"
+                        android:maxLength="100"
+                        android:nextFocusForward="@+id/txt_companyAdd"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintAddress">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_companyAdd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:inputType="textCapWords|textPostalAddress"
+                        android:maxLength="150"
+                        android:nextFocusForward="@+id/txt_town"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        style="@style/TextInputStyle"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:hint="@string/sHintProvince">-->
+
+<!--                        <AutoCompleteTextView-->
+<!--                            android:id="@+id/txt_province"-->
+<!--                            style="@style/AutoCompleteStyleTheme"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:inputType="textAutoComplete|textCapWords"-->
+<!--                            android:maxLength="50"-->
+<!--                            tools:ignore="LabelFor"-->
+<!--                            android:nextFocusForward="@+id/txt_town"/>-->
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/sHintTown">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/txt_town"
+                            style="@style/AutoCompleteStyleTheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textAutoComplete|textCapWords"
+                            android:maxLength="50"
+                            tools:ignore="LabelFor"
+                            android:nextFocusForward="@+id/txt_jobPosition"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/HeaderLabelBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sHeaderPosition" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_job_title"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintJobTitle">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/txt_jobPosition"
+                        style="@style/AutoCompleteStyleTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textAutoComplete|textCapWords"
+                        android:maxLength="50"
+                        tools:ignore="LabelFor"
+                        android:nextFocusForward="@+id/txt_specificJob"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintPosition">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_specificJob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:nextFocusForward="@+id/spn_employmentStatus"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/spn_employmentStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/DropdownStyleTheme"
+                        android:hint="Employment Status (Required)"
+                        android:padding="16dp"
+                        android:nextFocusForward="@+id/txt_lenghtService"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/sHintLenghtService">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txt_lenghtService"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                            android:inputType="number|none"
+                            android:maxLength="3"
+                            android:nextFocusForward="@+id/spn_lengthService"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CustomDropDownTilStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/spn_lengthService"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/DropdownStyleTheme"
+                            android:hint="Legnth of Stay (Required)"
+                            android:padding="16dp"
+                            android:nextFocusForward="@+id/txt_monthlySalary"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintMonthlyIncome">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_monthlySalary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:inputType="number|none"
+                        android:maxLength="10"
+                        android:nextFocusForward="@+id/txt_companyContact"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/sHintCompanyContact">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_companyContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
+                        android:inputType="number|none"
+                        android:maxLength="11"
+                        android:nextFocusForward="@+id/btn_creditAppNext"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="300dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_creditAppPrvs"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/sbtnPrvs"
+                    tools:ignore="RelativeOverlap" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_creditAppNext"
+                    style="@style/NavigationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/sbtnNext"
+                    tools:ignore="RelativeOverlap" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

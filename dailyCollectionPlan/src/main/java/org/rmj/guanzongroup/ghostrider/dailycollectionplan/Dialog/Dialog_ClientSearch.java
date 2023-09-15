@@ -17,14 +17,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter.AdapterClientSearchList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class Dialog_ClientSearch {
         poDialogx.setCancelable(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_clientSearchList);
-        Button btnCancel = view.findViewById(R.id.btn_cancel);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
         AdapterClientSearchList loAdapter = new AdapterClientSearchList(collectionDetails, detail -> listener.OnSelect(poDialogx, detail));
         LinearLayoutManager loManage = new LinearLayoutManager(context);

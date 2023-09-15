@@ -27,6 +27,18 @@ import org.rmj.guanzongroup.ghostrider.approvalcode.Fragment.Fragment_CreditAppA
 import org.rmj.guanzongroup.ghostrider.approvalcode.Fragment.Fragment_ManualLog;
 import org.rmj.guanzongroup.ghostrider.approvalcode.R;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -64,7 +76,7 @@ public class Activity_ApprovalCode extends AppCompatActivity {
         psSystemType = getIntent().getStringExtra("systype");
         psSystemCode = getIntent().getStringExtra("sSystemCd");
         psSCATypexxx = getIntent().getStringExtra("sSCATypex");
-        Toolbar toolbar = findViewById(R.id.toolbar_approvalEntry);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_approvalEntry);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 

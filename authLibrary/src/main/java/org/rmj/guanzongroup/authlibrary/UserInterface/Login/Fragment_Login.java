@@ -11,35 +11,40 @@
 
 package org.rmj.guanzongroup.authlibrary.UserInterface.Login;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.lib.Account.pojo.UserAuthInfo;
 import org.rmj.guanzongroup.authlibrary.R;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class Fragment_Login extends Fragment implements LoginCallback{
@@ -49,12 +54,23 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     private TextInputEditText tieEmail, tiePassword, tieMobileNo;
     private TextInputLayout tilMobileNo;
 
-    private TextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
+    private MaterialTextView tvForgotPassword, tvCreateAccount, tvTerms, lblVersion;
     private MaterialButton btnLogin;
     private NavController navController;
-    private CheckBox cbAgree;
+    private MaterialCheckBox cbAgree;
 
     private AppConfigPreference poConfigx;
+
+    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        @Override
+        public void onActivityResult(Map<String, Boolean> result) {
+            try{
+                tieMobileNo.setText(mViewModel.getMobileNo());
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    });
 
     public static Fragment_Login newInstance() {
         return new Fragment_Login();
@@ -63,10 +79,11 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(requireActivity()).get(VMLogin.class);
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        dialog = new LoadDialog(getActivity());
-        poConfigx = AppConfigPreference.getInstance(getActivity());
-        navController = Navigation.findNavController(getActivity(), R.id.fragment_auth_container);
+        dialog = new LoadDialog(requireActivity());
+        poConfigx = AppConfigPreference.getInstance(requireActivity());
+        navController = Navigation.findNavController(requireActivity(), R.id.fragment_auth_container);
         tieEmail = v.findViewById(R.id.tie_loginEmail);
         tiePassword = v.findViewById(R.id.tie_loginPassword);
         tieMobileNo = v.findViewById(R.id.tie_loginMobileNo);
@@ -77,14 +94,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         lblVersion = v.findViewById(R.id.lbl_versionInfo);
         cbAgree = v.findViewById(R.id.cbAgree);
         btnLogin = v.findViewById(R.id.btn_login);
-        return v;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMLogin.class);
 
         tieMobileNo.setText(mViewModel.getMobileNo());
         tilMobileNo.setVisibility(mViewModel.hasMobileNo());
@@ -105,6 +114,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         tvCreateAccount.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_CreateAccount));
         tvTerms.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_TermsAndConditions));
         tvForgotPassword.setOnClickListener(view -> navController.navigate(R.id.action_fragment_Login_to_fragment_ForgotPassword));
+        return v;
     }
 
     @Override
@@ -116,16 +126,17 @@ public class Fragment_Login extends Fragment implements LoginCallback{
     @Override
     public void OnSuccessLoginResult() {
         dialog.dismiss();
-        getActivity().setResult(Activity.RESULT_OK);
-        getActivity().finish();
+        Intent loIntent = new Intent();
+        requireActivity().setResult(Activity.RESULT_OK, loIntent);
+        requireActivity().finish();
     }
 
     @Override
     public void OnFailedLoginResult(String message) {
         dialog.dismiss();
-        MessageBox loMessage = new MessageBox(getActivity());
+        MessageBox loMessage = new MessageBox(requireActivity());
         loMessage.initDialog();
-        loMessage.setTitle("GhostRider");
+        loMessage.setTitle("Guanzon Circle");
         loMessage.setMessage(message);
         loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         loMessage.show();

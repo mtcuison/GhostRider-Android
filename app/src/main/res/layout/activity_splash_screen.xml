@@ -10,84 +10,92 @@
   ~ project file last modified : 4/24/21 3:17 PM
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/GhostRiderMaterialTheme"
-    android:background="@drawable/bg_gradient_light"
     android:paddingHorizontal="30dp"
     android:paddingVertical="15dp"
     tools:context=".Activity.Activity_SplashScreen" >
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_ghostrider_logo_day"
+        android:src="@drawable/kay"
         android:transitionName="img_logo"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintWidth_percent=".4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.47" />
+        app:layout_constraintWidth_default="percent" />
 
-
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_splashscreen"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:max="100"
-        android:progress="0"
-        android:progressTint="@color/guanzon_digital_orange"
-        android:progressBackgroundTint="@color/black"
+        android:layout_height="wrap_content"
+        android:max="5"
+        app:layout_constraintWidth_percent=".8"
         app:layout_constraintBottom_toTopOf="@+id/tvCompany"
-        app:layout_constraintDimensionRatio="85:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogo"
         app:layout_constraintVertical_bias="0.957"
         app:layout_constraintWidth_default="percent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/lblFirstLaunchNotice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/first_launch_message"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/progress_splashscreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+        app:layout_constraintWidth_percent=".9"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:fontFamily="@font/roboto_bold"
         android:text="@string/sLblCompName"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCopyright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvCopyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/sLblCopyright"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toTopOf="@+id/lbl_versionInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lbl_versionInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
         android:text="@string/lblBuildVersion"
-        android:textColor="@color/footer_dark_grey"
-        android:textSize="11sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

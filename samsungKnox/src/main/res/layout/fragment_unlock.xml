@@ -10,91 +10,101 @@
   ~ project file last modified : 4/24/21 3:18 PM
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_Unlock"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    android:background="@drawable/bg_gradient_light">
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/img_bg_guanzon_orange"
-            android:layout_width="0dp"
-            android:layout_height="205dp"
-            android:src="@drawable/bg_samsungknox"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/img_bg_guanzon_orange"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/Activity_HeaderBackground"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-        <TextView
-            android:id="@+id/lblSamsungKnox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sLblSamsungKnox_Unlock"
-            android:textColor="@color/white"
-            android:fontFamily="@font/roboto_light"
-            android:textSize="37sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/img_bg_guanzon_orange"
-            app:layout_constraintVertical_bias=".20"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent=".95">
 
-        <ImageView
-            android:id="@+id/ic_phone"
-            android:layout_width="150dp"
-            android:layout_height="230dp"
-            android:layout_marginTop="25dp"
-            android:adjustViewBounds="true"
-            android:paddingLeft="14dp"
-            android:src="@drawable/ic_samsung_knox_unlock"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblSamsungKnox"
-            tools:ignore="ContentDescription" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_form"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_knoxImei"
-            style="@style/TextInputStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Device IMEI"
-            tools:ignore="HardcodedText"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lblSamsungKnox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_light"
+                android:text="@string/sLblSamsungKnox_Unlock"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".1" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_knoxImei"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:digits="@string/free_text_restriction"
-                android:maxLength="16"
-                android:layout_marginBottom="20dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_margin="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lblSamsungKnox"
+                app:layout_constraintVertical_bias="0.1">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_knoxUnlock"
-            style="@style/GhostRider_Button"
-            android:text="Unlock"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_knoxImei"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_knoxImei"
+                    style="@style/TextInputStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Device IMEI"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText">
 
-</LinearLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_knoxImei"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:digits="@string/free_text_restriction"
+                        android:maxLength="16" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_knoxUnlock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unlock"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_knoxImei" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,14 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.onlinecreditapplication.Model.BranchApplicationModel;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.BranchApplicationModel;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,13 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
     private List<BranchApplicationModel> plLoanApp1;
     private List<BranchApplicationModel> plSchList;
     private List<BranchApplicationModel> filteredList;
-    private BranchApplicationsAdapter.OnVoidApplicationListener onVoidApplicationListener;
-    private BranchApplicationsAdapter.OnExportGOCASListener onExportGOCASListener;
-    private BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener;
+    private OnVoidApplicationListener onVoidApplicationListener;
+    private OnExportGOCASListener onExportGOCASListener;
+    private OnApplicationClickListener onApplicationClickListener;
 
 //    private final SearchFilter poSearch;
 
-    public BranchApplicationsAdapter(List<BranchApplicationModel> plLoanApp, BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener) {
+    public BranchApplicationsAdapter(List<BranchApplicationModel> plLoanApp, OnApplicationClickListener onApplicationClickListener) {
         this.plLoanApp = plLoanApp;
         this.plLoanApp1 = plLoanApp;
         this.onApplicationClickListener = onApplicationClickListener;
@@ -53,23 +54,22 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
     }
     @NonNull
     @Override
-    public BranchApplicationsAdapter.ClientInfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_branch_application, parent, false);
-        return new BranchApplicationsAdapter.ClientInfoViewHolder(view,onApplicationClickListener);
+    public ClientInfoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_branch_applications, parent, false);
+        return new ClientInfoViewHolder(view,onApplicationClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ClientInfoViewHolder holder, int position) {
         BranchApplicationModel poLoan = plLoanApp.get(position);
 
-
-        holder.lblTransNoxxx.setText("Transaction No. :"+poLoan.getsTransNox());
+        holder.lblTransNoxxx.setText("Transaction No. :" + poLoan.getsTransNox());
         holder.lblClientName.setText(poLoan.getsCompnyNm());
         holder.lblAppltnDate.setText(poLoan.getdTransact());
         holder.lblStatus.setText(poLoan.getTransactionStatus());
-        holder.lblAccntTern.setText(poLoan.getnAcctTerm());
-        holder.lblModelName.setText(poLoan.getsModelNme());
-        holder.lblMobileNo.setText(poLoan.getsMobileNo());
+//        holder.lblAccntTern.setText(poLoan.getnAcctTerm());
+//        holder.lblModelName.setText(poLoan.getsModelNme());
+//        holder.lblMobileNo.setText(poLoan.getsMobileNo());
     }
 
     @Override
@@ -82,25 +82,23 @@ public class BranchApplicationsAdapter extends RecyclerView.Adapter<BranchApplic
 //    }
     public class ClientInfoViewHolder extends RecyclerView.ViewHolder{
 
-        TextView lblTransNoxxx;
-        TextView lblClientName;
-        TextView lblAppltnDate;
-        TextView lblModelName;
-        TextView lblAccntTern;
-        TextView lblMobileNo;
-        TextView lblStatus;
-        ImageButton btnVoid;
+        MaterialTextView lblTransNoxxx, lblClientName, lblAppltnDate;
+//        TextView lblModelName;
+//        TextView lblAccntTern;
+//        TextView lblMobileNo;
+        MaterialTextView lblStatus;
+        MaterialButton btnVoid;
 
-        public ClientInfoViewHolder(@NonNull View itemView, BranchApplicationsAdapter.OnApplicationClickListener onApplicationClickListener) {
+        public ClientInfoViewHolder(@NonNull View itemView, OnApplicationClickListener onApplicationClickListener) {
             super(itemView);
 
-            lblTransNoxxx = itemView.findViewById(R.id.lbl_list_transNox);
-            lblClientName = itemView.findViewById(R.id.lbl_list_applicantName);
-            lblAppltnDate = itemView.findViewById(R.id.lbl_list_applicationDate);
-            lblStatus = itemView.findViewById(R.id.lbl_list_applicationWithCI);
-            lblModelName = itemView.findViewById(R.id.lbl_modelName);
-            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
-            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
+            lblTransNoxxx = itemView.findViewById(R.id.lbl_listLog_applicationTransNo);
+            lblClientName = itemView.findViewById(R.id.lbl_listLog_applicantName);
+            lblAppltnDate = itemView.findViewById(R.id.lbl_listLog_applicationDate);
+            lblStatus = itemView.findViewById(R.id.lbl_listLog_applicationWithCI);
+//            lblModelName = itemView.findViewById(R.id.lbl_modelName);
+//            lblAccntTern = itemView.findViewById(R.id.lbl_accntTerm);
+//            lblMobileNo = itemView.findViewById(R.id.lbl_mobileNo);
 
 
             itemView.setOnClickListener(v12 -> {

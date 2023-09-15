@@ -16,16 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.GRider.Etc.SingleClickListener;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.etc.FormatUIText;
+import org.rmj.g3appdriver.etc.SingleClickListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
+
+import com.google.android.material.textview.MaterialTextView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +76,8 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
             }else{
                 holder.lblStatus.setText(DCP_Constants.getRemarksDescription(collection.getRemCodex()));
             }
-            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(collection.getMonAmort()));
-            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(collection.getAmtDuexx()));
+            holder.lblMnthAm.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getMonAmort())));
+            holder.lblAmount.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(collection.getAmtDuexx())));
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -93,13 +95,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.Co
     public static class CollectionViewHolder extends RecyclerView.ViewHolder{
 
         public EDCPCollectionDetail loPlan;
-        public TextView lblAcctNo;
-        public TextView lblClient;
-        public TextView lblAdd1xx;
-        public TextView lblMobile;
-        public TextView lblAmount;
-        public TextView lblStatus;
-        public TextView lblMnthAm;
+        public MaterialTextView lblAcctNo;
+        public MaterialTextView lblClient;
+        public MaterialTextView lblAdd1xx;
+        public MaterialTextView lblMobile;
+        public MaterialTextView lblAmount;
+        public MaterialTextView lblStatus;
+        public MaterialTextView lblMnthAm;
 
         public CollectionViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);

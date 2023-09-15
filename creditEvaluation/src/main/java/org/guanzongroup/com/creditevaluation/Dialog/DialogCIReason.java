@@ -22,12 +22,26 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.guanzongroup.com.creditevaluation.R;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 
 public class DialogCIReason {
     Context mContex;
@@ -48,7 +62,7 @@ public class DialogCIReason {
         rgApproval.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton checkedRadioButton = (RadioButton)group.findViewById(checkedId);
+                MaterialRadioButton checkedRadioButton = (MaterialRadioButton) group.findViewById(checkedId);
                 // This puts the value (true/false) into the variable
                 boolean isChecked = checkedRadioButton.isChecked();
                 // If the radiobutton that has changed in check state is now checked...
@@ -64,8 +78,8 @@ public class DialogCIReason {
             }
         });
         TextInputEditText tieReason = view.findViewById(R.id.txt_ci_reason);
-        Button btnConfirm = view.findViewById(R.id.btn_dialogConfirm);
-        Button btnCancelx = view.findViewById(R.id.btn_dialogCancel);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_dialogConfirm);
+        MaterialButton btnCancelx = view.findViewById(R.id.btn_dialogCancel);
         btnConfirm.setOnClickListener(view1 -> {
             if (approval.isEmpty()){
                 GToast.CreateMessage(mContex, "Please select approval/disapproval status dialog.",GToast.WARNING).show();

@@ -11,30 +11,30 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ELog_Selfie;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicationDocument;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplication;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EImageInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchLoanApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplication;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RCreditApplicationDocument;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RDailyCollectionPlan;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RImageInfo;
+import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
 public class VMDataManager extends AndroidViewModel {
 
-    private final RLogSelfie poLog;
+    private final SelfieLog poLog;
     private final RImageInfo poImage;
     private final RDailyCollectionPlan poDcp;
     private final RCreditApplication poCreditApp;
@@ -51,83 +51,58 @@ public class VMDataManager extends AndroidViewModel {
         super(instance);
         this.poImage = new RImageInfo(instance);
         this.poDcp = new RDailyCollectionPlan(instance);
-        this.poLog = new RLogSelfie(instance);
+        this.poLog = new SelfieLog(instance);
         this.poCreditApp = new RCreditApplication(instance);
         this.poLoan = new RBranchLoanApplication(instance);
         this.poDocs = new RCreditApplicationDocument(instance);
     }
 
     public void checkData(OnDataFetchListener listener){
-        new CheckDataTask(listener).execute();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class CheckDataTask extends AsyncTask<String, Integer, Boolean>{
-
-        OnDataFetchListener mListener;
-
-        public CheckDataTask(OnDataFetchListener mListener) {
-            this.mListener = mListener;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mListener.OnCheck();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... strings) {
-            boolean hasData = false;
-            try{
-
-                List<ELog_Selfie> loginDetails = poLog.getUnsentSelfieLogin();
-                if(loginDetails.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
-                if(loginImageInfo.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
-                if(collectionDetails.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
-                if(loanApplications.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-                List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
-                if(docsFile.size() > 0){
-                    hasData = true;
-                }
-                publishProgress(1);
-
-            } catch (Exception e){
-                e.printStackTrace();
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                listener.OnCheck();
             }
-            return hasData;
-        }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            mListener.OnCheckLocalData(aBoolean);
-        }
+            @Override
+            public Object DoInBackground(Object args) {
+                boolean hasData = false;
+                try{
+                    List<EImageInfo> loginImageInfo = poImage.getUnsentSelfieLogImageList();
+                    if(loginImageInfo.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            mListener.OnCheckProgress(values[0]);
-        }
+                    List<EDCPCollectionDetail> collectionDetails = poDcp.getUnsentPaidCollection();
+                    if(collectionDetails.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                    List<ECreditApplication> loanApplications = poCreditApp.getUnsentLoanApplication();
+                    if(loanApplications.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                    List<ECreditApplicationDocuments> docsFile = poDocs.getUnsentApplicationDocumentss();
+                    if(docsFile.size() > 0){
+                        hasData = true;
+                    }
+                    TaskExecutor.ShowProgress(() -> listener.OnCheckProgress(1));
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                return hasData;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean aBoolean = (Boolean) object;
+                listener.OnCheckLocalData(aBoolean);
+            }
+        });
     }
-
 }

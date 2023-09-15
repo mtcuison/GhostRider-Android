@@ -16,14 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -84,7 +83,7 @@ public class CollectionLogAdapter extends RecyclerView.Adapter<CollectionLogAdap
     static class CollectionViewHolder extends RecyclerView.ViewHolder{
         EDCPCollectionDetail detail;
 
-        TextView lblAccntNo,
+        MaterialTextView lblAccntNo,
                 lblClntNme,
                 lblRemCode,
                 lblEntryNo,

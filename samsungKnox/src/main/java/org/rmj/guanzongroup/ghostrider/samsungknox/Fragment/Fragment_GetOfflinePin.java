@@ -30,8 +30,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.CopyToClipboard;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Model.PinModel;
@@ -57,13 +57,14 @@ public class Fragment_GetOfflinePin extends Fragment implements ViewModelCallBac
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMGetOfflinePin.class);
         View v = inflater.inflate(R.layout.fragment_get_offline_pin, container, false);
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
         txtPassKey = v.findViewById(R.id.txt_knoxPassKey);
         txtPIN = v.findViewById(R.id.txt_KnoxPIN);
-        ImageButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
+        MaterialButton btnCopy = v.findViewById(R.id.btn_CopyToClipboard);
         btnCopy.setOnClickListener(view -> {
             String KnoxPin = txtPIN.getText().toString();
             String message;
@@ -78,13 +79,6 @@ public class Fragment_GetOfflinePin extends Fragment implements ViewModelCallBac
             toast.show();
         });
         btnGetPIN = v.findViewById(R.id.btn_knoxGetPIN);
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMGetOfflinePin.class);
         btnGetPIN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +87,7 @@ public class Fragment_GetOfflinePin extends Fragment implements ViewModelCallBac
                 mViewModel.UnlockWithPasskey(new PinModel(lsDevcIDx, lsPassKey), Fragment_GetOfflinePin.this);
             }
         });
+        return v;
     }
 
     @Override
@@ -102,7 +97,7 @@ public class Fragment_GetOfflinePin extends Fragment implements ViewModelCallBac
     }
 
     @Override
-    public void OnRequestSuccess(String args) {
+    public void OnRequestSuccess(String args, String args1, String args2, String args3) {
         dialog.dismiss();
         txtPIN.setText(args);
     }

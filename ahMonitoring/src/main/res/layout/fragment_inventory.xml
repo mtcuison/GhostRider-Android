@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.Fragment_Inventory"
     android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme"
     android:gravity="center">
 
     <androidx.recyclerview.widget.RecyclerView

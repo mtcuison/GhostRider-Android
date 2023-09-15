@@ -21,11 +21,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -56,10 +69,10 @@ public class Dialog_DebugEntry {
 
         TextInputEditText txtRemarks = view.findViewById(R.id.txt_dcpEmployeeID);
         TextInputEditText txtDateEnt = view.findViewById(R.id.txt_dcpDateEntry);
-        Button btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
-        Button btnCancel = view.findViewById(R.id.btn_cancel);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
-        txtDateEnt.setText(new AppConstants().CURRENT_DATE);
+        txtDateEnt.setText(AppConstants.CURRENT_DATE());
         txtDateEnt.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,7 +104,9 @@ public class Dialog_DebugEntry {
             }
         });
 
-        btnCancel.setOnClickListener(v -> poDialogx.dismiss());
+        btnCancel.setOnClickListener(v -> {
+            poDialogx.dismiss();
+        });
     }
 
     public void show(){

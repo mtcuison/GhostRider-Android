@@ -24,8 +24,8 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import org.opencv.core.MatOfPoint2f;
-import org.opencv.core.Point;
+//import org.opencv.core.MatOfPoint2f;
+//import org.opencv.core.Point;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.libraries.NativeClass;
 import org.rmj.guanzongroup.ghostrider.griderscanner.libraries.PolygonView;
@@ -66,16 +66,16 @@ public abstract class DocumentScanActivity extends AppCompatActivity {
     protected abstract Bitmap getBitmapImage();
 
     private void setImageRotation() {
-        Bitmap tempBitmap = selectedImage.copy(selectedImage.getConfig(), true);
-        for (int i = 1; i <= 4; i++) {
-            MatOfPoint2f point2f = nativeClass.getPoint(tempBitmap);
-            if (point2f == null) {
-                tempBitmap = rotateBitmap(tempBitmap, 90 * i);
-            } else {
-                selectedImage = tempBitmap.copy(selectedImage.getConfig(), true);
-                break;
-            }
-        }
+//        Bitmap tempBitmap = selectedImage.copy(selectedImage.getConfig(), true);
+//        for (int i = 1; i <= 4; i++) {
+//            MatOfPoint2f point2f = nativeClass.getPoint(tempBitmap);
+//            if (point2f == null) {
+//                tempBitmap = rotateBitmap(tempBitmap, 90 * i);
+//            } else {
+//                selectedImage = tempBitmap.copy(selectedImage.getConfig(), true);
+//                break;
+//            }
+//        }
     }
 
     protected Bitmap rotateBitmap(Bitmap source, float angle) {
@@ -153,7 +153,8 @@ public abstract class DocumentScanActivity extends AppCompatActivity {
             float y4 = (Objects.requireNonNull(points.get(3)).y) * yRatio;
 
             Bitmap finalBitmap = getBitmapImage();
-            return nativeClass.getScannedBitmap(finalBitmap, x1, y1, x2, y2, x3, y3, x4, y4);
+//            nativeClass.getScannedBitmap(finalBitmap, x1, y1, x2, y2, x3, y3, x4, y4);
+            return null;
         } catch (Exception e) {
             showError(CropperErrorType.CROP_ERROR);
             return null;
@@ -174,14 +175,14 @@ public abstract class DocumentScanActivity extends AppCompatActivity {
     }
 
     private List<PointF> getContourEdgePoints(Bitmap tempBitmap) {
-        MatOfPoint2f point2f = nativeClass.getPoint(tempBitmap);
-        if (point2f == null)
-            point2f = new MatOfPoint2f();
-        List<Point> points = Arrays.asList(point2f.toArray());
+//        MatOfPoint2f point2f = nativeClass.getPoint(tempBitmap);
+//        if (point2f == null)
+//            point2f = new MatOfPoint2f();
+//        List<Point> points = Arrays.asList(point2f.toArray());
         List<PointF> result = new ArrayList<>();
-        for (int i = 0; i < points.size(); i++) {
-            result.add(new PointF(((float) points.get(i).x), ((float) points.get(i).y)));
-        }
+//        for (int i = 0; i < points.size(); i++) {
+//            result.add(new PointF(((float) points.get(i).x), ((float) points.get(i).y)));
+//        }
 
         return result;
 

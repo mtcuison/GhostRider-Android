@@ -11,43 +11,96 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.Area;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.util.List;
 
 public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAdapter.ChartViewHolder> {
 
-    List<Area> areaPerformances;
+    private final List<EBranchPerformance> areaPerformances;
+    private final OnBranchPerformanceClickListener mListener;
+    private final int nPriority;
 
-    public AreaMonitoringAdapter(List<Area> areaPerformances){
+    public interface OnBranchPerformanceClickListener{
+        void OnClick(String sBranchCd,String sBranchNm);
+    }
+
+    public AreaMonitoringAdapter(List<EBranchPerformance> areaPerformances, int nPriority, OnBranchPerformanceClickListener listener){
         this.areaPerformances = areaPerformances;
+        this.nPriority = nPriority ;
+        this.mListener = listener;
     }
 
     @NonNull
     @Override
     public ChartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_area_monitor, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_top_performing, parent, false);
         return new ChartViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
-        Area area = areaPerformances.get(position);
-        holder.txtArea.setText(area.getAreaName());
-        holder.txtPrct.setText(area.getSalesPercentage());
-        holder.progressBar.setScaleY(55f);
-        holder.progressBar.setMax(area.getDynamicSize());
-        holder.progressBar.setProgress(getParseValue(area.getSalesPercentage().replace("%","")));
+        try {
+            EBranchPerformance area = areaPerformances.get(position);
+            Log.e("value of position", String.valueOf(position));
+            holder.txtBranch.setText(area.getBranchNm());
+            holder.txtMCGoal.setText(area.getMCActual() + "/" +area.getMCGoalxx());
+            holder.txtSPGoal.setText(area.getSPActual() + "/" +area.getSPGoalxx());
+            holder.txtJOGoal.setText(area.getJOActual() + "/" +area.getJOGoalxx());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.OnClick(area.getBranchCd(),area.getBranchNm());
+                }
+            });
+            if (nPriority == 0) {
+                if ((area.getMCActual() == 0) ||  (area.getMCGoalxx() == 0)){
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getMCActual()))) / (Float.parseFloat(String.valueOf(area.getMCGoalxx()))));
+                    holder.lblPercentage.setText( Math.round((percentage) *  100) + "%");
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+                    }
+
+            } else if (nPriority == 1) {
+                if ((area.getSPActual() == 0) ||  (area.getSPGoalxx() == 0)){
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getSPActual()))) / (Float.parseFloat(String.valueOf(area.getSPGoalxx()))));
+                    holder.lblPercentage.setText(String.valueOf(Math.round((percentage) *  100) + "%"));
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+                }
+            } else {
+                if ((area.getJOActual() == 0) ||  (area.getJOGoalxx() == 0)){
+                    holder.lblPercentage.setText("0%");
+                    holder.pi.setProgress(0);
+                }else {
+                    Float percentage =((Float.parseFloat(String.valueOf(area.getJOActual()))) / (Float.parseFloat(String.valueOf(area.getJOGoalxx()))));
+                    holder.lblPercentage.setText(String.valueOf(Math.round((percentage) *  100) + "%"));
+                    holder.pi.setProgress(Integer.parseInt(String.valueOf(Math.round((percentage)*  100))));
+                }
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -57,15 +110,19 @@ public class AreaMonitoringAdapter extends RecyclerView.Adapter<AreaMonitoringAd
 
     public static class ChartViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView txtArea;
-        public TextView txtPrct;
-        public ProgressBar progressBar;
-
+        public MaterialTextView txtBranch, txtMCGoal,txtSPGoal,txtJOGoal,lblPercentage;
+        public CircularProgressIndicator pi;
+        public ConstraintLayout btnBrPerformance;
         public ChartViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtArea = itemView.findViewById(R.id.lbl_AreaBranchItem);
-            txtPrct = itemView.findViewById(R.id.lbl_listItemPercentage);
-            progressBar = itemView.findViewById(R.id.progress_monitor);
+            txtBranch = itemView.findViewById(R.id.lbl_top_branches);
+            txtMCGoal = itemView.findViewById(R.id.lblmcSalesgoal);
+            txtSPGoal = itemView.findViewById(R.id.lblspSalesgoal);
+            txtJOGoal = itemView.findViewById(R.id.lblJOgoal);
+            lblPercentage = itemView.findViewById(R.id.lbl_percentage);
+            pi = itemView.findViewById(R.id.cpi_percentage);
+            btnBrPerformance = itemView.findViewById(R.id.btnBranchPerformance);
+
         }
     }
 

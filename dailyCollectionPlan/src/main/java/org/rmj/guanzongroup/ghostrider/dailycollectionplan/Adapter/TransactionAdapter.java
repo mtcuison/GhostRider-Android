@@ -15,13 +15,13 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -63,7 +63,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public static class TransactionViewHolder extends RecyclerView.ViewHolder{
         DDCPCollectionDetail.CollectionDetail detail;
 
-        TextView lblAccntNo,
+        MaterialTextView lblAccntNo,
                  lblClntNme,
                  lblRemCode,
                  lblEntryNo,

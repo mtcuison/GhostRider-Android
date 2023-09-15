@@ -11,6 +11,8 @@
 
 package org.rmj.guanzongroup.promotions.ViewModel;
 
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.os.AsyncTask;
@@ -24,18 +26,20 @@ import androidx.lifecycle.LiveData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleBasis;
-import org.rmj.g3appdriver.GRider.Database.Entities.ERaffleInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RRaffleInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleBasis;
+import org.rmj.g3appdriver.GCircle.room.Entities.ERaffleInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RRaffleInfo;
+import org.rmj.g3appdriver.lib.Etc.Town;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebClient;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
 
@@ -45,8 +49,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static org.rmj.g3appdriver.utils.WebApi.URL_IMPORT_RAFFLE_BASIS;
-
 public class VMRaffleEntry extends AndroidViewModel {
     public static final String TAG = VMRaffleEntry.class.getSimpleName();
     private final HttpHeaders headers;
@@ -54,20 +56,23 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static LiveData<List<ERaffleBasis>> raffleBasis;
     private static LiveData<String[]> raffleBasisDesc;
     private final RRaffleInfo raffleRepo;
-    private final SessionManager session;
-    private final RTown poTown;
-    private final RBranch poBranch;
+    private final EmployeeSession session;
+    private final Town poTown;
+    private final Branch poBranch;
+
+    private final Application instance;
 
     public VMRaffleEntry(@NonNull Application application) {
         super(application);
+        this.instance = application;
         headers = HttpHeaders.getInstance(application);
         conn = new ConnectionUtil(application);
         raffleRepo = new RRaffleInfo(application);
         raffleBasisDesc = raffleRepo.getAllRaffleBasisDesc();
         raffleBasis = raffleRepo.getAllRaffleBasis();
-        session = new SessionManager(application);
-        this.poTown = new RTown(application);
-        this.poBranch = new RBranch(application);
+        session = EmployeeSession.getInstance(application);
+        this.poTown = new Town(application);
+        this.poBranch = new Branch(application);
     }
 
     public LiveData<EBranchInfo> getUserBranchInfo(){
@@ -87,7 +92,7 @@ public class VMRaffleEntry extends AndroidViewModel {
     }
 
     public void importDocuments(){
-        new ImportDocumentType(headers, raffleRepo).execute();
+        new ImportDocumentType(instance).execute();
     }
 
     public void submit(RaffleEntry voucher, RaffleEntryCallback callBack){
@@ -103,10 +108,14 @@ public class VMRaffleEntry extends AndroidViewModel {
     private static class ImportDocumentType extends AsyncTask<RaffleEntry, Void, String> {
         private final HttpHeaders headers;
         private final RRaffleInfo raffleRepo;
+        private final GCircleApi poApi;
+        private final AppConfigPreference loConfig;
 
-        public ImportDocumentType(HttpHeaders headers, RRaffleInfo raffleRepo){
-            this.headers = headers;
-            this.raffleRepo = raffleRepo;
+        public ImportDocumentType(Application instance){
+            this.headers = HttpHeaders.getInstance(instance);
+            this.raffleRepo = new RRaffleInfo(instance);
+            this.loConfig = AppConfigPreference.getInstance(instance);
+            this.poApi = new GCircleApi(instance);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -115,7 +124,7 @@ public class VMRaffleEntry extends AndroidViewModel {
             String response = "";
             try {
                 JSONObject loJson = new JSONObject();
-                response = WebClient.httpsPostJSon(URL_IMPORT_RAFFLE_BASIS, loJson.toString(), headers.getHeaders());
+                response = WebClient.sendRequest(poApi.getUrlImportRaffleBasis(), loJson.toString(), headers.getHeaders());
                 Log.e(TAG, response);
                 JSONObject jsonResponse = new JSONObject(response);
                 String lsResult = jsonResponse.getString("result");
@@ -212,7 +221,7 @@ public class VMRaffleEntry extends AndroidViewModel {
                     loJson.put("ent", lsUserIDx);
                     String lsUrl = "https://restgk.guanzongroup.com.ph/promo/fblike/encodex.php";
                     Log.e(TAG, lsUrl);
-                    response = WebClient.httpsPostJSon(lsUrl, loJson.toString(), headers.getHeaders());
+                    response = WebClient.sendRequest(lsUrl, loJson.toString(), headers.getHeaders());
                     if(response!=null){
                         JSONObject loResponse = new JSONObject(response);
                         String lsResult = loResponse.getString("result");
@@ -245,7 +254,7 @@ public class VMRaffleEntry extends AndroidViewModel {
                 } else {
                     Log.e(TAG, loJson.toString());
                     JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                    String message = getErrorMessage(loError);
                     callBack.OnFailedEntry(message);
                 }
             } catch (Exception e){

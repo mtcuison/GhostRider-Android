@@ -11,227 +11,135 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionMaster;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PromiseToPayModel;
-import org.rmj.guanzongroup.ghostrider.notifications.Function.GRiderErrorReport;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PTP;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PromiseToPay;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class VMPromiseToPay extends AndroidViewModel {
     private static final String TAG = VMPromiseToPay.class.getSimpleName();
+
+    private final PTP poSys;
+    private final EmployeeMaster poUser;
+
+    private final Branch poBranch;
     private final Application instance;
-    private final RBranch poBranch;
-    private final RDailyCollectionPlan poDcp;
-    private final RImageInfo poImage;
-    private final EImageInfo poImageInfo;
-    private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
 
-    private final MutableLiveData<String> psBrnchCd = new MutableLiveData<>();
-    public MutableLiveData<String> psPtpDate = new MutableLiveData<>();
-    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psAccountNox = new MutableLiveData<>();
-    private final MutableLiveData<String> sRemarksx = new MutableLiveData<>();
-    private final MutableLiveData<String> sImgName = new MutableLiveData<>();
-    private final MutableLiveData<String> sLatitude = new MutableLiveData<>();
-    private final MutableLiveData<String> sLongitude = new MutableLiveData<>();
+    private String message;
 
-    private final MutableLiveData<Integer> viewPtpBranch = new MutableLiveData<>();
-    private final MutableLiveData<String> isAppointmentUnitX = new MutableLiveData<>();
-
-    private final LiveData<String[]> paBranchNm;
     public VMPromiseToPay(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poBranch = new RBranch(application);
-        this.poDcp = new RDailyCollectionPlan(application);
-        paBranchNm = poBranch.getAllMcBranchNames();
-        this.viewPtpBranch.setValue(View.GONE);
-        this.poImage = new RImageInfo(application);
-        this.poImageInfo = new EImageInfo();
-    }
-    // TODO: Implement the ViewModel
-    public void setParameter(String TransNox, int EntryNox, String fsRemarksx){
-        this.psTransNox.setValue(TransNox);
-        this.psEntryNox.setValue(EntryNox);
-        this.sRemarksx.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
+        this.poSys = new PTP(application);
+        this.poBranch = new Branch(application);
+        this.poUser = new EmployeeMaster(application);
     }
 
-    public LiveData<EDCPCollectionMaster> getCollectionMaster(){
-        return poDcp.getCollectionMaster();
-    }
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(){
-        return poDcp.getCollectionDetail(psTransNox.getValue(), psEntryNox.getValue());
-    }
-    public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
-        this.poDcpDetail.setValue(detail);
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<String> getPtpDate(){
-        return this.psPtpDate;
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNo, int EntryNo, String Accountno){
+        return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
     }
-    public void setPsPtpDate(String date){
-        this.psPtpDate.setValue(date);
-    }
+
     public LiveData<List<EBranchInfo>> getAllBranchInfo(){
         return poBranch.getAllMcBranchInfo();
     }
 
-    public LiveData<EBranchInfo> getUserBranchInfo(){
-        return poBranch.getUserBranchInfo();
-    }
-
     public LiveData<String[]> getAllBranchNames(){
-        return paBranchNm;
-    }
-    public void setBanchCde(String psBrnchCd) {
-        Log.e("Branch code", psBrnchCd);
-        this.psBrnchCd.setValue(psBrnchCd);
-    }
-    public LiveData<EBranchInfo> getUserBranchEmployee(){
-        return poBranch.getUserBranchInfo();
+        return poBranch.getAllMcBranchNames();
     }
 
-    public void setIsAppointmentUnitX(String type){
-
-        try {
-            if(Integer.parseInt(type) == 1 || type.equalsIgnoreCase("1")){
-                this.viewPtpBranch.setValue(View.VISIBLE);
-            } else {
-                this.viewPtpBranch.setValue(View.GONE);
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_DCP, TransNox);
+        String[] lsResult = new String[4];
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnInit();
             }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        this.isAppointmentUnitX.setValue(type);
-    }
 
-    public LiveData<Integer> setViewPtpBranch(){
-        return this.viewPtpBranch;
-    }
-
-    public void setLatitude(String sLatitude) {
-        this.sLatitude.setValue(sLatitude);
-    }
-
-    public void setLongitude(String sLongitude) {
-        this.sLongitude.setValue(sLongitude);
-    }
-    public void setImgName(String imgName) {
-        this.sImgName.setValue(imgName);
-    }
-
-    public void setAccountNox(String sAccountNo) {
-        this.psAccountNox.setValue(sAccountNo);
-    }
-    public boolean savePtpInfo(PromiseToPayModel infoModel, ViewModelCallback callback) {
-        try {
-            new UpdateTask(instance, infoModel, callback).execute(poDcpDetail.getValue());
-            return true;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-//            callback.OnFailedResult(e.getMessage());
-            callback.OnFailedResult("NullPointerException error");
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-            callback.OnFailedResult("Exception error");
-            return false;
-        }
-    }
-
-    //Added by Mike -> Saving ImageInfo
-    public void saveImageInfo(EImageInfo foImage){
-        try{
-            foImage.setTransNox(poImage.getImageNextCode());
-             poImage.insertImageInfo(foImage);
-            Log.e(TAG, "Image info has been save!");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    //Added by Mike 2021/02/27
-    //Need AsyncTask for background threading..
-    //RoomDatabase requires background task in order to manipulate Tables...
-    private  class UpdateTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
-        private final RDailyCollectionPlan poDcp;
-        private final PromiseToPayModel infoModel;
-        private final GRiderErrorReport poReport;
-        private final ViewModelCallback callback;
-
-        public UpdateTask(Application instance, PromiseToPayModel infoModel, ViewModelCallback callback) {
-            this.poDcp = new RDailyCollectionPlan(instance);
-            this.infoModel = infoModel;
-            this.poReport = new GRiderErrorReport(instance);
-            this.callback = callback;
-        }
-
-        @Override
-        protected String doInBackground(EDCPCollectionDetail... detail) {
-            try {
-                infoModel.setPtpBranch(psBrnchCd.getValue());
-                if (!infoModel.isDataValid()) {
-                    return infoModel.getMessage();
-                } else {
-                    String lsSelectedDate = Objects.requireNonNull(infoModel.getPtpDate());
-                    @SuppressLint("SimpleDateFormat") Date parseDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsSelectedDate);
-                    @SuppressLint("SimpleDateFormat") String lsDate = new SimpleDateFormat("yyyy-MM-dd").format(Objects.requireNonNull(parseDate));
-                    EDCPCollectionDetail loDetail = detail[0];
-                    loDetail.setRemCodex(sRemarksx.getValue());
-                    Objects.requireNonNull(loDetail).setPromised(lsDate);
-                    loDetail.setApntUnit(infoModel.getPtpAppointmentUnit());
-                    loDetail.setBranchCd(infoModel.getPtpBranch());
-                    loDetail.setTranStat("1");
-                    loDetail.setRemarksx(infoModel.getPtpRemarks());
-                    loDetail.setLatitude(sLatitude.getValue());
-                    loDetail.setLongitud(sLongitude.getValue());
-                    loDetail.setImageNme(sImgName.getValue());
-                    loDetail.setModified(new AppConstants().DATE_MODIFIED);
-                    poDcp.updateCollectionDetailInfo(loDetail);
-
-                    return "success";
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!loImage.IsFileCreated(true)){
+                    message = loImage.getMessage();
+                    return null;
                 }
-            } catch (Exception e){
-                e.printStackTrace();
-                poReport.SendErrorReport("DCP Transaction", "Promise to pay data: " + Arrays.toString(e.getStackTrace()));
-                return e.getMessage();
-            }
-        }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s.equalsIgnoreCase("success")){
-                callback.OnSuccessResult(new String[]{"Promise to pay Info has been save."});
-            } else {
-                 callback.OnFailedResult(s);
+                LocationRetriever loLrt = new LocationRetriever(instance, activity);
+                if(loLrt.HasLocation()){
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", true);
+                    return loIntent;
+                } else {
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", false);
+                    message = loLrt.getMessage();
+                    return loIntent;
+                }
             }
-        }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Intent loResult = (Intent) object;
+                if(loResult.getBooleanExtra("result", false)){
+                    callback.OnSuccess(loResult, lsResult);
+                } else {
+                    callback.OnFailed(message, loResult, lsResult);
+                }
+            }
+        });
+    }
+
+    public void SaveTransaction(PromiseToPay foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveTransaction(args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 }

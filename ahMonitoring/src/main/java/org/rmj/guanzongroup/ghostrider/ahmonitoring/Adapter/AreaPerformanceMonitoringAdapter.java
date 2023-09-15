@@ -18,13 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
+import com.google.android.material.textview.MaterialTextView;
+
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 
 import java.text.DecimalFormat;
@@ -88,7 +89,7 @@ public class AreaPerformanceMonitoringAdapter extends RecyclerView.Adapter<AreaP
 
         public LinearLayout indexLayout;
         public String sBranchCd;
-        public TextView lblBranch, lblGoal, lblActual;
+        public MaterialTextView lblBranch, lblGoal, lblActual;
         public Context mContext;
         public int indexPosition;
 

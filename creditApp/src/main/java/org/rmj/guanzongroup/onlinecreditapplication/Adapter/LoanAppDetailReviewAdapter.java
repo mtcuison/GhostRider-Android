@@ -15,17 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
-
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.ReviewAppDetail;
 import org.rmj.guanzongroup.onlinecreditapplication.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDetailReviewAdapter.DetailViewHolder> {
@@ -68,9 +66,9 @@ public class LoanAppDetailReviewAdapter extends RecyclerView.Adapter<LoanAppDeta
 
         LinearLayout lnHeader;
         LinearLayout lnContnt;
-        TextView lblHeader;
-        TextView lblDetail;
-        TextView lblContnt;
+        MaterialTextView lblHeader;
+        MaterialTextView lblDetail;
+        MaterialTextView lblContnt;
 
         public DetailViewHolder(@NonNull View itemView, OnActionButtonClickListener listener) {
             super(itemView);

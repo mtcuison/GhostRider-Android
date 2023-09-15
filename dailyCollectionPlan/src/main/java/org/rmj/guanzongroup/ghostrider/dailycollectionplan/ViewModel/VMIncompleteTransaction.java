@@ -11,104 +11,113 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-
-import java.util.Objects;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.OTH;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.OtherRemCode;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 public class VMIncompleteTransaction extends AndroidViewModel {
     private static final String TAG = VMIncompleteTransaction.class.getSimpleName();
-    private final RDailyCollectionPlan poDcp;
-    private final RImageInfo poImage;
 
-    //TODO: Temporary initialization...
-    private String ImgTransNox;
+    private final Application instance;
 
-    private final MutableLiveData<EDCPCollectionDetail> poDetail = new MutableLiveData<>();
-    private final MutableLiveData<String> sRemarks = new MutableLiveData<>();
-    private final MutableLiveData<String> sRemCodex = new MutableLiveData<>();
-    private final MutableLiveData<String> sTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> nEntryNox = new MutableLiveData<>();
-    private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
-    private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
+    private final OTH poSys;
+
+    private String message;
 
     public VMIncompleteTransaction(@NonNull Application application) {
         super(application);
-        this.poDcp = new RDailyCollectionPlan(application);
-        this.poImage = new RImageInfo(application);
+        this.instance = application;
+        this.poSys = new OTH(application);
     }
 
-    public void setParameter(String fsTransNox, int fnEntryNox, String fsRemarksx){
-        this.sTransNox.setValue(fsTransNox);
-        this.nEntryNox.setValue(fnEntryNox);
-        this.sRemCodex.setValue(DCP_Constants.getRemarksCode(fsRemarksx));
-        Log.e(TAG, DCP_Constants.getRemarksCode(fsRemarksx));
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNox, String AccountNo, String EntryNox){
+        return poSys.GetAccountDetailForTransaction(TransNox, AccountNo, EntryNox);
     }
 
-    public void setRemarks(String Remarksx){
-        this.sRemarks.setValue(Remarksx);
-    }
-
-    public void setAccountNo(String fsAccntNo){
-        this.sAccntNox.setValue(fsAccntNo);
-    }
-
-    public void setImagePath(String fsPath){
-        this.sImgPathx.setValue(fsPath);
-    }
-
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(){
-        return poDcp.getCollectionDetail(sTransNox.getValue(), nEntryNox.getValue());
-    }
-
-    public void setCollectioNDetail(EDCPCollectionDetail detail){
-        this.poDetail.setValue(Objects.requireNonNull(detail));
-    }
-
-    public void saveImageInfo(EImageInfo foImageInfo){
-        ImgTransNox = poImage.getImageNextCode();
-        foImageInfo.setTransNox(ImgTransNox);
-        foImageInfo.setDtlSrcNo(sAccntNox.getValue());
-        poImage.insertImageInfo(foImageInfo);
-    }
-
-    public void updateCollectionDetail(){
-        EDCPCollectionDetail detail = Objects.requireNonNull(poDetail.getValue());
-        Objects.requireNonNull(detail).setImageNme(ImgTransNox);
-        new UpdateCollectionTask(poDcp, sRemCodex.getValue(), sRemarks.getValue()).execute(detail);
-    }
-
-    private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String>{
-        private final RDailyCollectionPlan poDcp;
-        private final String RemarksCode;
-        private final String Remarksx;
-
-        public UpdateCollectionTask(RDailyCollectionPlan poDcp, String RemCode, String Remarksx){
-            this.poDcp = poDcp;
-            this.RemarksCode = RemCode;
-            this.Remarksx = Remarksx;
-        }
-
-        @Override
-        protected String doInBackground(EDCPCollectionDetail... detail) {
-            if(!RemarksCode.equalsIgnoreCase("")) {
-                poDcp.updateCollectionDetail(detail[0].getEntryNox(), RemarksCode, Remarksx);
-            } else {
-                Log.e(TAG, "Unable to update collection detail. Reason: Invalid remarks code.");
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+        String[] lsResult = new String[4];
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnInit();
             }
-            return null;
-        }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!loImage.IsFileCreated(true)){
+                    message = loImage.getMessage();
+                    return null;
+                }
+
+                LocationRetriever loLrt = new LocationRetriever(instance, activity);
+                if(loLrt.HasLocation()){
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", true);
+                    return loIntent;
+                } else {
+                    lsResult[0] = loImage.getFilePath();
+                    lsResult[1] = loImage.getFileName();
+                    lsResult[2] = loLrt.getLatitude();
+                    lsResult[3] = loLrt.getLongitude();
+                    Intent loIntent = loImage.getCameraIntent();
+                    loIntent.putExtra("result", false);
+                    message = loLrt.getMessage();
+                    return loIntent;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Intent loResult = (Intent) object;
+                if(loResult.getBooleanExtra("result", false)){
+                    callback.OnSuccess(loResult, lsResult);
+                } else {
+                    callback.OnFailed(message, loResult, lsResult);
+                }
+            }
+        });
+    }
+
+    public void SaveTransaction(OtherRemCode foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveTransaction(args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 }

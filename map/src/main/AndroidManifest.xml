@@ -10,7 +10,6 @@
   ~ project file last modified : 5/11/21 9:21 AM
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.jts.darkace.map">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
 </manifest>

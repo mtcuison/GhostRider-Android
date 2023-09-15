@@ -14,27 +14,30 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.*;
+import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogCashCountBranch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMCashCounter;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_CashCounter extends AppCompatActivity {
@@ -49,44 +52,94 @@ public class Activity_CashCounter extends AppCompatActivity {
     //Array for Peso Bill
     private TextInputEditText[] qtyPeso;
     private TextInputEditText[] totalPeso;
-    private TextView[] cprice;
+    private MaterialTextView[] cprice;
 
     //Array for Coin Bill
     private TextInputEditText[] qtyCoin;
     private TextInputEditText[] totalCoin;
-    private TextView[] cpriceCoin;
+    private MaterialTextView[] cpriceCoin;
 
-    private TextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
-    private TextView lblBranch, lblAddxx, lblDate;
+    private MaterialTextView lblPesoTotal, lblCoinsTotal, lblGrandTotal;
+    private MaterialTextView lblBranch;
     private MaterialButton btnNext;
 
     private MessageBox poMessage;
+    private LoadDialog poLoad;
     private CashCountInfoModel infoModel;
     DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
-    private String psNotifNo = "";
-    private String BranchCd = "";
-    private boolean cancelable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cash_counter);
         instance = Activity_CashCounter.this;
-        mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
-        initWidgets();
-        cancelable = getIntent().getBooleanExtra("cancelable", true);
         poMessage = new MessageBox(Activity_CashCounter.this);
+        poLoad = new LoadDialog(Activity_CashCounter.this);
+        mViewModel = new ViewModelProvider(this).get(VMCashCounter.class);
         infoModel = new CashCountInfoModel();
-        mViewModel.getSelfieLogBranchInfo().observe(Activity_CashCounter.this, eBranchInfo -> {
+        setContentView(R.layout.activity_cash_counter);
+        initWidgets();
+        if(getIntent().hasExtra("BranchCd")) {
+            mViewModel.setBranchCd(getIntent().getStringExtra("BranchCd"));
+        } else {
+            mViewModel.GetBranchesList(new VMCashCounter.OnGetBranchesList() {
+                @Override
+                public void OnLoad() {
+                    poLoad.initDialog("Cash Count", "Checking selfie log entries. Please wait...", false);
+                    poLoad.show();
+                }
+
+                @Override
+                public void OnRetrieve(List<EBranchInfo> list) {
+                    poLoad.dismiss();
+                    DialogCashCountBranch loBranch = new DialogCashCountBranch(Activity_CashCounter.this, list);
+                    loBranch.initDialog(new DialogBranchSelection.OnBranchSelectedCallback() {
+                        @Override
+                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+                            mViewModel.setBranchCd(BranchCode);
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void OnCancel() {
+                            finish();
+                        }
+                    });
+                }
+
+                @Override
+                public void OnFailed(String message) {
+                    poLoad.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Cash Count");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
+                }
+            });
+        }
+
+        mViewModel.GetBranchCd().observe(Activity_CashCounter.this, branchCd -> mViewModel.GetBranchForCashCount(branchCd).observe(Activity_CashCounter.this, eBranchInfo -> {
             try {
                 lblBranch.setText(eBranchInfo.getBranchNm());
-                lblAddxx.setText(eBranchInfo.getAddressx());
-                lblDate.setText(new AppConstants().CURRENT_DATE_WORD);
-                BranchCd = eBranchInfo.getBranchCd();
+//                lblAddxx.setText(eBranchInfo.getAddressx());
+
+                if(branchCd.isEmpty()){
+                    btnNext.setEnabled(false);
+                }
+                btnNext.setOnClickListener(v->{
+                    Intent intent = new Intent(Activity_CashCounter.this, Activity_CashCountSubmit.class);
+                    intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
+                    intent.putExtra("BranchCd", branchCd);
+                    startActivity(intent);
+                });
             } catch (Exception e){
                 e.printStackTrace();
             }
-        });
+        }));
+
         //Peso Bill Computation
         for (int x = 0; x < qtyPeso.length; x++) {
             final int i = x;
@@ -240,20 +293,6 @@ public class Activity_CashCounter extends AppCompatActivity {
         mViewModel.getPesoTotalAmount().observe(this, val -> lblPesoTotal.setText(formatter.format(val)));
         mViewModel.getCoinsTotalAmount().observe(this, val -> lblCoinsTotal.setText(formatter.format(val)));
         mViewModel.getGrandTotalAmount().observe(this, val -> lblGrandTotal.setText(formatter.format(val)));
-        btnNext.setOnClickListener(v->{
-            Intent intent = new Intent(Activity_CashCounter.this, Activity_CashCountSubmit.class);
-            intent.putExtra("params", String.valueOf(mViewModel.getJsonData().getValue()));
-            intent.putExtra("BranchCd", BranchCd);
-            startActivity(intent);
-//                poMessage.initDialog();
-//                poMessage.setTitle("Collection Remittance");
-//                poMessage.setMessage(mViewModel.getJsonData().getValue().toString());
-//                poMessage.setPositiveButton("Okay", (view, dialog) -> {
-//                    dialog.dismiss();
-//
-//                });
-//                poMessage.show();
-        });
     }
 
     public void initWidgets(){
@@ -262,8 +301,6 @@ public class Activity_CashCounter extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         lblBranch = findViewById(R.id.lbl_headerBranch);
-        lblAddxx = findViewById(R.id.lbl_headerAddress);
-        lblDate = findViewById(R.id.lbl_headerDate);
         btnNext = findViewById(R.id.btn_cash_count);
         lblPesoTotal = findViewById(R.id.lblPesoTotal);
         lblCoinsTotal = findViewById(R.id.lblCoinsTotal);
@@ -276,7 +313,7 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt50p),
                 findViewById(R.id.edt20p)
         };
-        cprice = new TextView[] {
+        cprice = new MaterialTextView[] {
                 findViewById(R.id.tv1000p),
                 findViewById(R.id.tv500p),
                 findViewById(R.id.tv200p),
@@ -302,7 +339,7 @@ public class Activity_CashCounter extends AppCompatActivity {
                 findViewById(R.id.edt5cc),
                 findViewById(R.id.edt1cc),
         };
-        cpriceCoin = new TextView[] {
+        cpriceCoin = new MaterialTextView[] {
                 findViewById(R.id.tv10pc),
                 findViewById(R.id.tv5pc),
                 findViewById(R.id.tv1pc),
@@ -325,25 +362,25 @@ public class Activity_CashCounter extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            finishActivity();
+            ConfirmExist();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        finishActivity();
+        ConfirmExist();
     }
 
-    private void finishActivity(){
-        if(cancelable) {
+    private void ConfirmExist(){
+        poMessage.initDialog();
+        poMessage.setTitle("Cash Count");
+        poMessage.setMessage("Exit cash count?");
+        poMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
             finish();
-        } else {
-            poMessage.initDialog();
-            poMessage.setTitle("Cash Count");
-            poMessage.setMessage("To finish your selfie log. Please finish cash count entry.");
-            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-            poMessage.show();
-        }
+        });
+        poMessage.setNegativeButton("No", (view, dialog) -> dialog.dismiss());
+        poMessage.show();
     }
 }

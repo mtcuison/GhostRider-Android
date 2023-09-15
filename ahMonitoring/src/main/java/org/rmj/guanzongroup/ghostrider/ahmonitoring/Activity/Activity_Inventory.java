@@ -11,212 +11,126 @@
 
 package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.InventoryItemAdapter;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogBranchSelection;
+import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogInventoryBranch;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Dialog.DialogPostInventory;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMInventory;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Activity_Inventory extends AppCompatActivity {
     private VMInventory mViewModel;
 
     private RecyclerView recyclerView;
-    private TextView lblCountx, lblBranchNm, lblStatus;
+    private MaterialTextView lblCountx, lblBranchNm, lblStatus;
     private MaterialButton btnSelect, btnPost;
 
     private LoadDialog poDialog;
     private MessageBox poMessage;
 
-    private String Transnox;
-
-    private String BranchCde = "";
-    private boolean cancelable = true;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(VMInventory.class);
         setContentView(R.layout.activity_inventory);
         initWidgets();
-        mViewModel = new ViewModelProvider(this).get(VMInventory.class);
-        mViewModel.getSelfieLogBranchInfo().observe(Activity_Inventory.this, eBranchInfo -> {
-            try{
-                mViewModel.setBranchCde(eBranchInfo.getBranchCd());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-        mViewModel.getBranchCode().observe(Activity_Inventory.this, fsBranchCde -> {
-            try {
-                if (fsBranchCde.isEmpty()) {
-                    lblStatus.setText("No branch detected on selfie log. Please take a selfie login to request random inventory items");
-                    mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
-                        try{
-//                            DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
-//                            loSelect.initDialog(false, BranchCode -> mViewModel.setBranchCde(BranchCode));
-                        } catch (Exception e){
-                            e.printStackTrace();
+
+        if(getIntent().hasExtra("BranchCd")) {
+            mViewModel.setBranchCd(getIntent().getStringExtra("BranchCd"));
+        } else {
+            mViewModel.GetBranchList(new VMInventory.OnGetBranchListListener() {
+                @Override
+                public void OnLoad() {
+                    poDialog.initDialog("Random Stock Inventory", "Checking selfie log entries. Please wait...", false);
+                    poDialog.show();
+                }
+
+                @Override
+                public void OnRetrieve(List<EBranchInfo> list) {
+                    poDialog.dismiss();
+                    DialogInventoryBranch loBranch = new DialogInventoryBranch(Activity_Inventory.this, list);
+                    loBranch.initDialog(new DialogBranchSelection.OnBranchSelectedCallback() {
+                        @Override
+                        public void OnSelect(String BranchCode, AlertDialog dialog) {
+                            mViewModel.setBranchCd(BranchCode);
+                            dialog.dismiss();
                         }
-                    });
-                } else {
-                    mViewModel.getBranchName(fsBranchCde).observe(Activity_Inventory.this, s -> {
-                        try {
-                            lblBranchNm.setText(s);
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    });
-                    mViewModel.getInventoryMasterForBranch(fsBranchCde).observe(Activity_Inventory.this, inventoryMaster -> {
-                        if(inventoryMaster == null){
-                            btnPost.setEnabled(false);
-                            recyclerView.setVisibility(View.GONE);
-                            lblStatus.setVisibility(View.VISIBLE);
-                            lblStatus.setText("No inventory items found. Tap here to retry downloading items.");
-                            mViewModel.RequestRandomStockInventory(fsBranchCde, new VMInventory.OnRequestInventoryCallback() {
-                                @Override
-                                public void OnRequest(String title, String message) {
-                                    poDialog.initDialog(title, message, false);
-                                    poDialog.show();
-                                }
 
-                                @Override
-                                public void OnSuccessResult(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnNoStockRetrieve(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                                        dialog.dismiss();
-                                        finish();
-                                    });
-                                    poMessage.show();
-                                }
-
-                                @Override
-                                public void OnFaileResult(String message) {
-                                    poDialog.dismiss();
-                                    poMessage.initDialog();
-                                    poMessage.setTitle("Random Stock Inventory");
-                                    poMessage.setMessage(message);
-                                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                                    poMessage.show();
-                                }
-                            });
-                        } else if(!inventoryMaster.getTranStat().equalsIgnoreCase("2")){
-                            cancelable = false;
-                            recyclerView.setVisibility(View.VISIBLE);
-                            lblStatus.setVisibility(View.GONE);
-                            btnPost.setEnabled(true);
-                            Transnox = inventoryMaster.getTransNox();
-                            mViewModel.getInventoryDetailForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, randomItems -> {
-                                mViewModel.getInventoryCountForBranch(inventoryMaster.getTransNox()).observe(Activity_Inventory.this, itemCount -> {
-                                    try{
-                                        lblCountx.setText("Updated Inventory Items : " + itemCount);
-                                    } catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                });
-                                if(randomItems.size() != 0){
-                                    LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
-                                    manager.setOrientation(RecyclerView.VERTICAL);
-                                    recyclerView.setLayoutManager(manager);
-                                    recyclerView.setAdapter(new InventoryItemAdapter(randomItems, (TransNox, PartID, BarCode, isUpdated, args) -> {
-                                        if(!isUpdated) {
-                                            Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
-                                            loIntent.putExtra("transno", TransNox);
-                                            loIntent.putExtra("partID", PartID);
-                                            loIntent.putExtra("barcode", BarCode);
-                                            startActivity(loIntent);
-                                        } else {
-                                            poMessage.initDialog();
-                                            poMessage.setTitle("Random Stock Inventory");
-                                            poMessage.setMessage("Update inventory details for " + args[0] + "? \n" +
-                                                    "\n" +
-                                                    "Stock: " + args[2] + "\n" +
-                                                    "Remarks: " + args[1]);
-                                            poMessage.setPositiveButton("Update", (view, dialog) -> {
-                                                dialog.dismiss();
-                                                Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
-                                                loIntent.putExtra("transno", TransNox);
-                                                loIntent.putExtra("partID", PartID);
-                                                loIntent.putExtra("barcode", BarCode);
-                                                startActivity(loIntent);
-                                            });
-                                            poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
-                                            poMessage.show();
-                                        }
-                                    }));
-                                }
-                            });
-                        } else {
-                            cancelable = true;
-                            recyclerView.setVisibility(View.GONE);
-                            lblStatus.setVisibility(View.VISIBLE);
-                            lblStatus.setText("Inventory is already posted");
-                            btnPost.setEnabled(false);
+                        @Override
+                        public void OnCancel() {
+                            finish();
                         }
                     });
                 }
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
 
-        lblStatus.setOnClickListener(v ->{
-                if(!BranchCde.isEmpty()) {
-                    mViewModel.RequestRandomStockInventory(BranchCde, new VMInventory.OnRequestInventoryCallback() {
+                @Override
+                public void OnFailed(String message) {
+                    poDialog.dismiss();
+                    poMessage.initDialog();
+                    poMessage.setTitle("Cash Count");
+                    poMessage.setMessage(message);
+                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                        dialog.dismiss();
+                        finish();
+                    });
+                    poMessage.show();
+                }
+            });
+        }
+
+        mViewModel.GetBranchCd().observe(Activity_Inventory.this, branchCd -> {
+            mViewModel.GetBranchInfo(branchCd).observe(Activity_Inventory.this, branch -> {
+                try{
+                    lblBranchNm.setText(branch.getBranchNm());
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+            if(!branchCd.isEmpty()){
+                SetupInventoryMaster(branchCd);
+            }
+
+            btnPost.setOnClickListener(v -> {
+                if(branchCd.isEmpty()) {
+                    Toast.makeText(Activity_Inventory.this, "Unable to post empty inventory", Toast.LENGTH_SHORT).show();
+                } else {
+                    new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> mViewModel.PostInventory(branchCd, Remarks, new VMInventory.OnSaveInventoryMaster() {
                         @Override
-                        public void OnRequest(String title, String message) {
-                            poDialog.initDialog(title, message, false);
+                        public void OnSave() {
+                            poDialog.initDialog("Random Stock Inventory", "Saving entries. Please wait...", false);
                             poDialog.show();
                         }
 
                         @Override
-                        public void OnSuccessResult(String message) {
+                        public void OnSuccess() {
                             poDialog.dismiss();
                             poMessage.initDialog();
                             poMessage.setTitle("Random Stock Inventory");
-                            poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                            poMessage.show();
-                        }
-
-                        @Override
-                        public void OnNoStockRetrieve(String message) {
-                            poDialog.dismiss();
-                            poMessage.initDialog();
-                            poMessage.setTitle("Random Stock Inventory");
-                            poMessage.setMessage(message);
+                            poMessage.setMessage("Inventory has been save. Successfully.");
                             poMessage.setPositiveButton("Okay", (view, dialog) -> {
                                 dialog.dismiss();
                                 finish();
@@ -225,68 +139,20 @@ public class Activity_Inventory extends AppCompatActivity {
                         }
 
                         @Override
-                        public void OnFaileResult(String message) {
+                        public void OnFailed(String message) {
                             poDialog.dismiss();
                             poMessage.initDialog();
                             poMessage.setTitle("Random Stock Inventory");
                             poMessage.setMessage(message);
-                            poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
+                            poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                                dialog.dismiss();
+                            });
                             poMessage.show();
                         }
-                    });
-                } else {
-                    poDialog.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Random Stock Inventory");
-                    poMessage.setMessage("Unable to download random stock inventory. No branch provided to download inventory details.");
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
-                    poMessage.show();
-                }
-                });
-
-        btnSelect.setOnClickListener(v -> mViewModel.getAreaBranchList().observe(Activity_Inventory.this, eBranchInfos -> {
-            try{
-//                DialogBranchSelection loSelect = new DialogBranchSelection(Activity_Inventory.this, eBranchInfos);
-//                loSelect.initDialog(true, BranchCode -> mViewModel.setBranchCde(BranchCode));
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }));
-
-        btnPost.setOnClickListener(v -> new DialogPostInventory(Activity_Inventory.this).initDialog(Remarks -> {
-            mViewModel.PostInventory(Transnox, Remarks, new VMInventory.OnRequestInventoryCallback() {
-                @Override
-                public void OnRequest(String title, String message) {
-                    poDialog.initDialog(title, message, false);
-                    poDialog.show();
-                }
-
-                @Override
-                public void OnSuccessResult(String message) {
-                    poDialog.dismiss();
-                    showPostingMessage(message);
-                }
-
-                @Override
-                public void OnNoStockRetrieve(String message) {
-                    poDialog.dismiss();
-                    poMessage.initDialog();
-                    poMessage.setTitle("Random Stock Inventory");
-                    poMessage.setMessage(message);
-                    poMessage.setPositiveButton("Okay", (view, dialog) -> {
-                        dialog.dismiss();
-                        finish();
-                    });
-                    poMessage.show();
-                }
-
-                @Override
-                public void OnFaileResult(String message) {
-                    poDialog.dismiss();
-                    showPostingMessage(message);
+                    }));
                 }
             });
-        }));
+        });
     }
 
     @Override
@@ -313,37 +179,12 @@ public class Activity_Inventory extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
-            if(cancelable) {
-                finish();
-                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-            } else {
-                poMessage.initDialog();
-                poMessage.setTitle("Random Stock Inventory");
-                poMessage.setMessage("Exit Random Stock Inventory?");
-                poMessage.setPositiveButton("Yes", (view, dialog) -> {
-                    dialog.dismiss();
-                    finish();
-                });
-                poMessage.setNegativeButton("No", (view, dialog) -> {
-                    dialog.dismiss();
-                });
-                poMessage.show();
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(cancelable) {
-            finish();
-            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-        } else {
             poMessage.initDialog();
             poMessage.setTitle("Random Stock Inventory");
             poMessage.setMessage("Exit Random Stock Inventory?");
             poMessage.setPositiveButton("Yes", (view, dialog) -> {
                 dialog.dismiss();
+                overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
                 finish();
             });
             poMessage.setNegativeButton("No", (view, dialog) -> {
@@ -351,15 +192,131 @@ public class Activity_Inventory extends AppCompatActivity {
             });
             poMessage.show();
         }
+        return super.onOptionsItemSelected(item);
     }
 
-    private void showPostingMessage(String message){
+    @Override
+    public void onBackPressed() {
         poMessage.initDialog();
         poMessage.setTitle("Random Stock Inventory");
-        poMessage.setMessage(message);
-        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+        poMessage.setMessage("Exit Random Stock Inventory?");
+        poMessage.setPositiveButton("Yes", (view, dialog) -> {
+            dialog.dismiss();
+            overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+            finish();
+        });
+        poMessage.setNegativeButton("No", (view, dialog) -> {
             dialog.dismiss();
         });
         poMessage.show();
+    }
+
+    private void SetupInventoryMaster(String BranchCde){
+        mViewModel.CheckBranchInventory(BranchCde, new VMInventory.OnCheckLocalRecords() {
+            @Override
+            public void OnCheck() {
+                poDialog.initDialog("Random Stock Inventory", "Checking entries. Please wait...", false);
+                poDialog.show();
+            }
+
+            @Override
+            public void OnProceed() {
+                poDialog.dismiss();
+                mViewModel.DownloadInventory(BranchCde, new VMInventory.OnDownloadInventory() {
+                    @Override
+                    public void OnRequest(String title, String message) {
+                        poDialog.initDialog("Random Stock Inventory", "Downloading inventory items. Please wait...", false);
+                        poDialog.show();
+                    }
+
+                    @Override
+                    public void OnSuccessResult() {
+                        poDialog.dismiss();
+                    }
+
+                    @Override
+                    public void OnFailed(String message) {
+                        poDialog.dismiss();
+                        poMessage.initDialog();
+                        poMessage.setTitle("Random Stock Inventory");
+                        poMessage.setMessage(message);
+                        poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                            dialog.dismiss();
+                        });
+                        poMessage.show();
+                    }
+                });
+            }
+
+            @Override
+            public void OnInventoryFinished(String message) {
+                poDialog.dismiss();
+                poDialog.dismiss();
+                poMessage.initDialog();
+                poMessage.setTitle("Random Stock Inventory");
+                poMessage.setMessage(message);
+                poMessage.setPositiveButton("Okay", (view, dialog) -> {
+                    dialog.dismiss();
+                    finish();
+                });
+                poMessage.show();
+            }
+        });
+
+        mViewModel.GetInventoryMaster(BranchCde).observe(Activity_Inventory.this, master -> {
+            try{
+                if(master == null){
+                    btnPost.setEnabled(false);
+                    recyclerView.setVisibility(View.GONE);
+                    lblStatus.setVisibility(View.VISIBLE);
+                } else if(!master.getTranStat().equalsIgnoreCase("2")){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    lblStatus.setVisibility(View.GONE);
+                    btnPost.setEnabled(true);
+
+                    String lsTransNo = master.getTransNox();
+                    mViewModel.GetInventoryItems(lsTransNo).observe(Activity_Inventory.this, details -> {
+                        lblCountx.setText("Updated Inventory Items : " + details.size());
+                        LinearLayoutManager manager = new LinearLayoutManager(Activity_Inventory.this);
+                        manager.setOrientation(RecyclerView.VERTICAL);
+                        recyclerView.setLayoutManager(manager);
+                        recyclerView.setAdapter(new InventoryItemAdapter(details, (TransNox, PartID, BarCode, isUpdated, args) -> {
+                            if(!isUpdated) {
+                                Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
+                                loIntent.putExtra("transno", TransNox);
+                                loIntent.putExtra("partID", PartID);
+                                loIntent.putExtra("barcode", BarCode);
+                                startActivity(loIntent);
+                            } else {
+                                poMessage.initDialog();
+                                poMessage.setTitle("Random Stock Inventory");
+                                poMessage.setMessage("Update inventory details for " + args[0] + "? \n" +
+                                        "\n" +
+                                        "Stock: " + args[2] + "\n" +
+                                        "Remarks: " + args[1]);
+                                poMessage.setPositiveButton("Update", (view, dialog) -> {
+                                    dialog.dismiss();
+                                    Intent loIntent = new Intent(Activity_Inventory.this, Activity_InventoryEntry.class);
+                                    loIntent.putExtra("transno", TransNox);
+                                    loIntent.putExtra("partID", PartID);
+                                    loIntent.putExtra("barcode", BarCode);
+                                    startActivity(loIntent);
+                                });
+                                poMessage.setNegativeButton("Cancel", (view, dialog) -> dialog.dismiss());
+                                poMessage.show();
+                            }
+                        }));
+                    });
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    lblStatus.setVisibility(View.VISIBLE);
+                    lblStatus.setText("Inventory is already posted");
+                    btnPost.setEnabled(false);
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
     }
 }

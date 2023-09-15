@@ -14,13 +14,14 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EAddressUpdate;
+import org.rmj.g3appdriver.GCircle.room.Entities.EMobileUpdate;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class UpdateRequestAdapter extends RecyclerView.Adapter<UpdateRequestAdap
 
         public EAddressUpdate addressUpdate;
         public EMobileUpdate mobileUpdate;
-        public TextView lblDetail;
+        public MaterialTextView lblDetail;
 
         public RequestViewHolder(@NonNull View itemView) {
             super(itemView);

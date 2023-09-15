@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.rmj.guanzongroup.ghostrider.settings">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -11,44 +10,50 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".Activity.Activity_Developer"
+        <activity
+            android:name=".Activity.Activity_AppVersion"
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activity.Activity_Developer"
             android:label="Developer Test"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG"/>
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar"/>
         <activity
             android:name=".Activity.Activity_QrCodeScanner"
             android:label="Qr Code"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_HelpList"
             android:label="Help"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_Help"
             android:label="GCard Info"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_DigitalGcard"
             android:label="GCard Info"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_CheckUpdate"
             android:label="System Update"
             android:screenOrientation="portrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_LocalData"
             android:screenOrientation="portrait"
             android:label="Manage Space"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
         <activity
             android:name=".Activity.Activity_Settings"
             android:screenOrientation="userPortrait"
-            android:theme="@style/GhostRiderMaterialTheme.WhiteBG" />
+            android:theme="@style/GhostRiderMaterialTheme.NoActionBar" />
     </application>
 
 </manifest>

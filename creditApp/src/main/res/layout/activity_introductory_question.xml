@@ -15,9 +15,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/GhostRiderMaterialTheme.WhiteBG"
-    tools:context=".Activity.Activity_IntroductoryQuestion"
-    android:background="@drawable/bg_gradient_light"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    tools:context=".Activities.Activity_IntroductoryQuestion"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -25,59 +24,54 @@
         android:layout_height="wrap_content"
         android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_introduction"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/material_tool_bar"
             app:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="15dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sHeader_loanApplication"
+                android:textSize="22sp"
+                android:fontFamily="@font/roboto" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerBranch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginTop="5dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:layout_marginBottom="7dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/lbl_headerDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:fontFamily="@font/roboto_light"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_samsungknox"
-        android:gravity="center_horizontal"
-        android:padding="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sHeader_loanApplication"
-            android:textSize="22sp"
-            android:fontFamily="@font/roboto"
-            android:textColor="@color/textColor_White"/>
-
-        <TextView
-            android:id="@+id/lbl_headerBranch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:textColor="@color/textColor_White"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:id="@+id/lbl_headerAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:textColor="@color/textColor_White"
-            android:layout_marginBottom="7dp"/>
-
-        <TextView
-            android:id="@+id/lbl_headerDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:fontFamily="@font/roboto_light"
-            android:textColor="@color/textColor_White"
-            android:visibility="gone"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,20 +79,18 @@
         android:orientation="vertical"
         android:paddingHorizontal="15dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Introductory Question"
             android:textSize="18sp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/textColor_Black"
             android:layout_marginTop="15dp"/>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
-            android:layout_marginVertical="5dp"
-            android:background="@color/guanzon_digital_orange"/>
+            android:layout_marginVertical="5dp"/>
     </LinearLayout>
 
     <ScrollView
@@ -125,31 +117,27 @@
                     android:layout_height="wrap_content"
                     android:hint="Loan Unit">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_applicationType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_customerType"
                     style="@style/CustomDropDownTilStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Customer Type">
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/spn_customerType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -162,6 +150,7 @@
                         android:id="@+id/txt_dateTarget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="50"
                         android:focusable="false"
@@ -177,7 +166,7 @@
                     android:hint="Branch Name"
                     style="@style/TextInputStyle">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_branchName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -193,10 +182,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Brand Name"
-                    android:textColor="@color/material_nav_dark_gradient"
                     style="@style/TextInputStyle">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_brandName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -213,7 +201,7 @@
                     android:hint="Model Name/Code"
                     style="@style/TextInputStyle">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/txt_modelName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -222,6 +210,20 @@
                         android:maxLength="50"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@id/txt_downpayment"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomDropDownTilStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Installment Term (Required)">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/spn_installmentTerm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/DropdownStyleTheme"
+                        android:padding="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -234,27 +236,11 @@
                         android:id="@+id/txt_downpayment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:inputType="number|none"
                         android:maxLength="50"
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/CustomDropDownTilStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Installment Term (Required)">
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/spn_installmentTerm"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:padding="16dp"
-                        android:cursorVisible="false"
-                        android:clickable="false"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -266,6 +252,7 @@
                         android:id="@+id/txt_monthlyAmort"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="@string/free_text_restriction"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:focusedByDefault="false"
@@ -281,7 +268,6 @@
                     android:text="@string/sHintNewApplication"
                     android:fontFamily="@font/roboto_thin"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColor_White"
                     style="@style/MaterialButtonAccent"/>
 
             </LinearLayout>

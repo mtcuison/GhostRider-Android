@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : Guanzon circle
+  ~ Module : dashboard home for area manager
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created :02/05/2023 08:57 AM
+  ~ project file last modified : 02/07/2023 08:57 AM
+  -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/GhostRiderMaterialTheme"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.home.Fragment_Home_BH">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="230dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            android:src="@drawable/bg_dashboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="40dp"
+            app:cardCornerRadius="90dp"
+            android:elevation="25dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgEmp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_guanzon_circle" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_userLogo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/kay_wave"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent=".4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Welcome"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bhName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/img_userLogo"
+            app:layout_constraintStart_toStartOf="@+id/materialTextView7"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView7" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bhPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            app:layout_constraintStart_toStartOf="@+id/bhName"
+            app:layout_constraintTop_toBottomOf="@+id/bhName" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cb_performance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/cpi_mc_sales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    app:indicatorDirectionCircular="clockwise"
+                    app:indicatorSize="100dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackCornerRadius="10dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblMCGoalPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/cpi_mc_sales"
+                    app:layout_constraintEnd_toEndOf="@+id/cpi_mc_sales"
+                    app:layout_constraintStart_toStartOf="@+id/cpi_mc_sales"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.339"
+                    app:layout_constraintWidth_percent=".2" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblMCGoal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="@id/lblMCGoalPercent"
+                    app:layout_constraintEnd_toEndOf="@id/lblMCGoalPercent"
+                    app:layout_constraintTop_toBottomOf="@id/lblMCGoalPercent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="MC SALES"
+                    app:layout_constraintStart_toStartOf="@id/lblMCGoal"
+                    app:layout_constraintEnd_toEndOf="@id/lblMCGoal"
+                    app:layout_constraintTop_toBottomOf="@id/lblMCGoal"/>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/cpi_sp_sales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicatorDirectionCircular="clockwise"
+                    app:indicatorSize="100dp"
+                    app:layout_constraintEnd_toStartOf="@+id/cpi_job_order"
+                    app:layout_constraintStart_toEndOf="@id/cpi_mc_sales"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackCornerRadius="10dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblSPGoalPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    app:layout_constraintHeight_percent=".3"
+                    app:layout_constraintVertical_bias="0.339"
+                    app:layout_constraintWidth_percent=".2"
+                    app:layout_constraintTop_toTopOf="@id/cpi_sp_sales"
+                    app:layout_constraintBottom_toBottomOf="@+id/cpi_sp_sales"
+                    app:layout_constraintEnd_toEndOf="@+id/cpi_sp_sales"
+                    app:layout_constraintStart_toStartOf="@+id/cpi_sp_sales" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblSPGoal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="@id/lblSPGoalPercent"
+                    app:layout_constraintEnd_toEndOf="@id/lblSPGoalPercent"
+                    app:layout_constraintTop_toBottomOf="@id/lblSPGoalPercent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="SP SALES"
+                    app:layout_constraintStart_toStartOf="@id/lblSPGoal"
+                    app:layout_constraintEnd_toEndOf="@id/lblSPGoal"
+                    app:layout_constraintTop_toBottomOf="@id/lblSPGoal"/>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/cpi_job_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicatorDirectionCircular="clockwise"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:indicatorSize="100dp"
+                    app:trackCornerRadius="10dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblJobOrderPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    app:layout_constraintHeight_percent=".3"
+                    app:layout_constraintVertical_bias="0.339"
+                    app:layout_constraintWidth_percent=".2"
+                    app:layout_constraintBottom_toBottomOf="@+id/cpi_job_order"
+                    app:layout_constraintEnd_toEndOf="@+id/cpi_job_order"
+                    app:layout_constraintStart_toStartOf="@+id/cpi_job_order"
+                    app:layout_constraintTop_toTopOf="@+id/cpi_job_order" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblJobOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="@id/lblJobOrderPercent"
+                    app:layout_constraintEnd_toEndOf="@id/lblJobOrderPercent"
+                    app:layout_constraintTop_toBottomOf="@id/lblJobOrderPercent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="JOB ORDER"
+                    app:layout_constraintStart_toStartOf="@id/lblJobOrder"
+                    app:layout_constraintEnd_toEndOf="@id/lblJobOrder"
+                    app:layout_constraintTop_toBottomOf="@id/lblJobOrder"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lblComAnouncemnt"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="Company Anouncement"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cb_performance" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCompnyAnouncemnt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblComAnouncemnt" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lblApplication"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto"
+            android:text="Applications"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvCompnyAnouncemnt" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLeaveApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblApplication" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBusTripApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvLeaveApp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

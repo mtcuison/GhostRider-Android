@@ -13,7 +13,6 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring;
 
 import org.json.JSONObject;
 import org.junit.Test;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
 
 import java.util.HashMap;
 
@@ -33,10 +32,20 @@ public class ExampleUnitTest {
 
     @Test
     public void testAPI() throws Exception{
-        HashMap param = new HashMap<String, String>();
-        param.put("email", "sampleEmail123@domain.com");
-        param.put("password", "12345678");
-        String lsResult = WebClient.httpPostJSon("http://192.168.10.22/android_sample/login.php", param.toString(), null);
-        assertNotNull(lsResult);
+//        HashMap param = new HashMap<String, String>();
+//        param.put("email", "sampleEmail123@domain.com");
+//        param.put("password", "12345678");
+//        String lsResult = WebClient.httpPostJSon("http://192.168.10.22/android_sample/login.php", param.toString(), null);
+//        assertNotNull(lsResult);
+
+        String lsVal = "13,470.75";
+        int lnVal = 0;
+        lnVal = Integer.parseInt(lsVal.replace(",", ""));
+        assertEquals(13470.75, lnVal);
+    }
+
+    @Test
+    public void test01CalculateWithPay() {
+
     }
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.griderScanner
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:18 PM
+  -->
+
+<com.google.android.material.card.MaterialCardView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardMaxElevation="5dp"
+    app:cardElevation="3dp"
+    android:theme="@style/GhostRiderMaterialTheme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialogTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Document Scan"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="15dp"
+            android:gravity="center_horizontal" />
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/guanzon_orange"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_gravity="center">
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:layout_gravity="center">
+
+                <FrameLayout
+                    android:id="@+id/holderImagePreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imgPreview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:adjustViewBounds="true"
+                        android:visibility="gone"/>
+                </FrameLayout>
+            </FrameLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical">
+               <com.google.android.material.divider.MaterialDivider
+                   android:layout_width="match_parent"
+                   android:layout_height="1dp"
+                   android:background="@color/guanzon_orange"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginBottom="5dp"/>
+
+               <com.google.android.material.button.MaterialButton
+                   android:id="@+id/btnPreviewOkay"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:minWidth="150dp"
+                   android:layout_alignParentStart="true"
+                   android:shadowRadius="10"
+                   android:text="Okay"
+                   android:layout_alignParentLeft="true"/>
+           </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

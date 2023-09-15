@@ -33,9 +33,8 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.ECreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EImageInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.CropperErrorType;
 import org.rmj.guanzongroup.ghostrider.griderscanner.base.DocumentScanActivity;

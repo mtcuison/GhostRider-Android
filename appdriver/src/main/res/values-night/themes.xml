@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.g3appdriver
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:17 PM
+  -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+    <style name="GhostRiderMaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariantDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondaryLight</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariantLight</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSurface">@color/material_black</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <item name="android:statusBarColor">@color/statusBarColorDark</item>
+<!--        <item name="android:colorBackground">@color/background_dark</item>-->
+        <item name="android:textColor">@color/material_white</item>
+        <item name="android:windowBackground">@drawable/app_background_dark</item>
+    </style>
+
+    <style name="Navigation_Header_Banner">
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/nav_header_banner_dark</item>
+    </style>
+
+    <style name="Activity_HeaderBackground">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/img_header_background_dark</item>
+    </style>
+
+    <style name="LinearLayoutToolbarBackground">
+        <item name="android:background">#30000000</item>
+    </style>
+
+    <style name="GhostRiderMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+    <style name="GhostRiderMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.DayNight" />
+
+    <style name="TextInputStyle.Edittext">
+        <item name="iconStartPadding">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+
+    <style name="AutoCompleteStyleTheme">
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="paddingStart">10dp</item>
+        <item name="maxLines">1</item>
+    </style>
+
+    <style name="MaterialButtonLight" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">5dp</item>
+    </style>
+
+    <style name="DropdownStyleTheme" parent="AutoCompleteStyleTheme">
+        <item name="android:focusable">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:inputType">none</item>
+    </style>
+
+    <style name="MaterialButtonAccent" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:radius">45dp</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="NavigationButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:drawablePadding">15dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="HeaderLabelBlack">
+        <item name="fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Regular_Label">
+        <item name="android:textColor">@color/material_black</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <!-- TEXT INPUT -->
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+
+    </style>
+
+    <!-- TEXT INPUT ORANGE BACKGROUND DCP HEADER-->
+    <style name="TextInputStyleHeaders" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxStrokeWidth">0.8dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+
+    </style>
+    <!-- PROGRESSBAR -->
+
+
+    <!-- TEXT HEADERS -->
+
+    <style name="PrimaryHeaderStyle">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="DescriptionHeaderStyle">
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="CustomDropDownTilStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+    </style>
+
+    <style name="CustomDropDownDialogStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="android:spinnerMode">dialog</item>
+        <item name="android:spinnersShown">true</item>
+    </style>
+    <style name="AutoCompleteTextStyle" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+
+    <style name="PopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
+    <style name="CircularImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+</resources>

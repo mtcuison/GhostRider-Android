@@ -27,10 +27,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DCreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicationDocuments;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
+import org.rmj.g3appdriver.dev.Database.GCircle.DataAccessObject.DCreditApplicationDocuments;
+import org.rmj.g3appdriver.dev.Database.GCircle.Entities.EFileCode;
 import org.rmj.guanzongroup.ghostrider.griderscanner.ClientInfo;
 import org.rmj.guanzongroup.ghostrider.griderscanner.R;
 import org.rmj.guanzongroup.ghostrider.griderscanner.dialog.DialogImagePreview;
@@ -58,7 +56,7 @@ public class FileCodeAdapter extends RecyclerView.Adapter<FileCodeAdapter.FileCo
     private Context aContext;
 
 
-    public FileCodeAdapter(Context context,List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, OnItemClickListener mListener) {
+    public FileCodeAdapter(Context context, List<DCreditApplicationDocuments.ApplicationDocument> documentsInfo, OnItemClickListener mListener) {
         this.documentsInfo = documentsInfo;
         this.aContext = context;
         this.mListener = mListener;

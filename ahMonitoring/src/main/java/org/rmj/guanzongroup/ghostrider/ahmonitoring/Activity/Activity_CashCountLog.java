@@ -13,20 +13,21 @@ package org.rmj.guanzongroup.ghostrider.ahmonitoring.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.textview.MaterialTextView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchInfo;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.CashCountLogAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Model.CashCountInfoModel;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class Activity_CashCountLog extends AppCompatActivity {
 
-    private TextView lblBranch, lblAddrxx;
+    private MaterialTextView lblBranch, lblAddrxx;
     private CashCountLogAdapter adapter;
     private VMCashCountLog mViewModel;
     private RecyclerView recyclerView;
@@ -87,7 +88,7 @@ public class Activity_CashCountLog extends AppCompatActivity {
         });
     }
     public void initWidgets(){
-        Toolbar toolbar = findViewById(R.id.toolbar_cashCountLog);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_cashCountLog);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.recyclerview_cashcountLog);

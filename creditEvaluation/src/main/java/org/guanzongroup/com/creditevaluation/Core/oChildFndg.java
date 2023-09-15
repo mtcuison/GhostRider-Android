@@ -1,5 +1,7 @@
 package org.guanzongroup.com.creditevaluation.Core;
 
+import org.rmj.g3appdriver.etc.FormatUIText;
+
 public class oChildFndg {
 
     private final String sLabelx;
@@ -11,8 +13,10 @@ public class oChildFndg {
      * @param Label Name of field to be update base on Local Database
      * @param KeyName Name of key to be update
      * @param Value Value of key
-     *              0 = false;
-     *              1 = true;
+     *              -1.00 Or -1 for checking
+     *              -10 Ignore
+     *              10 = true;
+     *              20 = false;
      */
     public oChildFndg(String Label,String KeyName, String Value) {
         this.sLabelx = Label;
@@ -21,6 +25,8 @@ public class oChildFndg {
     }
 
     public String getLabel() {
+        double lsResult;
+        double lnVal;
         String lsValue;
         if(sLabelx.equalsIgnoreCase("1")){
             lsValue = "YES";
@@ -46,6 +52,36 @@ public class oChildFndg {
                 return "Has Television : " + lsValue;
             case "cWithACxx":
                 return "Has air condition : " + lsValue;
+            case "nLenServc":
+                lnVal = Double.parseDouble(sLabelx);
+                if(lnVal % 1 == 0) {
+                    lsValue = "Year/s";
+                    lsResult =  lnVal;
+                } else {
+                    lsValue = "Month/s";
+                    lnVal = lnVal * 12;
+                    lsResult = (double) Math.round(lnVal);
+                }
+                return "Length Of Service : " + lsResult + lsValue;
+            case "nBusLenxx":
+                lnVal = Double.parseDouble(sLabelx);
+                if(lnVal % 1 == 0) {
+                    lsResult =  lnVal;
+                } else {
+                    lnVal = lnVal * 12;
+                    lsResult = (double) Math.round(lnVal);
+                }
+                return "Years of Business : " + lsResult + lsValue;
+            case "nSalaryxx":
+                return "Salary : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nBusIncom":
+                return "Business Income : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nMonExpns":
+                return "Monthly Expenses : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nEstIncme":
+                return "Estimate Income : " + FormatUIText.getCurrencyUIFormat(sLabelx);
+            case "nPensionx":
+                return "Pension Amount : " + FormatUIText.getCurrencyUIFormat(sLabelx);
             default:
                 return sLabelx;
         }

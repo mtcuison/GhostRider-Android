@@ -17,54 +17,62 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.guanzongroup.ghostrider.notifications.Object.NotificationItemList;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DNotification;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.notifications.R;
 
 import java.util.List;
 
-public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ItemViewHolder> {
+public class NotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<NotificationItemList> notificationItemLists;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+    private final List<DNotification.NotificationListDetail> notificationItemLists;
     private final OnItemClickListener mListener;
 
-    public NotificationListAdapter(List<NotificationItemList> notificationItemLists, OnItemClickListener listener) {
+    public NotificationListAdapter(List<DNotification.NotificationListDetail> notificationItemLists, OnItemClickListener listener) {
         this.notificationItemLists = notificationItemLists;
         this.mListener = listener;
     }
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_list_item, parent, false);
-        return new ItemViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_notification, parent, false);
+            return new ItemViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(v);
+        }
     }
 
     @SuppressLint("NewApi")
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
-        NotificationItemList message = notificationItemLists.get(position);
-        holder.message = message;
-        if(!message.getName().equalsIgnoreCase("null")) {
-            holder.lblSender.setText(message.getName());
-            holder.imgSendr.setImageResource(R.drawable.ic_user_profile);
-        } else {
-            holder.lblSender.setText("SYSTEM NOTIFICATION");
-            holder.imgSendr.setImageResource(R.drawable.ic_guanzon_logo);
-        }
-        holder.lblTitlex.setText(message.getTitle());
-        holder.lblBodyxx.setText(message.getMessage());
-        holder.lblDateTm.setText(message.getDateTime());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ItemViewHolder) {
+            DNotification.NotificationListDetail message = notificationItemLists.get(position);
+            ((ItemViewHolder) holder).message = message;
+            ((ItemViewHolder) holder).lblSender.setText(message.sCreatrNm == null ? "null" : "SYSTEM");
+            ((ItemViewHolder) holder).lblTitlex.setText(message.sMsgTitle);
+            ((ItemViewHolder) holder).lblBodyxx.setText(message.sMessagex);
+            ((ItemViewHolder) holder).lblDateTm.setText(FormatUIText.getParseDateTime(message.dReceived));
 
-        if(message.getStatus().equalsIgnoreCase("2")){
-            holder.lblSender.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
-            holder.lblDateTm.setTypeface(Typeface.DEFAULT_BOLD);
+            if (message.cMesgStat.equalsIgnoreCase("2")) {
+                ((ItemViewHolder) holder).lblSender.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblTitlex.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblBodyxx.setTypeface(Typeface.DEFAULT_BOLD);
+                ((ItemViewHolder) holder).lblDateTm.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+        } else if (holder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) holder, position);
         }
     }
 
@@ -73,9 +81,14 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         return notificationItemLists.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return notificationItemLists.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
     public class ItemViewHolder extends RecyclerView.ViewHolder{
 
-        public NotificationItemList message;
+        public DNotification.NotificationListDetail message;
         public ImageView imgSendr;
         public TextView lblSender;
         public TextView lblTitlex;
@@ -94,14 +107,29 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if(position != RecyclerView.NO_POSITION){
-                    mListener.OnClick(message.getMessageID(), message.getTitle(), message.getMessage(), message.getName(), message.getDateTime(), message.getReceipt());
+                    mListener.OnClick(message.sMesgIDxx);
                 }
             });
         }
     }
 
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+
+    }
+
     public interface OnItemClickListener{
-        void OnClick(String ID, String Title, String Message, String Sender, String Date, String Receipt);
+        void OnClick(String ID);
         void OnActionButtonClick(String message);
     }
 }

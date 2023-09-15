@@ -1,172 +1,225 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.graphics.Color;
+import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchLoanApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplication;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Data.UploadCreditApp;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.CoMakerResidenceModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Data.GoCasBuilder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.CoMakerResidence;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECountryInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
 
-public class VMComakerResidence extends AndroidViewModel {
+public class VMComakerResidence extends AndroidViewModel implements CreditAppUI {
     private static final String TAG = VMComakerResidence.class.getSimpleName();
-    private ECreditApplicantInfo poInfo;
-    private final GOCASApplication poGoCas;
-    private final RCreditApplicant poCreditApp;
-    private final RCreditApplication poApplx;
-    private final RProvince poProvnce;
-    private final RTown poTownRpo;
-    private final RBarangay poBarangy;
-    private final Application instance;
-    private final RBranchLoanApplication poLoan;
 
-    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
+    private final CreditApp poApp;
+    private final CoMakerResidence poModel;
 
-    private final MutableLiveData<String> psProvID = new MutableLiveData<>();
-    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
+    private String TransNox;
+
+    private String message;
+
 
     public VMComakerResidence(@NonNull Application application) {
         super(application);
-        this.poGoCas = new GOCASApplication();
-        this.poCreditApp = new RCreditApplicant(application);
-        this.poProvnce = new RProvince(application);
-        this.poTownRpo = new RTown(application);
-        this.poBarangy = new RBarangay(application);
-        this.poApplx = new RCreditApplication(application);
-        this.instance = application;
-        this.poLoan = new RBranchLoanApplication(application);
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.CoMaker_Residence_Info);
+        this.poModel = new CoMakerResidence();
     }
 
-    public void setTransNox(String transNox){
-        this.psTransNox.setValue(transNox);
+    public CoMakerResidence getModel() {
+        return poModel;
     }
 
-    public LiveData<ECreditApplicantInfo> getCreditApplicantInfo(){
-        return poCreditApp.getCreditApplicantInfoLiveData(psTransNox.getValue());
+    @Override
+    public void InitializeApplication(Intent params) {
+        TransNox = params.getStringExtra("sTransNox");
     }
 
-    public void setCreditApplicantInfo(ECreditApplicantInfo applicantInfo){
-        poInfo = applicantInfo;
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return poApp.GetApplication(TransNox);
     }
 
-    public LiveData<String[]> getProvinceNameList(){
-        return poProvnce.getAllProvinceNames();
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+//        new ParseDataTask(listener).execute(args);
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                ECreditApplicantInfo lsInfo = (ECreditApplicantInfo) args;
+                try {
+                    CoMakerResidence loDetail = (CoMakerResidence) poApp.Parse(lsInfo);
+                    if (loDetail == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+                    return loDetail;
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                CoMakerResidence lsResult = (CoMakerResidence) object;
+                if (lsResult == null) {
+                    Log.e(TAG, message);
+                } else {
+                    listener.OnParse(lsResult);
+                }
+            }
+        });
     }
 
-    public LiveData<List<EProvinceInfo>> getProvinceInfo(){
-        return poProvnce.getAllProvinceInfo();
+    @Override
+    public void Validate(Object args) {
+
     }
 
-    public void setProvinceID(String ProvID){
-        this.psProvID.setValue(ProvID);
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                CoMakerResidence lsInfo =(CoMakerResidence) args;
+                int lnResult = poApp.Validate(lsInfo);
+
+                if (lnResult != 1) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                String lsResult = poApp.Save(lsInfo);
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                TransNox = lsInfo.getTransNox();
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (!lsSuccess) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(TransNox);
+                }
+            }
+        });
+    }
+    
+    public LiveData<List<DTownInfo.TownProvinceInfo>> GetTownProvinceList() {
+        return poApp.GetTownProvinceList();
     }
 
-    public LiveData<String[]> getTownNameList(){
-        return poTownRpo.getTownNamesFromProvince(psProvID.getValue());
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String args) {
+        return poApp.GetBarangayList(args);
     }
 
-    public LiveData<List<ETownInfo>> getTownInfoList(){
-        return poTownRpo.getTownInfoFromProvince(psProvID.getValue());
-    }
-
-    public void setTownID(String townID){
-        this.psTownID.setValue(townID);
-    }
-
-    public LiveData<String[]> getBarangayListName(){
-        return poBarangy.getBarangayNamesFromTown(psTownID.getValue());
-    }
-
-    public LiveData<List<EBarangayInfo>> getBarangayInfoList(){
-        return poBarangy.getAllBarangayFromTown(psTownID.getValue());
-    }
-
-    public LiveData<DTownInfo.BrgyTownProvinceInfoWithID> getBrgyTownProvinceInfoWithID(String BrgyID)  {
-        return poTownRpo.getBrgyTownProvinceInfoWithID(BrgyID);
-    }
-
-    public LiveData<ArrayAdapter<String>> getHouseHolds(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.HOUSEHOLDS));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getHouseType(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.HOUSE_TYPE));
-        return liveData;
-    }
-
-    public LiveData<ArrayAdapter<String>> getLenghtOfStay(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.LENGTH_OF_STAY));
-        return liveData;
-    }
-
-    public void SaveCoMakerResidence(CoMakerResidenceModel infoModel, ViewModelCallBack callBack){
-        if(infoModel.isDataValid()){
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setLandMark(infoModel.getsLandMark());
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setHouseNo(infoModel.getsHouseNox());
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setAddress1(infoModel.getsAddress1());
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setAddress2(infoModel.getsAddress2());
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setTownCity(infoModel.getsMuncplID());
-            poGoCas.CoMakerInfo().ResidenceInfo().PresentAddress().setBarangay(infoModel.getsBrgyIDxx());
-            poGoCas.CoMakerInfo().ResidenceInfo().setOwnership(infoModel.getsHouseOwn());
-            poGoCas.CoMakerInfo().ResidenceInfo().setCareTakerRelation(infoModel.getsRelation());
-            poGoCas.CoMakerInfo().ResidenceInfo().setOwnedResidenceInfo(infoModel.getsHouseHld());
-            poGoCas.CoMakerInfo().ResidenceInfo().setHouseType(infoModel.getsHouseTpe());
-            poGoCas.CoMakerInfo().ResidenceInfo().setRentedResidenceInfo(infoModel.getsHouseHld());
-            poGoCas.CoMakerInfo().ResidenceInfo().setRentExpenses(infoModel.getsExpenses());
-            poGoCas.CoMakerInfo().ResidenceInfo().setRentNoYears(infoModel.getsLenghtSt());
-            poGoCas.CoMakerInfo().ResidenceInfo().hasGarage(infoModel.getsHasGarge());
-            poInfo.setCmResidx(poGoCas.CoMakerInfo().ResidenceInfo().toJSONString());
-            poCreditApp.updateGOCasData(poInfo);
-            Log.e(TAG, poGoCas.toJSONString());
-            callBack.onSaveSuccessResult("success");
-        } else {
-            callBack.onFailedResult(infoModel.getMessage());
-        }
+    public LiveData<List<ECountryInfo>> GetCountryList() {
+        return poApp.GetCountryList();
     }
 }
+
+//}
+//private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, CoMakerResidence> {
+//
+//    private final OnParseListener listener;
+//
+//    public ParseDataTask(OnParseListener listener) {
+//        this.listener = listener;
+//    }
+//
+//    @Override
+//    protected CoMakerResidence doInBackground(ECreditApplicantInfo... app) {
+//        try {
+//            CoMakerResidence loDetail = (CoMakerResidence) poApp.Parse(app[0]);
+//            if (loDetail == null) {
+//                message = poApp.getMessage();
+//                return null;
+//            }
+//            return loDetail;
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//            message = getLocalMessage(e);
+//            return null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            message = getLocalMessage(e);
+//            return null;
+//        }
+//    }
+//
+//    @Override
+//    protected void onPostExecute(CoMakerResidence result) {
+//        super.onPostExecute(result);
+//        if (result == null) {
+//            Log.e(TAG, message);
+//        } else {
+//            listener.OnParse(result);
+//        }
+//    }
+//}
+//
+//private class SaveDetailTask extends AsyncTask<CoMakerResidence, Void, Boolean> {
+//
+//    private final OnSaveInfoListener listener;
+//
+//    public SaveDetailTask(OnSaveInfoListener listener) {
+//        this.listener = listener;
+//    }
+//
+//    @Override
+//    protected Boolean doInBackground(CoMakerResidence... info) {
+//        int lnResult = poApp.Validate(info[0]);
+//
+//        if (lnResult != 1) {
+//            message = poApp.getMessage();
+//            return false;
+//        }
+//
+//        String lsResult = poApp.Save(info[0]);
+//        if (lsResult == null) {
+//            message = poApp.getMessage();
+//            return false;
+//        }
+//
+//        TransNox = info[0].getTransNox();
+//        return true;
+//    }
+//
+//    @Override
+//    protected void onPostExecute(Boolean isSuccess) {
+//        super.onPostExecute(isSuccess);
+//        if (!isSuccess) {
+//            listener.OnFailed(message);
+//        } else {
+//            listener.OnSave(TransNox);
+//        }
+//    }
+//}

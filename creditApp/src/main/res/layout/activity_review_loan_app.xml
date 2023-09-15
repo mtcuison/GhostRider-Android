@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_ReviewLoanApp"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:popupTheme="@style/GhostRiderMaterialTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linear_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_loanApplicant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            android:src="@drawable/ic_user_profile"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_camera"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_alignEnd="@+id/img_loanApplicant"
+                android:layout_alignRight="@+id/img_loanApplicant"
+                android:layout_alignBottom="@+id/img_loanApplicant"
+                android:layout_marginEnd="-24dp"
+                android:layout_marginRight="-24dp"
+                android:layout_marginBottom="-1dp"
+                app:icon="@drawable/ic_camera_black_24"
+                app:tint="@color/guanzon_orange" />
+
+        </RelativeLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/lbl_clientNme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doe, John C."
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_black"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_applicationInfo"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/relative_footer"
+        android:layout_below="@+id/linear_header"
+        android:padding="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/relative_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_creditAppPrvs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/NavigationButton"
+            android:text="Previous"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentStart="true" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_loanAppSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/NavigationButton"
+            android:text="Save"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+</LinearLayout>

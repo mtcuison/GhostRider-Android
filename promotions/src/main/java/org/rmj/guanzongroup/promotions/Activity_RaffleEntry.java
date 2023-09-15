@@ -27,10 +27,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.promotions.Etc.RaffleEntryCallback;
 import org.rmj.guanzongroup.promotions.Model.RaffleEntry;
 import org.rmj.guanzongroup.promotions.ViewModel.VMRaffleEntry;
@@ -43,7 +44,7 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
     private Toolbar toolbar;
     private TextInputEditText txtName, txtAddress, txtDocuNo, txtMobileNo;
     private AutoCompleteTextView txtTown;
-    private Spinner spnDocuType;
+    private MaterialAutoCompleteTextView spnDocuType;
     private MaterialButton btnSubmit;
     private VMRaffleEntry mViewModel;
     private String sReferCde = "";
@@ -110,6 +111,7 @@ public class Activity_RaffleEntry extends AppCompatActivity implements RaffleEnt
 
         mViewModel.getDocuments().observe(Activity_RaffleEntry.this, strings -> {
             spnDocuType.setAdapter(new ArrayAdapter<>(Activity_RaffleEntry.this, R.layout.spinner_drop_down_item, strings));
+
             spnDocuType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {

@@ -21,9 +21,22 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.GToast;
 import org.rmj.g3appdriver.etc.OnDateSetListener;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
@@ -54,13 +67,13 @@ public class DialogCheckPayment {
         poDialogx = loBuilder.create();
         poDialogx.setCancelable(false);
 
-        AutoCompleteTextView txtBankNme = view.findViewById(R.id.txt_dcpBankName);
+        MaterialAutoCompleteTextView txtBankNme = view.findViewById(R.id.txt_dcpBankName);
         TextInputEditText txtCheckDt = view.findViewById(R.id.txt_dcpCheckDate);
         TextInputEditText txtCheckNo = view.findViewById(R.id.txt_dcpCheckNo);
         TextInputEditText txtAccntNo = view.findViewById(R.id.txt_dcpAcctNumber);
 
-        Button btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
-        Button btnCancel = view.findViewById(R.id.btn_cancel);
+        MaterialButton btnConfirm = view.findViewById(R.id.btn_dcpConfirm);
+        MaterialButton btnCancel = view.findViewById(R.id.btn_cancel);
 
         ArrayAdapter<String> loAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, bankList);
         txtBankNme.setAdapter(loAdapter);

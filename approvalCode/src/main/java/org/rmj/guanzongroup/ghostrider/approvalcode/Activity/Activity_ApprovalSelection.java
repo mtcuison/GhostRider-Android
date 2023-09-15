@@ -18,6 +18,18 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -38,7 +50,7 @@ public class Activity_ApprovalSelection extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this).get(VMApprovalSelection.class);
 
         String lsSysType = getIntent().getStringExtra("sysCode");
-        Toolbar toolbar = findViewById(R.id.toolbar_approvalSelection);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_approvalSelection);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.recyclerview_approvalAuth);

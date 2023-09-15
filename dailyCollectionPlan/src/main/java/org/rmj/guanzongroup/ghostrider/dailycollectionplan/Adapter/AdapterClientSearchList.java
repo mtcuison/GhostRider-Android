@@ -15,12 +15,14 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.google.android.material.textview.MaterialTextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 
 import java.util.List;
@@ -78,7 +80,7 @@ public class AdapterClientSearchList extends RecyclerView.Adapter<AdapterClientS
     public static class ClientListHolder extends RecyclerView.ViewHolder{
 
         EDCPCollectionDetail loDetail;
-        TextView lblAccNox, lblClientNm, lblAddress;
+        MaterialTextView lblAccNox, lblClientNm, lblAddress;
 
         public ClientListHolder(@NonNull View itemView, OnAdapterClickListener listener) {
             super(itemView);

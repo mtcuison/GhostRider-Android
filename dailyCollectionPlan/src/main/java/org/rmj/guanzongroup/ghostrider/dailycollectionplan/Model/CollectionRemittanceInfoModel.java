@@ -13,8 +13,7 @@ package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model;
 
 import androidx.annotation.NonNull;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
+import org.rmj.g3appdriver.etc.AppConstants;
 
 import java.util.Objects;
 
@@ -22,7 +21,7 @@ public class CollectionRemittanceInfoModel {
     private String TransNox;
 
     private String EntryNox;
-    private String Transact = new AppConstants().CURRENT_DATE;
+    private String Transact = AppConstants.CURRENT_DATE();
     private String PaymForm;
     private String RemitTyp;
     private String CompnyNm;

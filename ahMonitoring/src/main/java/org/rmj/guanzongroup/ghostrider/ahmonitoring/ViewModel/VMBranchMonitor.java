@@ -18,31 +18,50 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchPerformance;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DBranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBranchPerformance;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBranchPerformance;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.BullsEye.obj.BranchPerformance;
 
 import java.util.List;
 
 public class VMBranchMonitor extends AndroidViewModel {
     public static final String TAG = VMBranchMonitor.class.getSimpleName();
-
+    private final EmployeeMaster poEmploye;
     private final RBranchPerformance poDatabse;
-    private final RBranch poBranch;
+    private  final BranchPerformance poSys;
+    private final Branch poBranch;
     private final MutableLiveData<String> psType = new MutableLiveData<>();
 
     public VMBranchMonitor(@NonNull Application application) {
         super(application);
         poDatabse = new RBranchPerformance(application);
-        poBranch = new RBranch(application);
+        poSys = new BranchPerformance(application);
+        poBranch = new Branch(application);
         psType.setValue("MC");
+        poEmploye = new EmployeeMaster(application);
     }
 
     public LiveData<List<EBranchPerformance>>  getAllBranchPerformanceInfoByBranch(String branchCD){
         return poDatabse.getAllBranchPerformanceInfoByBranch(branchCD);
     }
+    public LiveData<EEmployeeInfo> getEmployeeInfo(){
+        return poEmploye.GetEmployeeInfo();
+    }
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetMCSalesPeriodicPerformance(String BranchCd){
+        return poSys.GetMCSalesPeriodicPerformance(BranchCd);
+    }
 
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetSPSalesPeriodicPerformance(String BranchCd){
+        return poSys.GetSPSalesPeriodicPerformance(BranchCd);
+    }
+
+    public LiveData<List<DBranchPerformance.PeriodicalPerformance>> GetJobOrderPeriodicPerformance(String BranchCd){
+        return poSys.GetJobOrderPeriodicPerformance(BranchCd);
+    }
     public LiveData<DBranchPerformance.MonthlyPieChart> get12MonthBranchPieChartData(String sBranchCd, String fsValue1, String fsValue2) {
         return poDatabse.get12MonthBranchPieChartData(sBranchCd, fsValue1, fsValue2);
     }
@@ -59,4 +78,13 @@ public class VMBranchMonitor extends AndroidViewModel {
         return psType;
     }
 
+    public LiveData<String> GetCurrentMCSalesPerformance(String brnCD) {
+        return poSys.GetCurrentMCSalesPerformance(brnCD);
+    }
+    public LiveData<String> GetCurrentSPSalesPerformance(String brnCD) {
+        return poSys.GetCurentSPSalesPerformance(brnCD);
+    }
+    public LiveData<String> GetJobOrderPerformance(String brnCD) {
+        return poSys.GetJobOrderPerformance(brnCD);
+    }
 }

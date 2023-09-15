@@ -14,23 +14,36 @@ package org.rmj.guanzongroup.authlibrary.UserInterface.ForgotPassword;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.divider.MaterialDivider;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.imageview.ShapeableImageView;
+import  com.google.android.material.checkbox.MaterialCheckBox;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+
 import org.rmj.g3appdriver.etc.AppConfigPreference;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.authlibrary.R;
 
 import java.util.Objects;
@@ -43,7 +56,7 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
     private MaterialButton btnSendEmail;
     private LoadDialog poDialog;
     private MessageBox poMsgBox;
-    private TextView lblVersion;
+    private MaterialTextView lblVersion;
 
     private AppConfigPreference poConfigx;
 
@@ -69,12 +82,52 @@ public class Fragment_ForgotPassword extends Fragment implements VMForgotPasswor
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         try {
             mViewModel = new ViewModelProvider(this).get(VMForgotPassword.class);
             lblVersion.setText(poConfigx.getVersionInfo());
             btnSendEmail.setOnClickListener(view -> {
                 String email = Objects.requireNonNull(tieEmail.getText()).toString().trim();
-                mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
+                //mViewModel.RequestPassword(email, Fragment_ForgotPassword.this);
+                mViewModel.RequestPassword(email, new VMForgotPassword.RequestPasswordCallback() {
+                    @Override
+                    public void OnSendRequest(String title, String message) {
+                        poDialog.initDialog(title, message, false);
+                        poDialog.show();
+
+                        poMsgBox.initDialog();
+                    }
+
+                    @Override
+                    public void OnSuccessRequest() {
+                        poDialog.dismiss();
+                        poMsgBox.setTitle("Result");
+                        poMsgBox.setMessage("Successfully sent request.");
+                        poMsgBox.setPositiveButton("OK", new MessageBox.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        poMsgBox.show();
+                    }
+
+                    @Override
+                    public void OnFailedRequest(String message) {
+                        poDialog.dismiss();
+                        poMsgBox.setTitle("Result");
+                        poMsgBox.setMessage("Failed to send request: " + message);
+                        poMsgBox.setPositiveButton("OK", new MessageBox.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        poMsgBox.show();
+                    }
+                });
             });
         } catch (Exception e){
             e.printStackTrace();

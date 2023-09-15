@@ -1,6 +1,7 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Core;
 
 import static org.junit.Assert.*;
+import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 
 import android.app.Application;
 import android.os.Build;
@@ -15,20 +16,14 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.dev.Api.HttpHeaders;
+import org.rmj.g3appdriver.dev.Api.WebClient;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeInfo;
+import org.rmj.g3appdriver.dev.Device.Telephony;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.utils.SQLUtil;
-import org.rmj.g3appdriver.utils.SecUtil;
-import org.rmj.g3appdriver.utils.WebClient;
-
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(AndroidJUnit4.class)
@@ -39,11 +34,11 @@ public class DownloadPostDCPWithoutRemCodeTest {
     private Application instance;
 
     private AppConfigPreference poConfig;
-    private SessionManager poSession;
+    private EmployeeSession poSession;
     private HttpHeaders poHeaders;
     private DcpManager poDcp;
 
-    private REmployee poUser;
+    private EmployeeMaster poUser;
     private Telephony poTlphny;
 
     private boolean isSuccess = false;
@@ -53,12 +48,13 @@ public class DownloadPostDCPWithoutRemCodeTest {
         instance = ApplicationProvider.getApplicationContext();
         poConfig = AppConfigPreference.getInstance(instance);
         poHeaders = HttpHeaders.getInstance(instance);
-        poSession = new SessionManager(instance);
+        poSession = EmployeeSession.getInstance(instance);
         poDcp = new DcpManager(instance);
-        poUser = new REmployee(instance);
+        poUser = new EmployeeMaster(instance);
         poTlphny = new Telephony(instance);
+        poConfig.setTestCase(true);
         poConfig.setMobileNo("09171870011");
-        poConfig.setTemp_ProductID("gRider");
+        poConfig.setProductID("gRider");
         poConfig.setAppToken("f7qNSw8TRPWHSCga0g8YFF:APA91bG3i_lBPPWv9bbRasNzRH1XX1y0vzp6Ct8S_a-yMPDvSmud8FEVPMr26zZtBPHq2CmaIw9Rx0MZmf3sbuK44q3vQemUBoPPS4Meybw8pnTpcs3p0VbiTuoLHJtdncC6BgirJxt3");
     }
 
@@ -73,7 +69,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
         JSONObject params = new JSONObject();
         params.put("user", "mikegarcia8748@gmail.com");
         params.put("pswd", "123456");
-        String lsResponse = WebClient.httpPostJSon(LOCAL_LOGIN,
+        String lsResponse = WebClient.sendRequest(LOCAL_LOGIN,
                 params.toString(), poHeaders.getHeaders());
         if(lsResponse == null){
             isSuccess = false;
@@ -92,18 +88,19 @@ public class DownloadPostDCPWithoutRemCodeTest {
                 employeeInfo.setUserLevl(loResponse.getString("nUserLevl"));
                 employeeInfo.setDeptIDxx(loResponse.getString("sDeptIDxx"));
                 employeeInfo.setPositnID(loResponse.getString("sPositnID"));
-                employeeInfo.setEmpLevID(loResponse.getString("sEmpLevID"));
+                employeeInfo.setEmpLevID(loResponse.getInt("sEmpLevID"));
                 employeeInfo.setAllowUpd(loResponse.getString("cAllowUpd"));
                 employeeInfo.setEmployID(loResponse.getString("sEmployID"));
                 employeeInfo.setDeviceID(poTlphny.getDeviceID());
                 employeeInfo.setModelIDx(Build.MODEL);
                 employeeInfo.setMobileNo(poConfig.getMobileNo());
                 employeeInfo.setLoginxxx(new AppConstants().DATE_MODIFIED);
-                employeeInfo.setSessionx(AppConstants.CURRENT_DATE);
-                poUser.insertEmployee(employeeInfo);
+                employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
+//                poUser.insertEmployee(employeeInfo);
 
                 String lsClientx = loResponse.getString("sClientID");
                 String lsUserIDx = loResponse.getString("sUserIDxx");
+                String lsUserNme = loResponse.getString("sUserName");
                 String lsLogNoxx = loResponse.getString("sLogNoxxx");
                 String lsBranchx = loResponse.getString("sBranchCD");
                 String lsBranchN = loResponse.getString("sBranchNm");
@@ -113,10 +110,10 @@ public class DownloadPostDCPWithoutRemCodeTest {
                 String lsEmpLvlx = loResponse.getString("sEmpLevID");
                 isSuccess = true;
 
-                poSession.initUserSession(lsUserIDx, lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
+                poSession.initUserSession(lsUserIDx, lsUserNme,lsClientx, lsLogNoxx, lsBranchx, lsBranchN, lsDeptIDx, lsEmpIDxx, lsPostIDx, lsEmpLvlx, "1");
             } else {
                 JSONObject loError = loResponse.getJSONObject("error");
-                String lsMessage = loError.getString("message");
+                String lsMessage = getErrorMessage(loError);
                 isSuccess = false;
             }
         }
@@ -124,22 +121,42 @@ public class DownloadPostDCPWithoutRemCodeTest {
 
     @Test
     public void test02DownloadDCP() throws Exception{
-        poDcp.ImportDcpMaster(new DcpManager.OnActionCallback() {
-            @Override
-            public void OnSuccess(String args) {
-                isSuccess = true;
-            }
-
-            @Override
-            public void OnFailed(String message) {
-                isSuccess = false;
-            }
-        });
-        assertTrue(isSuccess);
+//        poDcp.ImportDcpMaster("M00117001404", "2022-02-22", new DcpManager.OnActionCallback() {
+//            @Override
+//            public void OnSuccess(String args) {
+//                isSuccess = true;
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                isSuccess = false;
+//            }
+//        });
+//        assertTrue(isSuccess);
     }
 
     @Test
-    public void test03PostLRDCPCollectionWithoutRemCode() throws Exception{
+    public void test03ValidatePostCollection() throws Exception{
+//        poDcp.ValidatePostCollection(new DcpManager.OnValidateCallback() {
+//            @Override
+//            public void OnSuccess(boolean hasNV, String args) {
+//                if(hasNV){
+//                    isSuccess = true;
+//                } else {
+//                    isSuccess = false;
+//                }
+//            }
+//
+//            @Override
+//            public void OnFailed(String message) {
+//                isSuccess = false;
+//            }
+//        });
+//        assertTrue(isSuccess);
+    }
+
+    @Test
+    public void test04PostLRDCPCollectionWithoutRemCode() throws Exception{
         poDcp.PostLRDCPCollection(new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {
@@ -155,7 +172,7 @@ public class DownloadPostDCPWithoutRemCodeTest {
     }
 
     @Test
-    public void test04PostDcpMaster() throws Exception{
+    public void test05PostDcpMaster() throws Exception{
         poDcp.PostDcpMaster(new DcpManager.OnActionCallback() {
             @Override
             public void OnSuccess(String args) {

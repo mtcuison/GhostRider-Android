@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.g3appdriver
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 4/24/21 3:19 PM
+  ~ project file last modified : 4/24/21 3:17 PM
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <color name="material_black">#1A1C25</color>
+    <color name="material_white">#fcfcfc</color>
+
+    <color name="background_dark">#161B24</color>
+    <color name="background_light">#F2F2F2</color>
+
+    <color name="colorPrimaryLight">#F88222</color>
+    <color name="colorSecondaryLight">#F47422</color>
+
+    <color name="colorPrimaryVariantLight">#F47422</color>
+    <color name="colorSecondaryVariantLight">#F47422</color>
+
+    <color name="statusBarColorLight">#F47422</color>
+    <color name="statusBarColorDark">#FF303137</color>
+
+    <color name="colorPrimaryDark">#F47422</color>
+    <color name="colorPrimaryVariantDark">#F47422</color>
+
+    <color name="guanzon_orange">#F88222</color>
+    <color name="textColor_Black">#000</color>
+    <color name="textColor_White">#FFF</color>
+    <color name="progressDialogTint">#1A1C25</color>
+    <color name="material_lightgrey">#fcfcfc</color>
+    <color name="material_lightgrey_selector">#ebebeb</color>
+    <color name="material_nav_light_gradient">#575757</color>
+
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#6B000000</color>
+    <color name="mtrl_textinput_default_box_stroke_colors" tools:override="true">#fbfbfb</color>
+
+    <color name="material_master_light_gradient">#ffff</color>
+    <color name="material_master_dark_gradient">#DBDBDB</color>
+    <color name="material_tool_bar">#101010</color>
+    <color name="color_nine_seven">#979797</color>
+    <color name="color_eight_seven">#878787</color>
+    <color name="color_dadada">#DADADA</color>
+    <color name="color_circle_logo">#fff</color>
+
+    <!-- Kent -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="guanzon_dark_grey">#8C8C8C</color>
+    <color name="guanzon_text_grey">#272727</color>
+    <color name="guanzon_deep_dark_grey">#222222</color>
+    <color name="guanzon_digital_orange">#FF8200</color>
+    <color name="guanzon_digital_orange_lighten">#FFA84D</color>
+    <color name="footer_dark_grey">#393939</color>
+    <color name="success_green">#009A17</color>
+    <color name="error_red">#CD001A</color>
+
+    <color name="light_red">#ff3333</color>
+
+    <color name="check_green">#008000</color>
+    <color name="cross_red">#ac0d0d</color>
+
+    <color name="branch_opening_late">#F86060</color>
+    <color name="branch_opening">#f2f2f2</color>
+
+    <color name="color_nav_dashboard">#575757</color>
+
+</resources>

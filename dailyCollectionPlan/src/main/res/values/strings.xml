@@ -16,7 +16,6 @@
     <string name="sHintMiddName">MiddleName</string>
     <string name="sHintNickname">NickName</string>
     <string name="sHintBirthDate">Birth Date (MM/DD/YYYY)</string>
-    <string name="sHintBpProv">Province (Birth Place)</string>
     <string name="sGenderMale">Male</string>
     <string name="sGenderFmale">Female</string>
     <string name="sGenderLGBT">LGBT</string>
@@ -39,7 +38,6 @@
     <string name="sHintHouseNo">House No.</string>
     <string name="sHintLotNo">Phase#/Lot#/Sitio</string>
     <string name="sHintStreet">Street</string>
-    <string name="sHintProvince">Province</string>
     <string name="sHintTown">Municipality</string>
     <string name="sHintBarangay">Barangay</string>
     <string name="sLabelHouseOwnership">House Ownership</string>
@@ -58,15 +56,11 @@
     <string name="sLabelYes">Yes</string>
     <string name="sLabelNo">No</string>
     <!--    <string name="sHeaderLabelSector">Employment Sector</string>-->
-    <string name="sHeaderLabelSector">Is dependent employed?</string>
-    <string name="sHeaderLabelEmploymentTypeSector">Employment Type</string>
     <string name="sHeaderLabelSpouseEmploymentTypeSector">Spouse Employment Type</string>
     <string name="sLabelUniformPersonnel">Is applicant uniform personnel?</string>
     <string name="sLabelMilitaryPersonnel">Is applicant military personnel?</string>
     <string name="sLabelPrivate">Private</string>
     <string name="sLabelGovernment">Government</string>
-    <string name="sLabelArClient">AR Client</string>
-    <string name="sLabelInsuranceClient">Insurance Client</string>
     <string name="sLblCheckPayment">Check Payment</string>
     <string name="sLabelOFW">OFW</string>
     <string name="sHintMonthlyExp">Monthly Expense (Required)</string>
@@ -87,37 +81,26 @@
     <string name="sBtnAddDependent">Add Dependent</string>
     <string name="sHintDependentFNme">Dependent Full Name</string>
     <string name="sHintAge">Age</string>
-    <string name="sHintSchoolNm">Is dependent a student?</string>
     <string name="sDependentStudent">School Name</string>
     <string name="sLabelQUnitUser">Who will use the unit?</string>
     <string name="sLabelQUnitPurpose">Purpose of buying the unit.</string>
     <string name="sLabelQMonthlyAmort">Who will shoulder the monthly payment?</string>
     <string name="sLabelQDiscoverUs">How you know about us?</string>
     <string name="sHintSpecify">Please specify</string>
-    <string name="sbtnAddReference">Add Reference</string>
     <string name="sLabelGarage">With safe garage</string>
     <string name="sHintLengthStay">Length of Stay (Required)</string>
     <string name="sHintRelationship">Relationship</string>
-    <string name="sHintDependentRelationship">Dependent Relationship</string>
-    <string name="sSchoolType">School Type</string>
-    <string name="sSchoolLvl">Education Level</string>
-    <string name="sHintCollectTp">Collection Type</string>
     <string name="sHintYear">Year</string>
     <string name="sHintNewApplication">Create New Application</string>
     <string name="sbtnPrvs">Previous</string>
-    <string name="sHintCivilStatus">Civil Status</string>
 
 
     <string name="header_creditApp_coMakerInfo">CO MAKER\'S INFORMATION</string>
-    <string name="header_creditApp_birthPlace">BIRTH PLACE</string>
-    <string name="header_creditApp_birthdayInfo">BIRTHDATE</string>
-    <string name="header_creditApp_contact">CONTACT</string>
     <string name="hint_creditApp_maidenName">Applicant\'s Maiden Name</string>
 
     <string name="sDCP_CNA_RG_Contact">Contact Number</string>
     <string name="sDCP_CNA_RG_Address">Address</string>
     <string name="btn_add">Add</string>
-    <string name="btn_commit">Commit</string>
     <string name="btn_submit">Submit</string>
 
     <string name="sHouseNox">House No.</string>
@@ -127,19 +110,12 @@
     <string name="sLblRemarks">Remarks</string>
     <string name="sLblNoTransactionLogInDate">No transaction log on this date.</string>
     <string name="sLblNoTransactionLogInName">Customer name does not exist in the list.</string>
-    <string name="sActionMenu_TransactionList">Transaction List</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="sActionMenu_ARClient">Get AR Client Info</string>
     <string name="sActionMenu_AddCollection">Add Collection</string>
-    <string name="sActionMenu_InsuranceClient">Get Insurance Client info</string>
     <string name="sActionMenu_postCollection">Post Collection</string>
-    <string name="sActionMenu_imageLog">Image Log</string>
     <string name="sActionMenu_exportFile">Export Collection File</string>
-    <string name="sActionMenu_uploadFile">Import Collection File</string>
-    <string name="sActionMenu_remitCollection">Remit Collection</string>
-    <string name="lsHintImportFile">How to import DCP collection list?</string>
+    <string name="sActionMenu_clearDCP">Clear DCP Records</string>
     <string name="sTitle_DCP">Daily Collection Plan</string>
     <string name="sTitle_DCPImageLog">DCP Image Log</string>
     <string name="sLabel_NoDCP">No collection list available. \n Please select an option to retrieve the data.</string>

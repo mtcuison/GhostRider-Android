@@ -26,8 +26,8 @@ import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.rmj.g3appdriver.GRider.Etc.LoadDialog;
-import org.rmj.g3appdriver.GRider.Etc.MessageBox;
+import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.samsungknox.Etc.ViewModelCallBack;
 import org.rmj.guanzongroup.ghostrider.samsungknox.R;
 import org.rmj.guanzongroup.ghostrider.samsungknox.ViewModel.VMUnlock;
@@ -49,23 +49,18 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(VMUnlock.class);
         View v = inflater.inflate(R.layout.fragment_unlock, container, false);
         dialog = new LoadDialog(getActivity());
         loMessage = new MessageBox(getActivity());
         txtImei = v.findViewById(R.id.txt_knoxImei);
         btnGetPIN = v.findViewById(R.id.btn_knoxUnlock);
-
-        return v;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(VMUnlock.class);
         btnGetPIN.setOnClickListener(view -> {
             String lsDevcIDx = Objects.requireNonNull(txtImei.getText()).toString();
             mViewModel.UnlockDevice(lsDevcIDx, Fragment_Unlock.this);
         });
+
+        return v;
     }
 
     @Override
@@ -75,7 +70,7 @@ public class Fragment_Unlock extends Fragment implements ViewModelCallBack {
     }
 
     @Override
-    public void OnRequestSuccess(String args) {
+    public void OnRequestSuccess(String args, String args1, String args2, String args3) {
         dialog.dismiss();
         loMessage.initDialog();
         loMessage.setMessage(args);

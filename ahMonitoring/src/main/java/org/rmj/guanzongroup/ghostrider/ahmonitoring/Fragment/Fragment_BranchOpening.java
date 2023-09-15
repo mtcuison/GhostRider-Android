@@ -24,14 +24,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textview.MaterialTextView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Etc.FormatUIText;
-import org.rmj.g3appdriver.dev.DeptCode;
+import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Adapter.BranchOpeningAdapter;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.R;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.ViewModel.VMBranchOpening;
@@ -43,7 +44,7 @@ public class Fragment_BranchOpening extends Fragment {
 
     private VMBranchOpening mViewModel;
 
-    private TextView lblUserName,
+    private MaterialTextView lblUserName,
                     lblPosition,
                     lblBranch,
                     lblDate;
@@ -64,7 +65,7 @@ public class Fragment_BranchOpening extends Fragment {
         lblBranch = view.findViewById(R.id.lbl_userBranch);
         lblDate = view.findViewById(R.id.lbl_date);
         recyclerView = view.findViewById(R.id.recyclerview_openings);
-        lblDate.setText(FormatUIText.formatGOCasBirthdate(new AppConstants().CURRENT_DATE));
+        lblDate.setText(FormatUIText.formatGOCasBirthdate(AppConstants.CURRENT_DATE()));
         return view;
     }
 

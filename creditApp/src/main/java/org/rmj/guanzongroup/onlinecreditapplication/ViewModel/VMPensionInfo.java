@@ -1,135 +1,210 @@
-/*
- * Created by Android Team MIS-SEG Year 2021
- * Copyright (c) 2021. Guanzon Central Office
- * Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
- * Project name : GhostRider_Android
- * Module : GhostRider_Android.creditApp
- * Electronic Personnel Access Control Security System
- * project file created : 4/24/21 3:19 PM
- * project file last modified : 4/24/21 3:17 PM
- */
-
 package org.rmj.guanzongroup.onlinecreditapplication.ViewModel;
 
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.graphics.Color;
+import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Database.Entities.ECreditApplicantInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCreditApplicant;
-import org.rmj.gocas.base.GOCASApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Activity.Activity_CreditApplication;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.CreditAppConstants;
-import org.rmj.guanzongroup.onlinecreditapplication.Etc.GOCASHolder;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.PensionInfoModel;
-import org.rmj.guanzongroup.onlinecreditapplication.Model.ViewModelCallBack;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditApp;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditAppInstance;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.CreditOnlineApplication;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.OnSaveInfoListener;
+import org.rmj.g3appdriver.GCircle.Apps.CreditApp.model.Pension;
+import org.rmj.g3appdriver.GCircle.room.Entities.ECreditApplicantInfo;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
-public class VMPensionInfo extends AndroidViewModel {
-    private static final String TAG = VMPersonalInfo.class.getSimpleName();
-    private final RCreditApplicant poCreditApp;
-    private final GOCASApplication poGoCas;
-    private ECreditApplicantInfo poInfo;
 
-    private final MutableLiveData<String> TransNox = new MutableLiveData<>();
-    private final MutableLiveData<String> psPensionSector = new MutableLiveData<>();
-    private final MutableLiveData<JSONObject> poJson = new MutableLiveData<>();
+public class VMPensionInfo extends AndroidViewModel implements CreditAppUI {
+    private static final String TAG = VMPensionInfo.class.getSimpleName();
+
+    private final CreditApp poApp;
+    private final Pension poModel;
+    private String cvlStatus;
+
+    private String TransNox;
+
+    private String message;
 
     public VMPensionInfo(@NonNull Application application) {
         super(application);
-        poCreditApp = new RCreditApplicant(application);
-        poGoCas = new GOCASApplication();
+        this.poApp = new CreditOnlineApplication(application).getInstance(CreditAppInstance.Pension_Info);
+        this.poModel = new Pension();
     }
 
-    public void setTransNox(String fsTransNox){
-        this.TransNox.setValue(fsTransNox);
+    public Pension getModel() {
+        return poModel;
     }
 
-    public LiveData<ECreditApplicantInfo> getApplicationInfo(){
-        return poCreditApp.getCreditApplicantInfoLiveData(TransNox.getValue());
+    public String getCvlStatus() {
+        return cvlStatus;
     }
 
-    public void setDetailInfo(ECreditApplicantInfo fsDetailInfo){
-        try{
-            poInfo = fsDetailInfo;
-            setMeansInfos(poInfo.getAppMeans());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void setCvlStatus(String args) {
+        this.cvlStatus = args;
     }
 
-    public void setMeansInfos(String foJson){
-        try{
-            poJson.setValue(new JSONObject(foJson));
-        } catch (JSONException e){
-            e.printStackTrace();
-        }
+
+    @Override
+    public void InitializeApplication(Intent params) {
+        this.TransNox = params.getStringExtra("sTransNox");
     }
 
-    public LiveData<ArrayAdapter<String>> getPensionSector(){
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(CreditAppConstants.getAdapter(getApplication(), CreditAppConstants.PENSION_SECTOR));
-        return liveData;
-    }
-    public void setPensionSector(String lngthStay){
-        this.psPensionSector.setValue(lngthStay);
+    @Override
+    public LiveData<ECreditApplicantInfo> GetApplication() {
+        return poApp.GetApplication(TransNox);
     }
 
-    public int getPreviousPage() throws Exception {
-        if(poJson.getValue().getString("financer").equalsIgnoreCase("1")){
-            return 5;
-        } else if(poJson.getValue().getString("sEmplyed").equalsIgnoreCase("1")){
-            return 4;
-        } else if(poJson.getValue().getString("employed").equalsIgnoreCase("1")){
-            return 3;
-        } else {
-            return 2;
-        }
+    @Override
+    public void ParseData(ECreditApplicantInfo args, OnParseListener listener) {
+//        new ParseDataTask(listener).execute(args);
+        TaskExecutor.Execute(args, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                ECreditApplicantInfo lsApp = (ECreditApplicantInfo) args;
+                try {
+                    Pension loDetail = (Pension) poApp.Parse(lsApp);
+                    if (loDetail == null) {
+                        message = poApp.getMessage();
+                        return null;
+                    }
+                    return loDetail;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return null;
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Pension lsResult = (Pension) object;
+                if (lsResult == null) {
+                    Log.e(TAG, message);
+                } else {
+                    listener.OnParse(lsResult);
+                }
+            }
+        });
     }
 
-    public int getNextPage() {
-        if(poInfo.getIsSpouse().equalsIgnoreCase("1")){
-            return 7;
-        } else {
-            return 12;
-        }
+    @Override
+    public void Validate(Object args) {
+
     }
 
-    public LiveData<String> getSPensionSector(){
-        return this.psPensionSector;
-    }
-    public void SavePensionInfo(PensionInfoModel infoModel, ViewModelCallBack callBack){
-        try{
-//            if(infoModel.isPensionInfoValid()) {
-                poGoCas.MeansInfo().PensionerInfo().setSource(infoModel.getPensionSector());
-                poGoCas.MeansInfo().PensionerInfo().setAmount(infoModel.getPensionIncomeRange());
-                poGoCas.MeansInfo().PensionerInfo().setYearRetired(infoModel.getRetirementYear());
+    @Override
+    public void SaveData(OnSaveInfoListener listener) {
+//        new SaveDetailTask(listener).execute(poModel);
+        TaskExecutor.Execute(poModel, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                Pension lsInfo = (Pension) args;
+                int lnResult = poApp.Validate(lsInfo);
 
-                //TODO refactor saving other income nature and range of income to gocas
-                poGoCas.MeansInfo().setOtherIncomeNature(infoModel.getNatureOfIncome());
-                poGoCas.MeansInfo().setOtherIncomeAmount(infoModel.getRangeOfIncome());
-                poInfo.setPensionx(poGoCas.MeansInfo().toJSONString());
+                if (lnResult != 1) {
+                    message = poApp.getMessage();
+                    return false;
+                }
 
-                Log.e(TAG, poGoCas.MeansInfo().getIncomeSource());
-                poCreditApp.updateGOCasData(poInfo);
-                callBack.onSaveSuccessResult(String.valueOf(getNextPage()));
-//            } else {
-//                callBack.onFailedResult(infoModel.getMessage());
-//            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+                String lsResult = poApp.Save(lsInfo);
+                if (lsResult == null) {
+                    message = poApp.getMessage();
+                    return false;
+                }
+
+                TransNox = lsInfo.getTransNox();
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean lsSuccess = (Boolean) object;
+                if (!lsSuccess) {
+                    listener.OnFailed(message);
+                } else {
+                    listener.OnSave(TransNox);
+                }
+            }
+        });
     }
 }
+//
+//    private class ParseDataTask extends AsyncTask<ECreditApplicantInfo, Void, Pension>{
+//
+//        private final OnParseListener listener;
+//
+//        public ParseDataTask(OnParseListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Pension doInBackground(ECreditApplicantInfo... app) {
+//            try {
+//                Pension loDetail = (Pension) poApp.Parse(app[0]);
+//                if(loDetail == null){
+//                    message = poApp.getMessage();
+//                    return null;
+//                }
+//                return loDetail;
+//            } catch (Exception e){
+//                e.printStackTrace();
+//                message = getLocalMessage(e);
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Pension result) {
+//            super.onPostExecute(result);
+//            if(result == null){
+//                Log.e(TAG, message);
+//            } else {
+//                listener.OnParse(result);
+//            }
+//        }
+//    }
+//
+//    private class SaveDetailTask extends AsyncTask<Pension, Void, Boolean>{
+//
+//        private final OnSaveInfoListener listener;
+//
+//        public SaveDetailTask(OnSaveInfoListener listener) {
+//            this.listener = listener;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Pension... info) {
+//            int lnResult = poApp.Validate(info[0]);
+//
+//            if(lnResult != 1){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            String lsResult = poApp.Save(info[0]);
+//            if(lsResult == null){
+//                message = poApp.getMessage();
+//                return false;
+//            }
+//
+//            TransNox = info[0].getTransNox();
+//            return true;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Boolean isSuccess) {
+//            super.onPostExecute(isSuccess);
+//            if(!isSuccess){
+//                listener.OnFailed(message);
+//            } else {
+//                listener.OnSave(TransNox);
+//            }
+//        }
+//    }
+//}

@@ -12,147 +12,140 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
 import android.app.Application;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.apprdiver.util.LRUtil;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBankInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBankInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Http.HttpHeaders;
-import org.rmj.g3appdriver.GRider.Http.WebClient;
-import org.rmj.g3appdriver.dev.Telephony;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.PAY;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBankInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.GCircle.room.Repositories.RBankInfo;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.PaidDCP;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
-import org.rmj.g3appdriver.utils.WebApi;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.PaidTransactionModel;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
 public class VMPaidTransaction extends AndroidViewModel {
     private static final String TAG = VMPaidTransaction.class.getSimpleName();
-    private final Application instance;
-    private final RBranch poBranch;
-    private final RDailyCollectionPlan poDcp;
+
+    private final EmployeeMaster poUser;
     private final RBankInfo poBank;
+    private final ConnectionUtil poConn;
     private final AppConfigPreference poConfig;
 
-    private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
+    private final PAY poSys;
 
-    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmount = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnDsCntx = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnOthers = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmortx = new MutableLiveData<>();
-    private final MutableLiveData<Double> pnAmtDue = new MutableLiveData<>();
+    private EDCPCollectionDetail loDetail;
+
+    private double pnAmount = 0;
+
     private final MutableLiveData<Double> pnTotalx = new MutableLiveData<>();
     private final MutableLiveData<Double> pnRebate = new MutableLiveData<>();
     private final MutableLiveData<Double> pnPenlty = new MutableLiveData<>();
     private final MutableLiveData<String> psMssage = new MutableLiveData<>();
 
-    private boolean pbRebate = true;
+    private boolean isDuePass = true;
+
+    private String message;
 
     public VMPaidTransaction(@NonNull Application application) {
         super(application);
-        this.instance = application;
-        this.poBranch = new RBranch(application);
-        this.poDcp = new RDailyCollectionPlan(application);
-        this.pnDsCntx.setValue((double) 0);
-        this.pnOthers.setValue((double) 0);
+        this.poUser = new EmployeeMaster(application);
+        this.poSys = new PAY(application);
         this.poBank = new RBankInfo(application);
         this.poConfig = AppConfigPreference.getInstance(application);
+        this.poConn = new ConnectionUtil(application);
+        this.pnRebate.setValue((double) 0);
+        this.pnPenlty.setValue((double) 0);
     }
 
-    public void setParameter(String TransNox, int EntryNox){
-        this.psTransNox.setValue(TransNox);
-        this.psEntryNox.setValue(EntryNox);
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(){
-        return poDcp.getCollectionDetail(psTransNox.getValue(), psEntryNox.getValue());
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNo, int EntryNo, String Accountno){
+        return poSys.GetAccountDetailForTransaction(TransNo, Accountno, String.valueOf(EntryNo));
     }
 
-    public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
-        this.poDcpDetail.setValue(detail);
-    }
-
-    public LiveData<EBranchInfo> getUserBranchEmployee(){
-        return poBranch.getUserBranchInfo();
-    }
-
-    public LiveData<ArrayAdapter<String>> getPaymentType(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplication(), android.R.layout.simple_spinner_dropdown_item, DCP_Constants.PAYMENT_TYPE);
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(adapter);
-        return liveData;
-    }
-
-    public LiveData<String> getPrNox(){
+    public LiveData<String> GetPrNumber(){
         MutableLiveData<String> loPrNox = new MutableLiveData<>();
         loPrNox.setValue(poConfig.getDCP_PRNox());
         return loPrNox;
     }
 
-    public void setAmount(Double fnAmount){
-        this.pnAmount.setValue(fnAmount);
-        calculatePenalty();
-        calculateTotal();
+    public void InitPurchaseInfo(EDCPCollectionDetail foVal){
+        this.loDetail = foVal;
     }
 
-    public void setDiscount(Double fnDiscount){
+    public void setAmount(Double fnAmount){
+        this.pnAmount = fnAmount;
+        if(!isDuePass) {
+            calculateRebate();
+        } else {
+            calculatePenalty();
+        }
+
+        double lnRebate = pnRebate.getValue();
+        double lnPnalty = pnPenlty.getValue();
+        double lnTotal = pnAmount + lnPnalty - lnRebate;
+        pnTotalx.setValue(lnTotal);
+    }
+
+    public boolean setRebate(Double fnDiscount){
         try {
-            this.pnDsCntx.setValue(Objects.requireNonNull(fnDiscount));
-            calculateTotal();
-            if (pnRebate.getValue() < Objects.requireNonNull(fnDiscount)) {
-                if (pbRebate) {
+            if(loDetail.getDelayAvg() != 0.00){
+                psMssage.setValue("Unable to calculate rebate for accounts with late payment or not updated payment.");
+
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - 0.0;
+                pnTotalx.setValue(lnTotal);
+                return false;
+            } else {
+                calculateRebate();
+                double lnRebate = pnRebate.getValue();
+                if (fnDiscount > lnRebate) {
                     psMssage.setValue("Rebate given is greater than the supposed rebate.");
                 } else {
-                    psMssage.setValue("Rebate disabled");
+                    psMssage.setValue("");
                 }
-            } else {
-                psMssage.setValue("");
+
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - lnRebate;
+                pnTotalx.setValue(lnTotal);
+                return true;
             }
         } catch(NullPointerException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
-    public void setOthers(Double fnOthers){
-        this.pnOthers.setValue(fnOthers);
-        calculateTotal();
+    public void setPenalty(Double fnOthers){
+        double lnRebate = pnRebate.getValue();
+        double lnTotal = pnAmount + fnOthers - lnRebate;
+        pnTotalx.setValue(lnTotal);
     }
 
-    public void setMonthlyAmort(Double fnAmortx){
-        this.pnAmortx.setValue(fnAmortx);
-    }
-
-    public void setAmountDue(Double fnAmtDue){
-        this.pnAmtDue.setValue(fnAmtDue);
-    }
-
-    public void setIsRebated(boolean isRebated){
-        this.pbRebate = isRebated;
-        calculateTotal();
-        if(!isRebated){
+    public void setIsDuePass(boolean isDuePass){
+        this.isDuePass = isDuePass;
+        if(!isDuePass){
             psMssage.setValue("");
         }
     }
@@ -173,43 +166,53 @@ public class VMPaidTransaction extends AndroidViewModel {
         return psMssage;
     }
 
-    private void calculateTotal(){
-        double lnTotal = 0.00;
+    private void calculateRebate(){
         try {
-            if(pbRebate) {
-                double lnAmount = pnAmount.getValue();
-                double lnOthers = pnOthers.getValue();
-                double lnAmortx = pnAmortx.getValue();
-                double lnAmtDue = pnAmtDue.getValue();
+            if(loDetail.getDelayAvg() != 0.00){
+                psMssage.setValue("Unable to calculate rebate for delay account.");
 
+                double lnPnalty = pnPenlty.getValue();
+                double lnTotal = pnAmount + lnPnalty - 0.0;
+                pnTotalx.setValue(lnTotal);
+            } else {
                 double reb = Double.parseDouble(poConfig.getDCP_CustomerRebate());
 
-                double lnRebate = LRUtil.getRebate(lnAmount, lnAmortx, lnAmtDue, reb);
+                double lnAmortx = loDetail.getMonAmort();
+                double lnAmtDue = loDetail.getAmtDuexx();
 
-                lnTotal = lnAmount + lnOthers - lnRebate;
+                double lnRebate = poSys.CalculateRebate(pnAmount, lnAmortx, lnAmtDue, reb);
                 pnRebate.setValue(lnRebate);
-            } else {
-                double lnAmount = pnAmount.getValue();
-                double lnOthers = pnOthers.getValue();
-                lnTotal = lnAmount + lnOthers;
-                pnRebate.setValue(0.00);
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-        pnTotalx.setValue(lnTotal);
     }
 
     private void calculatePenalty(){
         try {
-            EDCPCollectionDetail loDetail = poDcpDetail.getValue();
-            Date ldPurchase = new Date(loDetail.getPurchase());
-            Date ldDueDatex = new Date(loDetail.getDueDatex());
-            double lnMonAmort = Double.parseDouble(loDetail.getMonAmort());
-            double lnABalance = Double.parseDouble(loDetail.getABalance());
-            double lnAmtPaidx = pnAmtDue.getValue();
-            double lnPenalty = LRUtil.getPenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, lnAmtPaidx);
-            pnPenlty.setValue(lnPenalty);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+                //Split the date string using '-' to get the day...
+                String lsDayDuex = loDetail.getDueDatex().split("-")[2];
+
+                //Check here if the due date is on the maximum days per month
+                // if true check the maximum day of month and set it as the due date for this current month...
+                if(lsDayDuex.equalsIgnoreCase("31")) {
+                    LocalDate lastDayOfMonth = LocalDate.parse(AppConstants.CURRENT_DATE(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                            .with(TemporalAdjusters.lastDayOfMonth());
+                    lsDayDuex = String.valueOf(lastDayOfMonth.getDayOfMonth());
+                }
+                String lsCrtYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime());
+                String lsCrtMnth = new SimpleDateFormat("MM", Locale.getDefault()).format(Calendar.getInstance().getTime());
+                String lsDueDate = lsCrtYear + "-" + lsCrtMnth + "-" + lsDayDuex;
+                DateFormat loFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date ldPurchase = loFormat.parse(loDetail.getPurchase());
+                Date ldDueDatex = loFormat.parse(lsDueDate);
+                double lnMonAmort = loDetail.getMonAmort();
+                double lnABalance = Double.parseDouble(loDetail.getABalance());
+                double lnPenalty = poSys.CalculatePenalty(ldPurchase, ldDueDatex, lnMonAmort, lnABalance, pnAmount);
+                pnPenlty.setValue(lnPenalty);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -223,147 +226,42 @@ public class VMPaidTransaction extends AndroidViewModel {
         return pnPenlty;
     }
 
-    public void savePaidInfo(PaidTransactionModel infoModel, ViewModelCallback callback){
-        new PostPaidTransactionTask(poDcpDetail.getValue(), infoModel, instance, callback).execute();
-    }
+    public void SavePaymentInfo(PaidDCP foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnStartSaving();
+            }
 
-    private static class PostPaidTransactionTask extends AsyncTask<String, Void, String>{
-        private final EDCPCollectionDetail poDcpDetail;
-        private final PaidTransactionModel infoModel;
-        private final ViewModelCallback callback;
-        private final RDailyCollectionPlan poDcp;
-
-        private final HttpHeaders poHeaders;
-        private final ConnectionUtil poConn;
-        private final Telephony poDevID;
-        private final SessionManager poUser;
-        private final AppConfigPreference poConfig;
-
-        public PostPaidTransactionTask(EDCPCollectionDetail dcpDetail, PaidTransactionModel infoModel, Application instance, ViewModelCallback callback) {
-            this.poDcpDetail = dcpDetail;
-            this.infoModel = infoModel;
-            this.callback = callback;
-            this.poDcp = new RDailyCollectionPlan(instance);
-            this.poHeaders = HttpHeaders.getInstance(instance);
-            this.poConn = new ConnectionUtil(instance);
-            this.poDevID = new Telephony(instance);
-            this.poUser = new SessionManager(instance);
-            this.poConfig = AppConfigPreference.getInstance(instance);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            callback.OnStartSaving();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected String doInBackground(String... strings) {
-            String lsResponse;
-            try{
-                EDCPCollectionDetail detail = poDcpDetail;
-                if(!infoModel.isDataValid()){
-                    lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(infoModel.getMessage());
-                } else {
-                    if(infoModel.getBankNme() != null){
-                        detail.setBankIDxx(infoModel.getBankNme());
-                        detail.setCheckDte(infoModel.getCheckDt());
-                        detail.setCheckNox(infoModel.getCheckNo());
-                        detail.setCheckAct(infoModel.getAccntNo());
-                    }
-                    detail.setRemCodex(infoModel.getRemarksCode());
-                    detail.setTranType(infoModel.getPayment());
-                    detail.setPRNoxxxx(infoModel.getPrNoxxx());
-                    detail.setTranAmtx(infoModel.getAmountx().replace(",", ""));
-                    detail.setDiscount(infoModel.getDscount().replace(",", ""));
-                    detail.setOthersxx(infoModel.getOthersx().replace(",", ""));
-                    detail.setTranTotl(infoModel.getTotAmnt().replace(",", ""));
-                    detail.setRemarksx(infoModel.getRemarks());
-                    detail.setTranStat("2");
-                    detail.setModified(new AppConstants().DATE_MODIFIED);
-                    poDcp.updateCollectionDetailInfo(detail);
-                    poConfig.setDCP_PRNox(detail.getPRNoxxxx());
-
-                    //StartSending to Server
-                    if(!poConn.isDeviceConnected()) {
-                        lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR("Collection info has been save.");
-                    } else {
-                        JSONObject loData = new JSONObject();
-                        loData.put("sPRNoxxxx", detail.getPRNoxxxx());
-                        loData.put("nTranAmtx", detail.getTranAmtx());
-                        loData.put("nDiscount", detail.getDiscount());
-                        loData.put("nOthersxx", detail.getOthersxx());
-                        loData.put("cTranType", detail.getTranType());
-                        loData.put("nTranTotl", detail.getTranTotl());
-                        if(detail.getBankIDxx() == null) {
-                            loData.put("sBankIDxx", "");
-                            loData.put("sCheckDte", "");
-                            loData.put("sCheckNox", "");
-                            loData.put("sCheckAct", "");
-                        } else {
-                            loData.put("sBankIDxx", detail.getBankIDxx());
-                            loData.put("sCheckDte", detail.getCheckDte());
-                            loData.put("sCheckNox", detail.getCheckNox());
-                            loData.put("sCheckAct", detail.getCheckAct());
-                        }
-                        JSONObject loJson = new JSONObject();
-                        loJson.put("sTransNox", detail.getTransNox());
-                        loJson.put("nEntryNox", detail.getEntryNox());
-                        loJson.put("sAcctNmbr", detail.getAcctNmbr());
-                        loJson.put("sRemCodex", detail.getRemCodex());
-                        loJson.put("dModified", detail.getModified());
-                        loJson.put("sJsonData", loData);
-                        loJson.put("dReceived", "");
-//                        Added by Jonathan 07/27/2021
-                        loData.put("sRemarksx", detail.getRemarksx());
-                        loJson.put("sUserIDxx", poUser.getUserID());
-                        loJson.put("sDeviceID", poDevID.getDeviceID());
-                        Log.e(TAG, loJson.toString());
-                        lsResponse = WebClient.sendRequest(WebApi.URL_DCP_SUBMIT, loJson.toString(), poHeaders.getHeaders());
-
-                        if(lsResponse == null){
-                            lsResponse = AppConstants.SERVER_NO_RESPONSE();
-                        } else {
-                            JSONObject loResponse = new JSONObject(lsResponse);
-                            if(loResponse.getString("result").equalsIgnoreCase("success")){
-                                detail.setSendStat("1");
-                                detail.setSendDate(new AppConstants().DATE_MODIFIED);
-                                detail.setModified(new AppConstants().DATE_MODIFIED);
-                                poDcp.updateCollectionDetailInfo(detail);
-                            }
-                        }
-                    }
+            @Override
+            public Object DoInBackground(Object args) {
+                String lsResult = poSys.SavePaidTransaction((PaidDCP) args);
+                if(lsResult == null){
+                    message = poSys.getMessage();
+                    return false;
                 }
 
-            } catch (Exception e){
-                e.printStackTrace();
-                lsResponse = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-            }
-            return lsResponse;
-        }
+                if(!poConn.isDeviceConnected()){
+                    message = "Payment info has been save to local device.";
+                    return true;
+                }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                JSONObject loJson = new JSONObject(s);
-                Log.e(TAG, loJson.getString("result"));
-                String lsResult = loJson.getString("result");
-                if(lsResult.equalsIgnoreCase("success")){
-                    callback.OnSuccessResult(new String[]{"Transaction has been posted successfully."});
-                } else {
-                    JSONObject loError = loJson.getJSONObject("error");
-                    String message = loError.getString("message");
+                if(!poSys.UploadPaidTransaction(lsResult)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
                     callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                callback.OnFailedResult(e.getMessage());
             }
-        }
+        });
     }
 }

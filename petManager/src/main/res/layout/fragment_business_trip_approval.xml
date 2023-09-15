@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Android Team MIS-SEG Year 2021
+  ~ Copyright (c) 2021. Guanzon Central Office
+  ~ Guanzon Bldg., Perez Blvd., Dagupan City, Pangasinan 2400
+  ~ Project name : GhostRider_Android
+  ~ Module : GhostRider_Android.ahMonitoring
+  ~ Electronic Personnel Access Control Security System
+  ~ project file created : 8/16/21 8:21 AM
+  ~ project file last modified : 8/16/21 8:21 AM
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.Fragment_BusinessTripApproval"
+    android:orientation="vertical"
+    android:theme="@style/GhostRiderMaterialTheme.NoActionBar">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+       <com.google.android.material.appbar.AppBarLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:theme="@style/GhostRiderMaterialTheme.AppBarOverlay">
+
+       <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:orientation="vertical"
+               android:paddingHorizontal="15dp"
+               android:layout_marginTop="50dp">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginVertical="10dp"
+                   android:paddingTop="5dp"
+                   android:gravity="center_horizontal"
+                   android:orientation="vertical">
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/roboto"
+                       android:text="Business Trip Application"
+                       android:textSize="22sp" />
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/roboto"
+                       android:text="Approval"
+                       android:textSize="22sp" />
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:id="@+id/lbl_headerBranch"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textSize="15sp"
+                       android:fontFamily="@font/roboto_light"
+                       android:layout_marginTop="5dp"/>
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:id="@+id/lbl_headerAddress"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:textSize="15sp"
+                       android:fontFamily="@font/roboto_light"/>
+
+               </LinearLayout>
+
+               <com.google.android.material.divider.MaterialDivider
+                   android:layout_width="match_parent"
+                   android:layout_height="0.8dp" />
+
+               <LinearLayout
+                   android:id="@+id/linear_search"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_marginVertical="10dp">
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/til_collectionSearch"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_weight=".3"
+                       style="@style/TextInputStyleHeaders">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_leave_ob_search"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:inputType="textCapWords|textPersonName"
+                           android:imeOptions="actionSearch"
+                           android:maxLines="1"
+                           android:hint="Search transnox" />
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.button.MaterialButton
+                       android:id="@+id/btn_quick_search"
+                       android:layout_weight="1.7"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       app:icon="@drawable/ic_name_search"
+                       android:layout_gravity="center"
+                       style="@style/Base.Widget.AppCompat.Button.Borderless" />
+               </LinearLayout>
+
+           </LinearLayout>
+
+       </com.google.android.material.appbar.AppBarLayout>
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:gravity="center_horizontal"
+           android:orientation="vertical"
+           android:padding="5dp"
+           android:paddingBottom="10dp">
+
+           <com.google.android.material.card.MaterialCardView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:cardPreventCornerOverlap="true"
+               app:cardUseCompatPadding="true"
+               app:cardElevation="3dp"
+               app:cardCornerRadius="5dp">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:padding="5dp">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal">
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:id="@+id/lbl_transNox"
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:text="TransNox . :"
+                           android:textSize="16sp"
+                           android:fontFamily="@font/roboto_medium"/>
+
+                   </LinearLayout>
+
+                   <com.google.android.material.divider.MaterialDivider
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"/>
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:id="@+id/lbl_clientNm"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:drawablePadding="5dp"
+                       android:fontFamily="@font/roboto_bold"
+                       android:gravity="center_vertical"
+                       android:layout_marginTop="10dp"
+                       android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Date applied :"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:id="@+id/lbl_dateApplied"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Date approve :"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar" />
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:id="@+id/lbl_dateApproved"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Applied date from :"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"/>
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:id="@+id/lbl_dateFrom"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="10dp">
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight=".9"
+                           android:text="Applied date thru :"
+                           android:fontFamily="@font/roboto_bold"
+                           android:drawablePadding="5dp"
+                           android:gravity="center_vertical"
+                           app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"
+                           app:drawableLeftCompat="@android:drawable/ic_menu_my_calendar"/>
+
+                       <com.google.android.material.textview.MaterialTextView
+                           android:id="@+id/lbl_dateThru"
+                           android:layout_width="0dp"
+                           android:layout_height="fill_parent"
+                           android:layout_weight="1"
+                           android:gravity="end|center_vertical"
+                           android:fontFamily="@font/roboto_bold"/>
+                   </LinearLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:id="@+id/tilRemarks"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="20dp"
+                       android:hint="Purpose / Remarks :"
+                       style="@style/TextInputTextAreaStyle">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_purpose"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:enabled="false"
+                           android:focusable="false"
+                           android:focusableInTouchMode="false"
+                           android:inputType="textMultiLine"
+                           android:maxLength="50"
+                           android:gravity="top|left"
+                           android:lines="10"
+                           android:minLines="3"/>
+                   </com.google.android.material.textfield.TextInputLayout>
+
+               </LinearLayout>
+
+           </com.google.android.material.card.MaterialCardView>
+
+           <com.google.android.material.card.MaterialCardView
+               android:id="@+id/cv_leave_ob"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:cardUseCompatPadding="true"
+               app:cardCornerRadius="5dp"
+               app:cardPreventCornerOverlap="true">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:padding="5dp">
+
+                   <com.google.android.material.textview.MaterialTextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Approval"
+                       android:textSize="16sp"
+                       android:fontFamily="@font/roboto_black"
+                       android:padding="10dp"/>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:hint="@string/sHintDateFrm"
+                       style="@style/TextInputStyle">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_dateFrom"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:inputType="date"
+                           android:focusableInTouchMode="false"
+                           android:focusable="false"
+                           android:focusedByDefault="false"
+                           style="@style/TextInputStyle.Edittext"
+                           android:autofillHints="Business trip destination and purpose."
+                           android:layout_margin="5dp"/>
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <com.google.android.material.textfield.TextInputLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                       android:hint="@string/sHintDateTo"
+                       style="@style/TextInputStyle">
+
+                       <com.google.android.material.textfield.TextInputEditText
+                           android:id="@+id/txt_dateTo"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:focusableInTouchMode="false"
+                           android:focusable="false"
+                           android:focusedByDefault="false"
+                           android:inputType="date"
+                           style="@style/TextInputStyle.Edittext"
+                           android:autofillHints="Business trip destination and purpose."
+                           android:layout_margin="5dp"/>
+
+                   </com.google.android.material.textfield.TextInputLayout>
+
+                   <!-- Remarks / Purpose  -->
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginTop="30dp">
+
+                       <com.google.android.material.button.MaterialButton
+                           android:id="@+id/btn_confirm"
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           style="@style/MaterialButtonApproved"
+                           android:layout_weight="1"
+                           android:text="Approved"/>
+
+                       <com.google.android.material.button.MaterialButton
+                           android:id="@+id/btn_cancel"
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           style="@style/MaterialButtonCancel"
+                           android:layout_weight="1"
+                           android:text="Disapproved"/>
+                   </LinearLayout>
+               </LinearLayout>
+           </com.google.android.material.card.MaterialCardView>
+       </LinearLayout>
+       </ScrollView>
+   </LinearLayout>
+</LinearLayout>

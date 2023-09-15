@@ -11,402 +11,265 @@
 
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.rmj.g3appdriver.GRider.Constants.AppConstants;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DAddressRequest;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DTownInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EAddressUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBarangayInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EBranchInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.Entities.EFileCode;
-import org.rmj.g3appdriver.GRider.Database.Entities.EImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.EMobileUpdate;
-import org.rmj.g3appdriver.GRider.Database.Entities.EProvinceInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETownInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBarangay;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RBranch;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCollectionUpdate;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RFileCode;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RImageInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RProvince;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RTown;
-import org.rmj.g3appdriver.GRider.Etc.GToast;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.AddressUpdate;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Model.MobileUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.obj.CNA;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DAddressUpdate;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DMobileUpdate;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EBarangayInfo;
+import org.rmj.g3appdriver.GCircle.room.Entities.EDCPCollectionDetail;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Town;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.AddressUpdate;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.CustomerNotAround;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.pojo.MobileUpdate;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class VMCustomerNotAround extends AndroidViewModel {
     private static final String TAG = VMCustomerNotAround.class.getSimpleName();
     private static final String ZERO = "0";
     private final Application instance;
-    private final RDailyCollectionPlan poDcp;
-    private final RCollectionUpdate poUpdate;
-    private final RImageInfo poImage;
-    private final RBranch poBranch;
-    private final RTown poTownRepo; //Town Repository
-    private final RBarangay poBarangay;
-    private final RFileCode poFileCode;
 
-    private String ImgTransNox;
-    private String imgFileNme;
+    private final CNA poSys;
+    private final EmployeeMaster poUser;
 
-    private final MutableLiveData<EDCPCollectionDetail> poDcpDetail = new MutableLiveData<>();
-    private final MutableLiveData<String> psTransNox = new MutableLiveData<>();
-    private final MutableLiveData<Integer> psEntryNox = new MutableLiveData<>();
-    private final MutableLiveData<String> clientID = new MutableLiveData<>();
-    private final MutableLiveData<String> requestCode = new MutableLiveData<>();
-    private final MutableLiveData<String> addressType = new MutableLiveData<>();
-    private final MutableLiveData<String> primeContact = new MutableLiveData<>();
-    private final MutableLiveData<String> primeAddress = new MutableLiveData<>();
-    private final MutableLiveData<String> psProvID = new MutableLiveData<>();
-    private final MutableLiveData<String> psTownID = new MutableLiveData<>();
-    private final MutableLiveData<String> psBrgyID = new MutableLiveData<>();
-    private final MutableLiveData<String> sImgPathx = new MutableLiveData<>();
-    private final MutableLiveData<String> sAccntNox = new MutableLiveData<>();
+    private final Town poTown;
+    private final Barangay poBrgy;
 
-    private final MutableLiveData<List<DAddressRequest.CustomerAddressInfo>> plAddress = new MutableLiveData<>();
-    private final MutableLiveData<List<EMobileUpdate>> plMobile = new MutableLiveData<>();
+    private String message;
 
     public VMCustomerNotAround(@NonNull Application application) {
         super(application);
         this.instance = application;
-        this.poDcp = new RDailyCollectionPlan(application);
-        this.poUpdate = new RCollectionUpdate(application);
-        this.poBranch = new RBranch(application);
-        poTownRepo = new RTown(application);
-        poBarangay = new RBarangay(application);
-        this.primeContact.setValue(ZERO);
-        this.primeAddress.setValue(ZERO);
-        this.poImage = new RImageInfo(application);
-        this.plAddress.setValue(new ArrayList<>());
-        this.plMobile.setValue(new ArrayList<>());
-        this.poFileCode = new RFileCode(application);
+        this.poSys = new CNA(application);
+        this.poUser = new EmployeeMaster(application);
+        this.poTown = new Town(application);
+        this.poBrgy = new Barangay(application);
     }
 
-    public void saveImageInfo(EImageInfo foImageInfo){
-        ImgTransNox = poImage.getImageNextCode();
-        foImageInfo.setTransNox(ImgTransNox);
-        foImageInfo.setDtlSrcNo(sAccntNox.getValue());
-        poImage.insertImageInfo(foImageInfo);
+    public LiveData<DEmployeeInfo.EmployeeBranch> GetUserInfo(){
+        return poUser.GetEmployeeBranch();
     }
 
-    public void setParameter(String TransNox, int EntryNox){
-        this.psTransNox.setValue(TransNox);
-        this.psEntryNox.setValue(EntryNox);
+    public LiveData<EDCPCollectionDetail> GetCollectionDetail(String TransNox, String AccountNo, String EntryNox){
+        return poSys.GetAccountDetailForTransaction(TransNox, AccountNo, EntryNox);
     }
 
-    public void setAccountNo(String fsAccntNo){
-        this.sAccntNox.setValue(fsAccntNo);
+    public void SaveNewAddress(AddressUpdate foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnStartSaving();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveAddressUpdate((AddressUpdate) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 
-    public void setImgFileNme(String imgFileNme) {
-        this.imgFileNme = imgFileNme;
+    public void SaveNewMobile(MobileUpdate foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnStartSaving();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveMobileUpdate((MobileUpdate) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 
-    public void setTownID(String fsID){
-        this.psTownID.setValue(fsID);
-    }
-    public void setBrgyID(String fsID) {this.psBrgyID.setValue(fsID);}
-
-    public void setPrimeAddress(String primeAddress) {
-        this.primeAddress.setValue(primeAddress);
+    public LiveData<List<DMobileUpdate.MobileUpdateInfo>> GetMobileUpdates(String fsVal){
+        return poSys.GetMobileUpdates(fsVal);
     }
 
-    public MutableLiveData<String> getPrimeAddress() {
-        return primeAddress;
+    public LiveData<List<DAddressUpdate.AddressUpdateInfo>> GetAddressUpdates(String fsVal){
+        return poSys.GetAddressUpdates(fsVal);
     }
 
-    public void setClientID(String clientID) {
-        this.clientID.setValue(clientID);
+    public interface OnRemoveDetailCallback{
+        void OnSuccess();
+        void OnFailed(String message);
     }
 
-    public void setRequestCode(String requestCode) {
-        this.requestCode.setValue(requestCode);
+    public void RemoveAddress(String fsVal, OnRemoveDetailCallback callback){
+        TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.DeleteAddressUpdate((String) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess();
+                }
+            }
+        });
     }
 
-    public MutableLiveData<String> getRequestCode() {
-        return requestCode;
+    public void RemoveMobile(String fsVal, OnRemoveDetailCallback callback){
+        TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.DeleteMobileUpdate((String) args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailed(message);
+                } else {
+                    callback.OnSuccess();
+                }
+            }
+        });
     }
 
-    public void setPrimeContact(String primeContact) {
-        this.primeContact.setValue(primeContact);
+    public void SaveTransaction(CustomerNotAround foVal, ViewModelCallback callback){
+        TaskExecutor.Execute(foVal, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnStartSaving();
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poSys.SaveTransaction(args)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Boolean isSuccess = (Boolean) object;
+                if(!isSuccess){
+                    callback.OnFailedResult(message);
+                } else {
+                    callback.OnSuccessResult();
+                }
+            }
+        });
     }
 
-    public MutableLiveData<String> getPrimeContact() {
-        return primeContact;
-    }
+    public void InitCameraLaunch(Activity activity, String TransNox, OnInitializeCameraCallback callback){
+        ImageFileCreator loImage = new ImageFileCreator(instance, AppConstants.SUB_FOLDER_SELFIE_LOG, TransNox);
+        LocationRetriever loLrt = new LocationRetriever(instance, activity);
+        String[] lsResult = new String[4];
+        TaskExecutor.Execute(null, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnInit();
+            }
 
-    public void setAddressType(String addressType) {
-        this.addressType.setValue(addressType);
-    }
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!loImage.IsFileCreated(true)){
+                    message = loImage.getMessage();
+                    return false;
+                } else {
+                    if(loLrt.HasLocation()){
+                        lsResult[0] = loImage.getFilePath();
+                        lsResult[1] = loImage.getFileName();
+                        lsResult[2] = loLrt.getLatitude();
+                        lsResult[3] = loLrt.getLongitude();
+                        Intent loIntent = loImage.getCameraIntent();
+                        loIntent.putExtra("result", true);
+                        return loIntent;
+                    } else {
+                        lsResult[0] = loImage.getFilePath();
+                        lsResult[1] = loImage.getFileName();
+                        lsResult[2] = loLrt.getLatitude();
+                        lsResult[3] = loLrt.getLongitude();
+                        Intent loIntent = loImage.getCameraIntent();
+                        loIntent.putExtra("result", false);
+                        message = loLrt.getMessage();
+                        return loIntent;
+                    }
+                }
+            }
 
-    public void setImagePath(String fsPath){
-        this.sImgPathx.setValue(fsPath);
-    }
-
-    public LiveData<EDCPCollectionDetail> getCollectionDetail(){
-        return poDcp.getCollectionDetail(psTransNox.getValue(), psEntryNox.getValue());
-    }
-
-    public void setCurrentCollectionDetail(EDCPCollectionDetail detail){
-        this.poDcpDetail.setValue(detail);
-    }
-
-    public LiveData<EBranchInfo> getUserBranchEmployee(){
-        return poBranch.getUserBranchInfo();
-    }
-
-    public LiveData<ArrayAdapter<String>> getRequestCodeOptions() {
-        MutableLiveData<ArrayAdapter<String>> liveData = new MutableLiveData<>();
-        liveData.setValue(DCP_Constants.getAdapter(getApplication(), DCP_Constants.REQUEST_CODE));
-        return liveData;
+            @Override
+            public void OnPostExecute(Object object) {
+                Intent loResult = (Intent) object;
+                if(loResult.getBooleanExtra("result", false)){
+                    callback.OnSuccess(loResult, lsResult);
+                } else {
+                    callback.OnFailed(message, loResult, lsResult);
+                }
+            }
+        });
     }
 
     public LiveData<List<DTownInfo.TownProvinceInfo>> getTownProvinceInfo(){
-        return poTownRepo.getTownProvinceInfo();
+        return poTown.getTownProvinceInfo();
     }
 
-    public LiveData<String[]> getBarangayNameList(){
-        return poBarangay.getBarangayNamesFromTown(psTownID.getValue());
-    }
-
-    public LiveData<List<EBarangayInfo>> getBarangayInfoList(){
-        return poBarangay.getAllBarangayFromTown(psTownID.getValue());
-    }
-
-//
-//    public LiveData<List<EAddressUpdate>> getAddressRequestList(){
-//        //return poUpdate.getAddressList();
-//        return plAddress;
-//    }
-//
-//    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressNames() {
-//        return poUpdate.getAddressNames();
-//    }
-
-    public LiveData<List<DAddressRequest.CustomerAddressInfo>> getAddressRequesListForClient(){
-        return plAddress;
-    }
-
-    public LiveData<List<EMobileUpdate>> getMobileRequestListForClient(){
-        //return poUpdate.getMobileListForClient(clientID.getValue());
-        return plMobile;
-    }
-
-    public void updateCollectionDetail(String RemarksCode){
-        try{
-            EDCPCollectionDetail detail = poDcpDetail.getValue();
-            Objects.requireNonNull(detail).setRemCodex(RemarksCode);
-            detail.setImageNme(imgFileNme);
-            new UpdateCollectionTask(poDcp, RemarksCode).execute(detail);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }catch (RuntimeException e){
-            e.printStackTrace();
-        }
-    }
-
-    public LiveData<List<EFileCode>> getAllFileCode() {
-        return poFileCode.getAllFileCode();
-    }
-
-    public boolean addAddressToList(AddressUpdate foAddress, ViewModelCallback callback){
-        try {
-            foAddress.setRequestCode(requestCode.getValue());
-            foAddress.setcAddrssTp(addressType.getValue());
-            foAddress.setsProvIDxx(psProvID.getValue());
-            foAddress.setTownID(psTownID.getValue());
-            foAddress.setBarangayID(psBrgyID.getValue());
-            foAddress.setPrimaryStatus(primeAddress.getValue());
-            if (foAddress.isDataValid()) {
-                DAddressRequest.CustomerAddressInfo info = new DAddressRequest.CustomerAddressInfo();
-                //Auto Generated random String
-                info.sTransNox = poDcp.getNextAddressCode();
-                info.sClientID = clientID.getValue();
-                info.cReqstCDe = foAddress.getRequestCode();
-                info.cAddrssTp = foAddress.getcAddrssTp();
-                info.sHouseNox = foAddress.getHouseNumber();
-                info.sAddressx = foAddress.getAddress();
-                info.sProvName = foAddress.getsProvName();
-                info.sTownName = foAddress.getsTownName();
-                info.sBrgyName = foAddress.getsBrgyName();
-                info.sTownIDxx = foAddress.getTownID();
-                info.sBrgyIDxx = foAddress.getBarangayID();
-                info.cPrimaryx = foAddress.getPrimaryStatus();
-                info.sLongitud = foAddress.getLongitude();
-                info.sLatitude = foAddress.getLatitude();
-                info.sRemarksx = foAddress.getRemarks();
-                Objects.requireNonNull(this.plAddress.getValue()).add(info);
-            } else {
-                callback.OnFailedResult(foAddress.getMessage());
-                return false;
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean AddMobileToList(MobileUpdate foMobile, ViewModelCallback callback){
-        try {
-            if (foMobile.isDataValid()) {
-                EMobileUpdate info = new EMobileUpdate();
-                info.setTransNox(poDcp.getNextMobileCode());
-                info.setClientID(clientID.getValue());
-                info.setReqstCDe(foMobile.getcReqstCde());
-                info.setMobileNo(foMobile.getsMobileNo());
-                info.setPrimaryx(foMobile.getcPrimaryx());
-                info.setRemarksx(foMobile.getsRemarksx());
-                info.setTranStat("0");
-                info.setSendStat("0");
-                info.setModified(new AppConstants().DATE_MODIFIED);
-                info.setTimeStmp(new AppConstants().DATE_MODIFIED);
-                Objects.requireNonNull(this.plMobile.getValue()).add(info);
-            } else {
-                callback.OnFailedResult(foMobile.getMessage());
-                return false;
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean saveAddressToLocal(ViewModelCallback callback){
-        try {
-            List<DAddressRequest.CustomerAddressInfo> loAdd = plAddress.getValue();
-            List<EAddressUpdate> addList = new ArrayList<>();
-            for(int x = 0; x < loAdd.size(); x++){
-                EAddressUpdate info = new EAddressUpdate();
-                info.setTransNox(loAdd.get(x).sTransNox);
-                info.setClientID(loAdd.get(x).sClientID);
-                info.setReqstCDe(loAdd.get(x).cReqstCDe);
-                info.setAddrssTp(loAdd.get(x).cAddrssTp);
-                info.setHouseNox(loAdd.get(x).sHouseNox);
-                info.setAddressx(loAdd.get(x).sAddressx);
-                info.setTownIDxx(loAdd.get(x).sTownIDxx);
-                info.setBrgyIDxx(loAdd.get(x).sBrgyIDxx);
-                info.setPrimaryx(loAdd.get(x).cPrimaryx);
-                info.setLongitud(loAdd.get(x).sLongitud);
-                info.setLatitude(loAdd.get(x).sLatitude);
-                info.setRemarksx(loAdd.get(x).sRemarksx);
-                info.setTranStat("1");
-                info.setSendStat("0");
-                info.setModified(new AppConstants().DATE_MODIFIED);
-                info.setTimeStmp(new AppConstants().DATE_MODIFIED);
-                addList.add(info);
-            }
-            poUpdate.insertUpdateAddress(addList);
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
-            return false;
-        }
-    }
-
-//    public void deleteAddress(String TransNox){
-//        poUpdate.deleteAddress(TransNox);
-//    }
-
-    public void deleteAddress(int position){
-        Objects.requireNonNull(this.plAddress.getValue()).remove(position);
-    }
-
-    public boolean saveMobileToLocal(ViewModelCallback callback){
-        try{
-            poUpdate.insertUpdateMobile(this.plMobile.getValue());
-            return true;
-        } catch (Exception e){
-            e.printStackTrace();
-            callback.OnFailedResult(e.getMessage());
-            return false;
-        }
-    }
-
-//    public void deleteMobile(String TransNox){
-//        poUpdate.deleteMobile(TransNox);
-//    }
-
-    public void deleteMobile(int position){
-        Objects.requireNonNull(plMobile.getValue()).remove(position);
-    }
-
-    private String getValidatedAddress(AddressUpdate foAddress) {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("RqstCode", foAddress.getRequestCode());
-            jsonObj.put("AddressTp", foAddress.getcAddrssTp());
-            jsonObj.put("HouseNo", foAddress.getHouseNumber());
-            jsonObj.put("Address", foAddress.getAddress());
-            jsonObj.put("TownId", foAddress.getTownID());
-            jsonObj.put("BrgyId", foAddress.getBarangayID());
-            jsonObj.put("PrimaryStat", foAddress.getPrimaryStatus());
-            jsonObj.put("Remarks",foAddress.getRemarks());
-
-            return jsonObj.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-    }
-
-    private String getValidatedMobilenox(MobileUpdate foMobile) {
-        try {
-            JSONObject jsonObj = new JSONObject();
-
-            jsonObj.put("RequestCode", foMobile.getcReqstCde());
-            jsonObj.put("MobileNox", foMobile.getsMobileNo());
-            jsonObj.put("isPrimary", foMobile.getcPrimaryx());
-            jsonObj.put("Remarks", foMobile.getsRemarksx());
-
-            return jsonObj.toString();
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-    }
-
-    private static class UpdateCollectionTask extends AsyncTask<EDCPCollectionDetail, Void, String> {
-        private final RDailyCollectionPlan poDcp;
-        private final String RemarksCode;
-
-        public UpdateCollectionTask(RDailyCollectionPlan poDcp, String Remarks){
-            this.poDcp = poDcp;
-            this.RemarksCode = Remarks;
-        }
-
-        @Override
-        protected String doInBackground(EDCPCollectionDetail... detail) {
-            Objects.requireNonNull(detail[0]).setRemCodex(RemarksCode);
-            detail[0].setTranStat("1");
-            detail[0].setModified(new AppConstants().DATE_MODIFIED);
-            poDcp.updateCollectionDetailInfo(detail[0]);
-            return null;
-        }
+    public LiveData<List<EBarangayInfo>> GetBarangayList(String fsVal){
+        return poBrgy.getAllBarangayFromTown(fsVal);
     }
 }

@@ -12,26 +12,25 @@
 package org.rmj.guanzongroup.ghostrider.dailycollectionplan.Fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_TransactionDetail;
-import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Etc.DCP_Constants;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.R;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.ViewModel.VMLogPaidTransaction;
 
 public class Fragment_Log_Paid_Transaction extends Fragment {
     private VMLogPaidTransaction mViewModel;
-    private TextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
-    private TextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx,
+    private MaterialTextView txtAcctNo, txtClientName, txtClientAddress, txtTransNo;
+    private MaterialTextView txtPaymentTp, txtPRNoxx, txtTransAmtx, txtDiscount, txtPenalty, txtTotalAmtx,
             txtRemarksx, txtCheckPayment, txtListHeader, txtBank, txtChckDt, txtChckNm, txtChckAc;
     private LinearLayout lnBank, lnChckDt, lnChckNm, lnChckAc;
 
@@ -88,7 +87,7 @@ public class Fragment_Log_Paid_Transaction extends Fragment {
                     lnChckNm.setVisibility(View.GONE);
                     lnChckAc.setVisibility(View.GONE);
                 }
-                txtPaymentTp.setText(DCP_Constants.PAYMENT_TYPE[Integer.parseInt(collectPaidDetl.getTranType())]);
+                txtPaymentTp.setText(collectPaidDetl.getTranType());
                 txtPRNoxx.setText(collectPaidDetl.getPRNoxxxx());
                 txtTransAmtx.setText(getString(R.string.peso_sign) + collectPaidDetl.getTranAmtx());
                 txtDiscount.setText(getString(R.string.peso_sign) + collectPaidDetl.getDiscount());

@@ -11,159 +11,199 @@
 
 package org.rmj.guanzongroup.ghostrider.epacss.ViewModel;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
+import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
+
 import android.app.Application;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DDCPCollectionDetail;
-import org.rmj.g3appdriver.GRider.Database.DataAccessObject.DEmployeeInfo;
-import org.rmj.g3appdriver.GRider.Database.Entities.ETokenInfo;
-import org.rmj.g3appdriver.GRider.Database.Repositories.AppTokenManager;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RCashCount;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RDailyCollectionPlan;
-import org.rmj.g3appdriver.GRider.Database.Repositories.REmployee;
-import org.rmj.g3appdriver.GRider.Database.Repositories.RLogSelfie;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
+import org.rmj.g3appdriver.GCircle.Apps.Dcp.model.LRDcp;
+import org.rmj.g3appdriver.GCircle.room.Entities.ETokenInfo;
+import org.rmj.g3appdriver.GCircle.room.Repositories.AppTokenManager;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
-import org.rmj.g3appdriver.GRider.Etc.SessionManager;
+import org.rmj.g3appdriver.lib.Etc.Barangay;
+import org.rmj.g3appdriver.lib.Etc.Branch;
+import org.rmj.g3appdriver.lib.Etc.Province;
+import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
+import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
+import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
 
-import java.io.IOException;
-import java.util.Date;
-
 public class VMSplashScreen extends AndroidViewModel {
+    private static final String TAG = VMSplashScreen.class.getSimpleName();
 
-    private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
-    private final MutableLiveData<String[]> paPermisions = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> pbIsLogIn = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> pbSession = new MutableLiveData<>();
-    private final MutableLiveData<Integer> pnSession = new MutableLiveData<>();
-    private final MutableLiveData<String> psVersion = new MutableLiveData<>();
-    private final MutableLiveData<String> sEmployLevel = new MutableLiveData<>();
-    private final LiveData<DDCPCollectionDetail.Location_Data_Trigger> poLocator;
-    private final REmployee poUserDbx;
-    private final AppConfigPreference poConfigx;
-    private final SessionManager poSession;
+    private final Application instance;
+
     private final ConnectionUtil poConn;
-    private final AppTokenManager poToken;
-    private final RDailyCollectionPlan poDcp;
-    private final RLogSelfie poLogx;
+    private final AppConfigPreference poConfig;
+    private final EmployeeMaster poUser;
+    private final EmployeeSession poSession;
 
-    @SuppressLint("InlinedApi")
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public VMSplashScreen(@NonNull Application application) throws IOException {
-        super(application);
-        poUserDbx = new REmployee(application);
-        poConfigx = AppConfigPreference.getInstance(application);
-        poSession = new SessionManager(application);
-        poConfigx.setTemp_ProductID("gRider");
-        poConfigx.setUpdateLocally(false);
-        poLogx = new RLogSelfie(application);
-        Date buildDate = new Date(BuildConfig.TIMESTAMP);
-        poConfigx.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, String.valueOf(buildDate.getTime()));
-        poConn = new ConnectionUtil(application);
-        poToken = new AppTokenManager(application);
+    private String message;
+
+    public VMSplashScreen(@NonNull Application application) {
+        super(application); 
+        this.instance = application;
+        this.poConn = new ConnectionUtil(instance);
+        this.poConfig = AppConfigPreference.getInstance(instance);
+        this.poUser = new EmployeeMaster(instance);
+        this.poSession = EmployeeSession.getInstance(instance);
+        this.poConfig.setPackageName(BuildConfig.APPLICATION_ID);
+        this.poConfig.setProductID("gRider");
+        this.poConfig.setUpdateLocally(false);
+        this.poConfig.setTestCase(false);
+        this.poConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
-        poDcp = new RDailyCollectionPlan(application);
-        poToken.setTokenInfo(loToken);
-        this.sEmployLevel.setValue(poSession.getEmployeeLevel());
-        paPermisions.setValue(new String[]{
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.GET_ACCOUNTS,
-                Manifest.permission.CAMERA,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.REQUEST_INSTALL_PACKAGES});
-        pbGranted.setValue(hasPermissions(application.getApplicationContext(), paPermisions.getValue()));
-        this.psVersion.setValue(poConfigx.getVersionInfo());
-        this.poLocator = poDcp.getDCP_COH_StatusForTracking();
+        CheckConnection();
     }
 
-    public LiveData<String> getVersionInfo(){
-        return psVersion;
-    }
-
-    public LiveData<Boolean> isPermissionsGranted(){
-        return pbGranted;
-    }
-
-    public LiveData<String[]> getPermisions(){
-        return paPermisions;
-    }
-
-    public LiveData<String> getSessionDate(){
-        return poUserDbx.getSessionDate();
-    }
-
-    public LiveData<DEmployeeInfo.Session> getSessionTime(){
-        return poUserDbx.getSessionTime();
-    }
-
-    public LiveData<DDCPCollectionDetail.Location_Data_Trigger> getLocatorDateTrigger(){
-        return poLocator;
-    }
-    public LiveData<String> getEmployeeLevel(){
-        return this.sEmployLevel;
-    }
-
-    public String getAutoLogStatus(){
-        return poSession.getAutoLogStatus();
-    }
-
-    public void setSessionTime(int time){
-        try {
-            this.pnSession.setValue(time);
-            if(poSession.getAutoLogStatus().equalsIgnoreCase("1")){
-                pbSession.setValue(true);
-            } else {
-                if(poConn.isDeviceConnected()) {
-                    boolean result = pnSession.getValue() <= 0;
-                    pbSession.setValue(result);
-                } else {
-                    pbSession.setValue(true);
-                }
+    public void SaveFirebaseToken(String fsVal){
+        TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                return new AppTokenManager(instance).SaveFirebaseToken((String) args);
             }
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
-    }
-    public LiveData<Boolean> isSessionValid(){
-        return pbSession;
+
+            @Override
+            public void OnPostExecute(Object object) {
+            }
+        });
     }
 
-    public void setPermissionsGranted(boolean isGranted){
-        this.pbGranted.setValue(isGranted);
-    }
-
-    public LiveData<Boolean> isLoggedIn(){
-        pbIsLogIn.setValue(poSession.isLoggedIn());
-        return pbIsLogIn;
-    }
-
-    private static boolean hasPermissions(Context context, String... permissions){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && permissions!=null ){
-            for (String permission: permissions){
-                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
+    private void CheckConnection(){
+        TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if(!poConn.isDeviceConnected()){
+                    message = poConn.getMessage();
                     return false;
                 }
+
+                return true;
             }
-        }
-        return true;
+
+            @Override
+            public void OnPostExecute(Object object) {
+                boolean isSuccess = (boolean) object;
+                if(isSuccess){
+                    Toast.makeText(instance, "Device connected", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(instance, "Offline mode", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void InitializeData(OnInitializeCallback mListener){
+        TaskExecutor loTask = new TaskExecutor();
+        loTask.setOnLoadApplicationListener(new OnLoadApplicationListener() {
+            @Override
+            public Object DoInBackground() {
+                try{
+                    if(poConn.isDeviceConnected()){
+                        if(!new Branch(instance).ImportBranches()){
+                            Log.e(TAG, "Unable to import branches");
+                        }
+                        loTask.publishProgress(1);
+
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Initializing province data.");
+                        if(!new Province(instance).ImportProvince()){
+                            Log.e(TAG, "Unable to import province");
+                        }
+                        loTask.publishProgress(2);
+
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Initializing town data.");
+                        if(!new Town(instance).ImportTown()){
+                            Log.e(TAG, "Unable to import town");
+                        }
+                        loTask.publishProgress(3);
+
+                        Thread.sleep(1000);
+                        Log.d(TAG, "Initializing barangay data.");
+                        if(!new Barangay(instance).ImportBarangay()){
+                            Log.e(TAG, "Unable to import barangay");
+                        }
+                        loTask.publishProgress(4);
+
+                        LRDcp loDcp = new LRDcp(instance);
+                        if(loDcp.HasCollection()){
+                            loTask.publishProgress(5);
+                        }
+
+                        if(!poSession.isLoggedIn()){
+                            return 2;
+                        }
+
+                        if(!poUser.IsSessionValid()){
+                            return 2;
+                        }
+
+                        return 1;
+                    } else {
+                        if(!poConfig.isAppFirstLaunch()){
+                            message = "Offline Mode.";
+                            return 1;
+                        }
+
+                        message = "Please connect you device to internet to download data.";
+                        return 0;
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    message = getLocalMessage(e);
+                    return 0;
+                }
+            }
+
+            @Override
+            public void OnProgress(int progress) {
+                String lsArgs;
+                if(poConfig.isAppFirstLaunch()){
+                    lsArgs = "Importing Data...";
+                } else {
+                    lsArgs = "Updating Data...";
+                }
+                if(progress < 5) {
+                    mListener.OnProgress(lsArgs, progress);
+                } else {
+                    mListener.OnHasDCP();
+                }
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                int result = (int) object;
+                switch (result){
+                    case 0:
+                        mListener.OnFailed(message);
+                        break;
+                    case 1:
+                        mListener.OnSuccess();
+                        break;
+                    default:
+                        mListener.OnNoSession();
+                        break;
+                }
+            }
+        });
+        loTask.Execute();
+    }
+
+    public interface OnInitializeCallback {
+        void OnProgress(String args, int progress);
+        void OnHasDCP();
+        void OnSuccess();
+        void OnNoSession();
+        void OnFailed(String message);
     }
 }
