@@ -75,12 +75,11 @@ public class Activity_Inquiries extends AppCompatActivity {
                 InquiryListAdapter adapter= new InquiryListAdapter(getApplication(), inquiries, new InquiryListAdapter.OnModelClickListener() {
                     @Override
                     public void OnClick(String TransNox) {
-                        Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
-                        intent.putExtra("TransNox",TransNox);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
-                        finish();
-
+//                        Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
+//                        intent.putExtra("TransNox",TransNox);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
+//                        finish();
                     }
 
                 });
