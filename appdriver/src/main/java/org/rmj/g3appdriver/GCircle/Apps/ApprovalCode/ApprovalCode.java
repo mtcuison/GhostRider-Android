@@ -269,8 +269,6 @@ public class ApprovalCode {
                     lsCondition = "cSCMDeptx = '1'"; break;
                 case "026": //mis
 
-
-
                     break;
                 case "015": //sales
                     if (lsPostion.equals("091") ||
