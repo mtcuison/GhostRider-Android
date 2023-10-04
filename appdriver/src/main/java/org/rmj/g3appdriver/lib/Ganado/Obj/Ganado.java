@@ -187,10 +187,11 @@ public class Ganado {
             params.put("sRelatnID", loDetail.getRelatnID());
             params.put("nlatitude", 1.00);
             params.put("nLongitud", 2.00);
-
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
-            params.put("sPaymInfo", loDetail.getPaymInfo());
+            if(!loDetail.getPaymForm().equalsIgnoreCase("0")) {
+                params.put("sPaymInfo", loDetail.getPaymInfo());
+            }
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getSubmitInquiry(),
