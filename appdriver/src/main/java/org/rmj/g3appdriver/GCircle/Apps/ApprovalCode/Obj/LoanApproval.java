@@ -5,6 +5,7 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -176,10 +177,11 @@ public class LoanApproval implements SCA {
                 return null;
             }
 
-            return new CreditAppInfo(loResponse.getString("rqstinfo"),
-                    loResponse.getString("reqstdxx"),
-                    loResponse.getString("miscinfo"),
-                    loResponse.getString("remarks1"));
+            Log.e( "LoadApplication: ", loResponse.getString("result"));
+            return new CreditAppInfo(loResponse.getJSONObject("detail").getString("rqstinfo"),
+                    loResponse.getJSONObject("detail").getString("reqstdxx"),
+                    loResponse.getJSONObject("detail").getString("miscinfo"),
+                    loResponse.getJSONObject("detail").getString("remarks1"));
         } catch (Exception e){
             e.printStackTrace();
             message = getLocalMessage(e);

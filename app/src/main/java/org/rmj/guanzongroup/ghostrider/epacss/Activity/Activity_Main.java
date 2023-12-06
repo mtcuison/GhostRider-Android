@@ -36,24 +36,26 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
+import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Etc.DeptCode;
+import org.rmj.g3appdriver.GCircle.ImportData.ImportEmployeeRole;
+import org.rmj.g3appdriver.GCircle.room.Entities.EEmployeeRole;
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.AppDeptIcon;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
-import org.rmj.g3appdriver.GCircle.ImportData.ImportEmployeeRole;
 import org.rmj.guanzongroup.ghostrider.ahmonitoring.Etc.FragmentAdapter;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_CollectionList;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Activities.Activity_LogCollection;
+import org.rmj.guanzongroup.ghostrider.epacss.Dialog.DialogLocation;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ChildObject;
 import org.rmj.guanzongroup.ghostrider.epacss.Object.ParentObject;
 import org.rmj.guanzongroup.ghostrider.epacss.R;
 import org.rmj.guanzongroup.ghostrider.epacss.Service.DataSyncService;
+import org.rmj.guanzongroup.ghostrider.epacss.Service.LocationService;
 import org.rmj.guanzongroup.ghostrider.epacss.ViewModel.VMMainActivity;
 import org.rmj.guanzongroup.ghostrider.epacss.adapter.ExpandableListDrawerAdapter;
-import org.rmj.g3appdriver.etc.AppDeptIcon;
 import org.rmj.guanzongroup.ghostrider.settings.Activity.Activity_Settings;
 import org.rmj.guanzongroup.petmanager.Activity.Activity_Application;
 
@@ -71,17 +73,23 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
     private LoadDialog poDialog;
     private Intent loIntent;
     private boolean cSlfiex;
-
+    private LocationService locationService;
+    private boolean isServiceBound = false;
     private ImageView imgDept;
     private MaterialTextView lblDept;
     private ExpandableListDrawerAdapter listAdapter;
     private ExpandableListView expListView;
     private DrawerLayout drawer;
     private ViewPager viewPager;
-
     private final List<ParentObject> poParentLst = new ArrayList<>();
     private List<ChildObject> poChildLst;
     private final HashMap<ParentObject, List<ChildObject>> poChild = new HashMap<>();
+    private static final int JOB_ID = 123; // Unique job ID
+
+
+    // Check if location service is enabled for specific collectors
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +97,8 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         mViewModel = new ViewModelProvider(this).get(VMMainActivity.class);
         poNetRecvr = mViewModel.getInternetReceiver();
         setContentView(R.layout.activity_main);
+
+
         initWidgets();
         InitUserFeatures();
         initReceiver();
@@ -101,10 +111,30 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
                 cSlfiex = eEmployeeInfo.getSlfieLog().equalsIgnoreCase("1");
                 Fragment[] loFragment = new Fragment[]{mViewModel.GetUserFragments(eEmployeeInfo)};
                 viewPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), loFragment));
+
+                String Collector = eEmployeeInfo.getPositnID();
+
+                if ("015".equals(Collector) || "017".equals(Collector) || "091".equals(Collector)) {
+                    // The user is identified as a Collector, start the LocationService
+                    Intent locationServiceIntent = new Intent(this, LocationService.class);
+                    startService(locationServiceIntent);
+                } else {
+                    // Handle the case where the user is not a Collector
+                    // You might want to show a message or take other actions
+                    // For now, we'll just log a message
+                    System.out.println("User is not identified as a Collector");
+                }
+
             } catch (Exception e){
                 e.printStackTrace();
             }
         });
+    }
+
+    private void initLocationservice(){
+
+        DialogLocation dialoglocation= new DialogLocation(this);
+        dialoglocation.show();
     }
 
     private void InitUserFeatures(){
@@ -253,7 +283,9 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
         unregisterReceiver(poNetRecvr);
         Log.e(TAG, "Internet status receiver has been unregistered.");
         AppConfigPreference.getInstance(Activity_Main.this).setIsMainActive(false);
+        stopService(new Intent(this, LocationService.class));
         mViewModel.ResetRaffleStatus();
+
         super.onDestroy();
     }
 
@@ -329,4 +361,5 @@ public class Activity_Main extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
         }
     }
+
 }
