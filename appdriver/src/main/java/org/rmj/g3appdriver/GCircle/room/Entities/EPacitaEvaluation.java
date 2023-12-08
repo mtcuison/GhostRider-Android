@@ -24,6 +24,12 @@ public class EPacitaEvaluation {
     private Double Ratingxx = 0.0;
     @ColumnInfo(name = "sEvalType")
     private String EvalType = "";
+    @ColumnInfo(name = "sRemarksx")
+    private String Remarksx = "";
+    @ColumnInfo(name = "nLongitud")
+    private String Longitud = "";
+    @ColumnInfo(name = "nLatitude")
+    private String Latitude = "";
     @ColumnInfo(name = "cTranStat")
     private String TranStat = "0";
     @ColumnInfo(name = "dModified")
@@ -113,5 +119,29 @@ public class EPacitaEvaluation {
 
     public void setEvalType(String evalType) {
         EvalType = evalType;
+    }
+
+    public String getRemarksx() {
+        return Remarksx;
+    }
+
+    public void setRemarksx(String remarksx) {
+        Remarksx = remarksx;
+    }
+
+    public String getLongitud() {
+        return Longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        Longitud = longitud;
+    }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
     }
 }

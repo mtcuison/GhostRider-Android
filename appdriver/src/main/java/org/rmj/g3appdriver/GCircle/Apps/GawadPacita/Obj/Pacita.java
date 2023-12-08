@@ -178,6 +178,7 @@ public class Pacita {
                 String lsTransNox = loJson.getString("sTransNox");
                 EPacitaEvaluation loDetail = poDao.CheckEvaulationRecord(lsTransNox);
 
+                Log.d(TAG, loJson.toString());
                 if(loDetail == null){
 
                     EPacitaEvaluation loInfo = new EPacitaEvaluation();
@@ -187,6 +188,9 @@ public class Pacita {
                     loInfo.setBranchCD(BranchCD);
                     loInfo.setPayloadx(loJson.getString("sPayloadx"));
                     loInfo.setRatingxx(loJson.getDouble("nRatingxx"));
+                    loInfo.setRemarksx(loJson.getString("sRemarksx"));
+                    loInfo.setLatitude(loJson.getString("nLatitude"));
+                    loInfo.setLongitud(loJson.getString("nLongitud"));
                     loInfo.setModified(loJson.getString("dModified"));
                     loInfo.setTimeStmp(loJson.getString("dTimeStmp"));
                     poDao.Save(loInfo);
@@ -200,8 +204,20 @@ public class Pacita {
                         loDetail.setTransact(loJson.getString("dTransact"));
                         loDetail.setUserIDxx(poDao.GetUserID());
                         loDetail.setBranchCD(BranchCD);
+
                         loDetail.setPayloadx(loJson.getString("sPayloadx"));
                         loDetail.setRatingxx(loJson.getDouble("nRatingxx"));
+//                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                        JSONObject loObj = new JSONObject(loJson.getString("sPayloadx"));
+                        if (loObj.has("sRemarksx")) {
+                            loDetail.setRemarksx(loObj.getString("sRemarksx"));
+                        }
+                        if (loObj.has("nLatitude")) {
+                            loDetail.setLatitude(loObj.getString("nLatitude"));
+                        }
+                        if (loObj.has("nLongitud")) {
+                            loDetail.setLongitud(loObj.getString("nLongitud"));
+                        }
                         loDetail.setModified(loJson.getString("dModified"));
                         loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
                         poDao.Update(loDetail);
@@ -249,6 +265,48 @@ public class Pacita {
             return false;
         }
     }
+    public boolean UpdateRemarks(String TransNox,  String Remarks){
+        try{
+            EPacitaEvaluation loDetail = poDao.CheckEvaulationRecord(TransNox);
+
+            if(loDetail == null){
+                message = "Unable to rate branch. No record found to update. Please try restarting the app.";
+                return false;
+            }
+
+            Log.d(TAG, "Remarks :  " + Remarks + ", has been updated!");
+            loDetail.setRemarksx(Remarks);
+            poDao.Update(loDetail);
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
+    public boolean UpdateLatLong(String TransNox,  String Latitude,  String Longitud){
+        try{
+            EPacitaEvaluation loDetail = poDao.CheckEvaulationRecord(TransNox);
+
+            if(loDetail == null){
+                message = "Unable to rate branch. No record found to update. Please try restarting the app.";
+                return false;
+            }
+
+            Log.d(TAG, "Latitude :  " + Latitude + ", has been updated!");
+            Log.d(TAG, "Longitud :  " + Longitud + ", has been updated!");
+            loDetail.setLatitude(Latitude);
+            loDetail.setLongitud(Longitud);
+            poDao.Update(loDetail);
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            message = getLocalMessage(e);
+            return false;
+        }
+    }
 
     /**
      *
@@ -283,9 +341,11 @@ public class Pacita {
             JSONObject params = new JSONObject();
             params.put("sBranchCD", loDetail.getBranchCD());
             params.put("dTransact", loDetail.getTransact());
-
             JSONObject loPayload = new JSONObject();
             loPayload.put("sEvalType", loDetail.getEvalType());
+            loPayload.put("sRemarksx", loDetail.getRemarksx());
+            loPayload.put("nLongitud", loDetail.getLongitud());
+            loPayload.put("nLatitude", loDetail.getLatitude());
 
             JSONArray laPayload = new JSONArray(loDetail.getPayloadx());
             loPayload.put("sPayloadx", laPayload);
@@ -401,6 +461,9 @@ public class Pacita {
             loInfo.setBranchCD(BranchCD);
             loInfo.setUserIDxx(poDao.GetUserID());
             loInfo.setEvalType(lsDeptIDxx);
+            loInfo.setRemarksx("");
+            loInfo.setLatitude("0.0");
+            loInfo.setLongitud("0.0");
             loInfo.setTimeStmp(new AppConstants().DATE_MODIFIED);
             poDao.Save(loInfo);
             return loInfo.getTransNox();

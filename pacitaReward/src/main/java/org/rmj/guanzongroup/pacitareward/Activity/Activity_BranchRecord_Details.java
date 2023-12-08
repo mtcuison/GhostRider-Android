@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Activity_BranchRecord_Details extends AppCompatActivity {
     private MaterialToolbar toolbar;
-    private MaterialTextView mtv_branchname;
+    private MaterialTextView mtv_branchname,mtvRemarks;
     private VMBranchRecordDetails mViewModel;
     private String intentDataBranchcd;
     private String intentDataBranchName;
@@ -56,6 +56,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         branch_rec = findViewById(R.id.branch_rec);
         mtv_branchname = findViewById(R.id.mtv_branchname);
+        mtvRemarks = findViewById(R.id.mtvRemarks);
 
         setSupportActionBar(toolbar); //set object toolbar as default action bar for activity
         getSupportActionBar().setTitle("Evaluation Details"); //set default title for action bar
@@ -105,6 +106,7 @@ public class Activity_BranchRecord_Details extends AppCompatActivity {
                                         new RecyclerViewAdapter_RecordDetails(loRate);
                                 branch_rec.setLayoutManager(new LinearLayoutManager(Activity_BranchRecord_Details.this, RecyclerView.VERTICAL, false));
                                 branch_rec.setAdapter(loAdapter);
+                                mtvRemarks.setText(ePacitaEvaluation.getRemarksx());
                                 Log.d("Adapter Item Count", "Count: " + loAdapter.getItemCount());
                             }
                         });

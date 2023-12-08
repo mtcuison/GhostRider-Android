@@ -42,17 +42,6 @@
         app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/pass_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Pass"
-            app:icon="@drawable/ic_baseline_smile"
-            app:iconGravity="start"
-            app:cornerRadius="15dp" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/fail_btn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
@@ -62,6 +51,17 @@
             app:icon="@drawable/ic_baseline_sad"
             app:iconGravity="end"
             app:cornerRadius="15dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pass_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pass"
+            app:cornerRadius="15dp"
+            app:icon="@drawable/ic_baseline_smile"
+            app:iconGravity="start" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.textview.MaterialTextView

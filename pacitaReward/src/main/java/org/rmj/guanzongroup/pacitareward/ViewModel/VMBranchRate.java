@@ -1,16 +1,31 @@
 package org.rmj.guanzongroup.pacitareward.ViewModel;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaEvaluation;
 import org.rmj.g3appdriver.GCircle.room.Entities.EPacitaRule;
 import org.rmj.g3appdriver.GCircle.Apps.GawadPacita.Obj.Pacita;
+import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.ImageFileCreator;
+import org.rmj.g3appdriver.etc.LocationInfo;
+import org.rmj.g3appdriver.etc.OnInitializeCameraCallback;
+import org.rmj.g3appdriver.lib.Location.LocationRetriever;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
+import org.rmj.g3appdriver.utils.GeoLocator;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -23,10 +38,12 @@ public class VMBranchRate extends AndroidViewModel {
     private final Pacita poSys;
     private ConnectionUtil poConnection;
     private String message;
+    private final Application instance;
 
     public VMBranchRate(@NonNull Application application) {
         super(application);
 
+        this.instance = application;
         poSys = new Pacita(application);
         poConnection = new ConnectionUtil(application);
     }
@@ -139,6 +156,44 @@ public class VMBranchRate extends AndroidViewModel {
             }
         });
     }
+    public void setRemarks(String TransNox,String Remarks){
+
+        TaskExecutor.Execute(TransNox, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+
+                if(!poSys.UpdateRemarks(TransNox, Remarks)){
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Log.d(TAG, object.toString());
+            }
+        });
+    }
+
+    public void setLatLong(String TransNox,String lat, String lng,Activity activity){
+
+        TaskExecutor.Execute(TransNox, new OnDoBackgroundTaskListener() {
+            @Override
+            public Object DoInBackground(Object args) {
+                if (!poSys.UpdateLatLong(TransNox, lat, lng)) {
+                    message = poSys.getMessage();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            public void OnPostExecute(Object object) {
+                Log.d(TAG, object.toString());
+            }
+        });
+    }
     /*public class SetEvaluationResultTask extends AsyncTask<String, Void, Boolean>{
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -159,6 +214,7 @@ public class VMBranchRate extends AndroidViewModel {
         void onSuccess(String message);
         void onFailed(String message);
     }
+
     public void saveBranchRatings(String TransNox, BranchRatingsCallback callback){
         TaskExecutor.Execute(TransNox, new OnTaskExecuteListener() {
             @Override
