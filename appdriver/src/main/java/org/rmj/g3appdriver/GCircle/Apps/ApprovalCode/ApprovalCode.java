@@ -247,7 +247,9 @@ public class ApprovalCode {
         String lsDeptIDx = loUser.getDeptIDxx();
         String lsPostion = loUser.getPositnID();
 
-        if (lsEmpLvID == 4 || lsEmpLvID == 5){
+        if (lsEmpLvID == 4 ||
+                lsEmpLvID == 5 ||
+                loUser.getEmployID().equalsIgnoreCase("M00112000440")){
             lsCondition  = "cAreaHead = '1'";
         } else{
             switch (lsDeptIDx){
@@ -266,8 +268,6 @@ public class ApprovalCode {
                 case "024": //scm
                     lsCondition = "cSCMDeptx = '1'"; break;
                 case "026": //mis
-
-
 
                     break;
                 case "015": //sales

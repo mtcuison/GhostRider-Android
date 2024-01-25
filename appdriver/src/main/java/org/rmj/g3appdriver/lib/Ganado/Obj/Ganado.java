@@ -179,6 +179,7 @@ public class Ganado {
             }
 
             JSONObject params = new JSONObject();
+            params.put("cSourcexx", "0");
             params.put("sClientNm", loDetail.getClientNm());
             params.put("cGanadoTp", loDetail.getGanadoTp());
             params.put("cPaymForm", loDetail.getPaymForm());
@@ -187,10 +188,11 @@ public class Ganado {
             params.put("sRelatnID", loDetail.getRelatnID());
             params.put("nlatitude", 1.00);
             params.put("nLongitud", 2.00);
-
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
-            params.put("sPaymInfo", loDetail.getPaymInfo());
+            if(!loDetail.getPaymForm().equalsIgnoreCase("0")) {
+                params.put("sPaymInfo", loDetail.getPaymInfo());
+            }
 
             String lsResponse = WebClient.sendRequest(
                     poApi.getSubmitInquiry(),
@@ -226,6 +228,7 @@ public class Ganado {
     public boolean ImportInquiries(){
         try{
             JSONObject params = new JSONObject();
+            params.put("cSourcexx", "0");
             EGanadoOnline loGanado = poDao.GetLatestData();
 
             if(loGanado != null){
@@ -280,28 +283,46 @@ public class Ganado {
                     Log.d(TAG, "Inquiry record has been saved!");
                 } else {
 
-                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
-                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
-                    if (!ldDate1.equals(ldDate2)) {
-                        loDetail.setTransNox(loJson.getString("sTransNox"));
-                        loDetail.setTransact(loJson.getString("dTransact"));
-                        loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
-                        loDetail.setPaymForm(loJson.getString("cPaymForm"));
-                        loDetail.setClientNm(loJson.getString("sClientNm"));
-                        loDetail.setClntInfo(loJson.getString("sCltInfox"));
-                        loDetail.setProdInfo(loJson.getString("sPrdctInf"));
-                        loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
-                        loDetail.setTargetxx(loJson.getString("dTargetxx"));
-                        loDetail.setFollowUp(loJson.getString("dFollowUp"));
-                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
-                        loDetail.setReferdBy(loJson.getString("sReferdBy"));
-                        loDetail.setRelatnID(loJson.getString("sRelatnID"));
-                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
-                        loDetail.setTranStat(loJson.getString("cTranStat"));
-                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
-                        poDao.Update(loDetail);
-                        Log.d(TAG, "Inquiry record has been updated!");
-                    }
+                    loDetail.setTransNox(loJson.getString("sTransNox"));
+                    loDetail.setTransact(loJson.getString("dTransact"));
+                    loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
+                    loDetail.setPaymForm(loJson.getString("cPaymForm"));
+                    loDetail.setClientNm(loJson.getString("sClientNm"));
+                    loDetail.setClntInfo(loJson.getString("sCltInfox"));
+                    loDetail.setProdInfo(loJson.getString("sPrdctInf"));
+                    loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
+                    loDetail.setTargetxx(loJson.getString("dTargetxx"));
+                    loDetail.setFollowUp(loJson.getString("dFollowUp"));
+                    loDetail.setRemarksx(loJson.getString("sRemarksx"));
+                    loDetail.setReferdBy(loJson.getString("sReferdBy"));
+                    loDetail.setRelatnID(loJson.getString("sRelatnID"));
+                    loDetail.setCreatedx(loJson.getString("dCreatedx"));
+                    loDetail.setTranStat(loJson.getString("cTranStat"));
+                    loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+                    poDao.Update(loDetail);
+                    Log.d(TAG, "Inquiry record has been updated!");
+//                    Date ldDate1 = SQLUtil.toDate(loDetail.getTimeStmp(), SQLUtil.FORMAT_TIMESTAMP);
+//                    Date ldDate2 = SQLUtil.toDate((String) loJson.get("dTimeStmp"), SQLUtil.FORMAT_TIMESTAMP);
+//                    if (!ldDate1.equals(ldDate2)) {
+//                        loDetail.setTransNox(loJson.getString("sTransNox"));
+//                        loDetail.setTransact(loJson.getString("dTransact"));
+//                        loDetail.setGanadoTp(loJson.getString("cGanadoTp"));
+//                        loDetail.setPaymForm(loJson.getString("cPaymForm"));
+//                        loDetail.setClientNm(loJson.getString("sClientNm"));
+//                        loDetail.setClntInfo(loJson.getString("sCltInfox"));
+//                        loDetail.setProdInfo(loJson.getString("sPrdctInf"));
+//                        loDetail.setPaymInfo(loJson.getString("sPaymInfo"));
+//                        loDetail.setTargetxx(loJson.getString("dTargetxx"));
+//                        loDetail.setFollowUp(loJson.getString("dFollowUp"));
+//                        loDetail.setRemarksx(loJson.getString("sRemarksx"));
+//                        loDetail.setReferdBy(loJson.getString("sReferdBy"));
+//                        loDetail.setRelatnID(loJson.getString("sRelatnID"));
+//                        loDetail.setCreatedx(loJson.getString("dCreatedx"));
+//                        loDetail.setTranStat(loJson.getString("cTranStat"));
+//                        loDetail.setTimeStmp(loJson.getString("dTimeStmp"));
+//                        poDao.Update(loDetail);
+//                        Log.d(TAG, "Inquiry record has been updated!");
+//                    }
                 }
             }
 
