@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
@@ -91,6 +92,8 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
     @Override
     public void OnSuccessLoginResult() {
         podialog.dismiss();
+
+        Log.d("ACTIVITY_LOGIN", "SUCCESSFUL");
         Intent loIntent = new Intent();
         this.setResult(Activity.RESULT_OK, loIntent);
         this.finish();

@@ -209,6 +209,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         });
 
         poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d(TAG, String.valueOf(result.getResultCode()));
             if (result.getResultCode() == RESULT_OK) {
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
