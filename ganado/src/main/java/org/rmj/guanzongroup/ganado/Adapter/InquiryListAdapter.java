@@ -13,32 +13,22 @@ package org.rmj.guanzongroup.ganado.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMCColor;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMcBrand;
-import org.rmj.g3appdriver.GCircle.room.Entities.EMcModel;
-import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.Obj.ProductInquiry;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
-import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
-import org.rmj.g3appdriver.lib.Panalo.Panalo;
 import org.rmj.guanzongroup.ganado.R;
 
 import java.util.List;
@@ -75,15 +65,28 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
     public void onBindViewHolder(@NonNull ApplicationViewHolder holder, int position) {
         try {
             EGanadoOnline loModel = poModel.get(position);
-            holder.itemName01.setText(loModel.getClientNm());
-            holder.itemName02.setText(loModel.getSendStat());
+            holder.lblClientNm.setText(loModel.getClientNm());
+
+            String lsSendStat;
+
+            if(loModel.getSendStat().equalsIgnoreCase("1")){
+                lsSendStat = "Sent";
+            } else {
+                lsSendStat = "Pending";
+            }
+
+            holder.lblSendStat.setText(lsSendStat);
             JSONObject object = new JSONObject(loModel.getClntInfo());
-            holder.itemName03.setText(object.getString("sMobileNo"));
+            holder.lblMobileNo.setText(object.getString("sMobileNo"));
             JSONObject object1 = new JSONObject(loModel.getProdInfo());
             DGanadoOnline.McInfo eganado = poApp.GetMCInfo(object1.getString("sModelIDx"),object1.getString("sBrandIDx"),object1.getString("sColorIDx"));
-            holder.itemName04.setText(eganado.ModelNme + " (" + eganado.ColorNme + ")");
-            holder.itemName05.setText(GConstants.PAYMENT_FORM[Integer.parseInt(loModel.getPaymForm())]);
-            holder.itemName06.setText(loModel.getTranStat());
+            holder.lblUnitDesc.setText(eganado.ModelNme + " (" + eganado.ColorNme + ")");
+            holder.lblInqTypex.setText(GConstants.PAYMENT_FORM[Integer.parseInt(loModel.getPaymForm())]);
+            String lsTranStat = loModel.getTranStat();
+            if (lsTranStat == null || lsTranStat.isEmpty()){
+                lsTranStat = "0";
+            }
+            holder.lblInqStats.setText(GConstants.INQUIRY_STATUS[Integer.parseInt(lsTranStat)]);
             holder.itemView.setOnClickListener(v -> {
                 if(listener != null){
                     listener.OnClick(loModel.getTransNox());
@@ -102,7 +105,7 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
 
     public static class ApplicationViewHolder extends RecyclerView.ViewHolder{
 
-        MaterialTextView itemName01, itemName02, itemName03, itemName04,itemName05,itemName06;
+        MaterialTextView lblClientNm, lblSendStat, lblMobileNo, lblUnitDesc, lblInqTypex, lblInqStats;
 
         LinearLayout lnStatus;
 
@@ -110,12 +113,12 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
 
         public ApplicationViewHolder(@NonNull View view) {
             super(view);
-            itemName01 = view.findViewById(R.id.lbl_clientName);
-            itemName02 = view.findViewById(R.id.lbl_status);
-            itemName03 = view.findViewById(R.id.lbl_mobileNo);
-            itemName04 = view.findViewById(R.id.lbl_modelDesc);
-            itemName05 = view.findViewById(R.id.lbl_InquiryType);
-            itemName06 = view.findViewById(R.id.lbl_recorStats);
+            lblClientNm = view.findViewById(R.id.lbl_clientName);
+            lblSendStat = view.findViewById(R.id.lbl_status);
+            lblMobileNo = view.findViewById(R.id.lbl_mobileNo);
+            lblUnitDesc = view.findViewById(R.id.lbl_modelDesc);
+            lblInqTypex = view.findViewById(R.id.lbl_InquiryType);
+            lblInqStats = view.findViewById(R.id.lbl_recorStats);
         }
     }
 }
