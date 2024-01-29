@@ -142,6 +142,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.READ_PHONE_STATE);
         }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.READ_PHONE_NUMBERS);
+        }
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }

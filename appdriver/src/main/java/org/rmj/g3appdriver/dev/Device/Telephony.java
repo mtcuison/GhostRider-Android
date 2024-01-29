@@ -13,17 +13,19 @@ package org.rmj.g3appdriver.dev.Device;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.provider.Settings;
 import android.telephony.SubscriptionInfo;
 import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Telephony {
-
     private final Context mContext;
-
     public Telephony(Context context) {
         this.mContext = context;
     }
@@ -42,13 +44,16 @@ public class Telephony {
             List<SubscriptionInfo> subInfoList;
             ArrayList<String> Numbers = new ArrayList<>();
             SubscriptionManager mSubscriptionManager = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 mSubscriptionManager = SubscriptionManager.from(mContext);
+
                 subInfoList = mSubscriptionManager.getActiveSubscriptionInfoList();
                 if (subInfoList.size() > 0) {
                     for (SubscriptionInfo subscriptionInfo : subInfoList) {
                         Numbers.add(subscriptionInfo.getNumber());
                     }
+
                     if(Numbers.get(0) != null){
                         String lsResult = "";
                         String MobileNo = Numbers.get(0);
@@ -93,6 +98,15 @@ public class Telephony {
                     }
                 }
             }
+            else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                mSubscriptionManager = (SubscriptionManager) mContext.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
+                Log.d("MOBILE", mSubscriptionManager.getPhoneNumber(mSubscriptionManager.DEFAULT_SUBSCRIPTION_ID));
+                return mSubscriptionManager.getPhoneNumber(mSubscriptionManager.DEFAULT_SUBSCRIPTION_ID);
+            }else {
+                TelephonyManager poManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                return poManager.getLine1Number();
+            }
+            return "";
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.utils.GeoLocator;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
 
@@ -35,30 +36,25 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_ClientInfo extends AppCompatActivity {
-
     private VMPersonalInfo mViewModel;
     private MessageBox poMessage;
     private LoadDialog poDialogx;
-
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
             txtEmailAdd, txtMobileNo,  txtHouseNox, txtAddress;
-
     private MaterialAutoCompleteTextView txtMunicipl,txtBPlace;
     private RadioGroup rgGender;
     private MaterialAutoCompleteTextView spinner_relation;
-    private MaterialButton btnContinue, btnPrev;
-    private MaterialCheckBox txtMobileType1, txtMobileType2, txtMobileType3;
-
+    private MaterialButton btnContinue;
     private MaterialToolbar toolbar;
-    private String sTansNox = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        poMessage = new MessageBox(Activity_ClientInfo.this);
-        poDialogx = new LoadDialog(Activity_ClientInfo.this);
         setContentView(R.layout.activity_client_info);
         initWidgets();
+
+        poMessage = new MessageBox(Activity_ClientInfo.this);
+        poDialogx = new LoadDialog(Activity_ClientInfo.this);
         mViewModel.InitializeApplication(getIntent());
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
@@ -156,7 +152,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
             StartTime.getDatePicker().setMaxDate(new Date().getTime());
             StartTime.show();
         });
-
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rb_male) {
                 mViewModel.getModel().setGenderCd("0");
@@ -165,9 +160,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 mViewModel.getModel().setGenderCd("1");
             }
         });
-
         btnContinue.setOnClickListener(v ->{
-
             mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
             mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
             mViewModel.getModel().setLastName(txtLastNm.getText().toString());
@@ -179,7 +172,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
                 public void OnSave() {
-                    poDialogx.initDialog("Ganado", "Saving inquiry. Please wait...", false);
+                    poDialogx.initDialog("BENTA", "Saving inquiry. Please wait...", false);
                     poDialogx.show();
                 }
 
@@ -187,7 +180,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 public void OnSuccess(String args) {
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("BENTA");
                     poMessage.setMessage(args);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         dialog.dismiss();
@@ -207,7 +200,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 public void OnFailed(String message) {
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("BENTA");
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
@@ -215,7 +208,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
             });
         });
     }
-
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         mViewModel = new ViewModelProvider(Activity_ClientInfo.this).get(VMPersonalInfo.class);
@@ -239,13 +231,11 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         btnContinue = findViewById(R.id.btnContinue);
     }
-
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -253,11 +243,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
-
         private final View loView;
-
         public OnItemClickListener(View loView) {
             this.loView = loView;
         }

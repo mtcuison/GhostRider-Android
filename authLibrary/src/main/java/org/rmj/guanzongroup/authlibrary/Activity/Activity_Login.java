@@ -26,7 +26,6 @@ import java.util.Objects;
 public class Activity_Login extends AppCompatActivity implements LoginCallback {
     private TextInputEditText tie_username;
     private TextInputEditText tie_password;
-    private TextInputEditText tie_mobileno;
     private MaterialTextView lblVersion;
     private MaterialTextView mtv_createaccount;
     private MaterialTextView mtv_forgotpassw;
@@ -46,22 +45,17 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
 
         tie_username = findViewById(R.id.username);
         tie_password = findViewById(R.id.password);
-        tie_mobileno = findViewById(R.id.mobileno);
         lblVersion = findViewById(R.id.lbl_versionInfo);
         mtv_createaccount = findViewById(R.id.mtv_createaccount);
         mtv_forgotpassw = findViewById(R.id.mtv_forgotpassw);
         btn_log = findViewById(R.id.btn_log);
-
-        tie_mobileno.setText(mViewModel.getMobileNo());
-        tie_mobileno.setVisibility(mViewModel.hasMobileNo());
 
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = Objects.requireNonNull(tie_username.getText()).toString();
                 String password = Objects.requireNonNull(tie_password.getText()).toString();
-                String mobileno = Objects.requireNonNull(tie_mobileno.getText()).toString();
-                mViewModel.Login(new UserAuthInfo(email,password, mobileno), Activity_Login.this);
+                mViewModel.Login(new UserAuthInfo(email,password), Activity_Login.this);
             }
         });
 
@@ -104,7 +98,7 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
         podialog.dismiss();
         MessageBox loMessage = new MessageBox(this);
         loMessage.initDialog();
-        loMessage.setTitle("G-Sec");
+        loMessage.setTitle("Guanzon Circle");
         loMessage.setMessage(message);
         loMessage.setPositiveButton("Okay", (view, dialog) -> dialog.dismiss());
         loMessage.show();

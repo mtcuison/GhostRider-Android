@@ -4,10 +4,14 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.SERVER_NO_RESPONSE;
 import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
+import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+
+import com.huawei.location.nlp.network.request.GPSLocationOnline;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,9 +25,11 @@ import org.rmj.g3appdriver.GCircle.room.GGC_GCircleDB;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.etc.LocationInfo;
 import org.rmj.g3appdriver.lib.Etc.Relation;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InquiryInfo;
+import org.rmj.g3appdriver.utils.GeoLocator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,15 +38,14 @@ import java.util.Locale;
 
 public class Ganado {
     private static final String TAG = Ganado.class.getSimpleName();
-
     private final Application instance;
     private final DGanadoOnline poDao;
     private final EmployeeSession poSession;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
     private final Relation poRelate;
-
     private String message;
+    private GeoLocator poLocator;
 
     public Ganado(Application instance) {
         this.instance = instance;
@@ -49,16 +54,15 @@ public class Ganado {
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
         this.poRelate = new Relation(instance);
+        this.poLocator = new GeoLocator(instance, (Activity) instance.getApplicationContext());
     }
 
     public String getMessage() {
         return message;
     }
-
     public LiveData<List<ERelation>> GetRelations(){
         return poRelate.GetRelations();
     }
-
     public String CreateInquiry(InquiryInfo loInfo){
         try{
             InquiryInfo.InquiryInfoValidator loValid = new InquiryInfo.InquiryInfoValidator();
@@ -116,7 +120,6 @@ public class Ganado {
             return null;
         }
     }
-
     public boolean SaveClientInfo(ClientInfo loInfo){
         try {
             if(!loInfo.isDataValid()){
@@ -168,7 +171,6 @@ public class Ganado {
             return false;
         }
     }
-
     public boolean SaveInquiry(String TransNox){
         try{
             EGanadoOnline loDetail = poDao.GetInquiry(TransNox);
@@ -186,10 +188,36 @@ public class Ganado {
             params.put("dCreatedx", loDetail.getCreatedx());
             params.put("dTargetxx", loDetail.getTargetxx());
             params.put("sRelatnID", loDetail.getRelatnID());
-            params.put("nlatitude", 1.00);
-            params.put("nLongitud", 2.00);
             params.put("sClntInfo", loDetail.getClntInfo());
             params.put("sProdInfo", loDetail.getProdInfo());
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                poLocator.GetLocation(new GeoLocator.OnGetLocationListner() {
+                    @Override
+                    public void OnRetrieveLocation(LocationInfo locationInfo) {
+                        try {
+                            params.put("nlatitude", locationInfo.getLatitude());
+                            params.put("nLongitud", locationInfo.getLongitude());
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void OnFailedRetrieve(String message) {
+                        try {
+                            params.put("nlatitude", 0.00);
+                            params.put("nLongitud", 0.00);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }else {
+                params.put("nlatitude", 0.00);
+                params.put("nLongitud", 0.00);
+            }
+
             if(!loDetail.getPaymForm().equalsIgnoreCase("0")) {
                 params.put("sPaymInfo", loDetail.getPaymInfo());
             }
@@ -224,7 +252,6 @@ public class Ganado {
             return false;
         }
     }
-
     public boolean ImportInquiries(){
         try{
             JSONObject params = new JSONObject();
@@ -333,11 +360,9 @@ public class Ganado {
             return false;
         }
     }
-
     public LiveData<List<EGanadoOnline>> GetInquiries(){
         return poDao.GetInquiries();
     }
-
     private String CreateUniqueID(){
         String lsUniqIDx = "";
         try{

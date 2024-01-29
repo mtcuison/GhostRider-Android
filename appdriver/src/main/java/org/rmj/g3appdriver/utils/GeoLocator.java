@@ -42,7 +42,6 @@ public class GeoLocator {
         this.poActivty = activity;
         this.poLocation = new LocationInfo();
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void GetLocation(OnGetLocationListner listner){
         LocationManager poLcation = (LocationManager) poContext.getSystemService(Context.LOCATION_SERVICE);
@@ -89,7 +88,6 @@ public class GeoLocator {
             }
         }
     }
-
     private void initAddress(){
         Geocoder loCoderxx = new Geocoder(poContext, Locale.getDefault());
         List<Address> paAddress;
@@ -108,7 +106,6 @@ public class GeoLocator {
             e.printStackTrace();
         }
     }
-
     public interface OnGetLocationListner{
         void OnRetrieveLocation(LocationInfo locationInfo);
         void OnFailedRetrieve(String message);

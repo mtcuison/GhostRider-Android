@@ -3,13 +3,11 @@ package org.rmj.g3appdriver.lib.Account.pojo;
 public class UserAuthInfo {
     private final String Email;
     private final String Password;
-    private final String MobileNo;
     private String message;
 
-    public UserAuthInfo(String email, String password, String mobileNo) {
+    public UserAuthInfo(String email, String password) {
         Email = email;
         Password = password;
-        MobileNo = mobileNo;
     }
 
     public String getEmail() {
@@ -20,9 +18,9 @@ public class UserAuthInfo {
         return Password;
     }
 
-    public String getMobileNo() {
+    /*public String getMobileNo() {
         return MobileNo;
-    }
+    }*/
 
     public String getMessage(){
         return message;
@@ -35,7 +33,8 @@ public class UserAuthInfo {
         if(!isPasswordValid()){
             return false;
         }
-        return isMobileNoValid();
+        return true;
+        //return isMobileNoValid(); //mobile no is not required
     }
 
     private boolean isEmailValid(){
@@ -54,7 +53,7 @@ public class UserAuthInfo {
         return true;
     }
 
-    private boolean isMobileNoValid(){
+    /*private boolean isMobileNoValid(){
         if(MobileNo.isEmpty()){
             message = "Please enter mobile no.";
             return false;
@@ -68,5 +67,5 @@ public class UserAuthInfo {
             return false;
         }
         return true;
-    }
+    }*/
 }

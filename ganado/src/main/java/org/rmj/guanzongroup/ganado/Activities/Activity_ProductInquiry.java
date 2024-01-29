@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
@@ -31,6 +32,7 @@ import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.OnSaveInfoListener;
 import org.rmj.guanzongroup.ganado.ViewModel.VMProductInquiry;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -136,21 +138,36 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         txtDTarget.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+
+            // Set the maximum date to one month from the current date
+            newCalendar.add(Calendar.MONTH, 1);
+            long maxDateInMillis = newCalendar.getTimeInMillis();
+
             final DatePickerDialog StartTime = new DatePickerDialog(Activity_ProductInquiry.this,
                     android.R.style.Theme_Holo_Dialog, (view131, year, monthOfYear, dayOfMonth) -> {
                 try {
                     Calendar newDate = Calendar.getInstance();
                     newDate.set(year, monthOfYear, dayOfMonth);
-                    String lsDate = dateFormatter.format(newDate.getTime());
-                    txtDTarget.setText(lsDate);
-                    Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
-                    lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-                    mViewModel.getModel().setTargetxx(lsDate);
+
+                    // Check if the selected date is within one month from the current date
+                    if (newDate.getTimeInMillis() <= maxDateInMillis) {
+                        String lsDate = dateFormatter.format(newDate.getTime());
+                        txtDTarget.setText(lsDate);
+                        Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
+                        lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
+                        mViewModel.getModel().setTargetxx(lsDate);
+                    } else {
+                        // Show an error message or handle the case when the selected date is outside the allowed range
+                        Toast.makeText(Activity_ProductInquiry.this, "Please select a date within one month from the current date", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
             StartTime.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            StartTime.getDatePicker().setMaxDate(maxDateInMillis); // Set the maximum date
+
             StartTime.show();
         });
 
@@ -167,7 +184,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 }
             }
         });
-
         btnCalculate.setOnClickListener(view -> {
             String lsInput = txtDownPymnt.getText().toString().trim();
 //
@@ -233,7 +249,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         btnContinue = findViewById(R.id.btnContinue);
         btnCalculate = findViewById(R.id.btnCalculate);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -241,24 +256,29 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onBackPressed () {
         finish();
     }
-
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
-
     @Override
     protected void onDestroy () {
         getViewModelStore().clear();
         super.onDestroy();
     }
+    public void ValiDateTarget(SimpleDateFormat sFormat, Date dTargetDate){
+        try {
+            Date current = Calendar.getInstance().getTime();
+            sFormat.parse(sFormat.format(current));
 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
         private final View loView;

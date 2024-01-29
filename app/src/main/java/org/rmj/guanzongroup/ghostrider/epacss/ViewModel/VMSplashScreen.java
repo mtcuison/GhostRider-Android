@@ -57,8 +57,8 @@ public class VMSplashScreen extends AndroidViewModel {
         this.poSession = EmployeeSession.getInstance(instance);
         this.poConfig.setPackageName(BuildConfig.APPLICATION_ID);
         this.poConfig.setProductID("gRider");
-        this.poConfig.setUpdateLocally(false);
-        this.poConfig.setTestCase(false);
+        this.poConfig.setUpdateLocally(true);
+        this.poConfig.setTestCase(true);
         this.poConfig.setupAppVersionInfo(BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME, "");
         ETokenInfo loToken = new ETokenInfo();
         loToken.setTokenInf("temp_token");
