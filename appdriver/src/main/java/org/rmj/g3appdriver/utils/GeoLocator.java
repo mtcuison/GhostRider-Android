@@ -60,7 +60,7 @@ public class GeoLocator {
 
                 Location location1 = poLcation.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                Location location2 = poLcation.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+                Location location2 = poLcation.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
                 if (location != null) {
                     double latti = location.getLatitude();

@@ -189,13 +189,6 @@ public class ClientInfo {
             return false;
         }
 
-        if(cGenderCd.equalsIgnoreCase("1")) {
-            if (sMaidenNm.isEmpty()) {
-                message = "Please enter maiden name.";
-                return false;
-            }
-        }
-
         if(sTownIDxx.isEmpty()){
             message = "Please select town or municipality.";
             return false;

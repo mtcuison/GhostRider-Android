@@ -25,6 +25,7 @@ import com.google.android.material.textview.MaterialTextView;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DGanadoOnline;
 import org.rmj.g3appdriver.etc.FormatUIText;
 import org.rmj.g3appdriver.etc.MessageBox;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.model.GConstants;
 import org.rmj.g3appdriver.lib.Ganado.pojo.InstallmentInfo;
 import org.rmj.g3appdriver.utils.ImageFileManager;
@@ -134,7 +135,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         txtDTarget.setOnClickListener(v -> {
             final Calendar newCalendar = Calendar.getInstance();
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
@@ -170,7 +170,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
             StartTime.show();
         });
-
         spnPayment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -186,12 +185,14 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         });
         btnCalculate.setOnClickListener(view -> {
             String lsInput = txtDownPymnt.getText().toString().trim();
-//
             Double lnInput = FormatUIText.getParseDouble(lsInput);
+
+            mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
             mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
                 @Override
                 public void OnCalculate(double lnResult) {
                     txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                    mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
                 }
 
                 @Override
@@ -202,6 +203,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
                     txtAmort.setText("0");
+                    mViewModel.getModel().setMonthAmr("0");
                 }
             });
         });
@@ -226,14 +228,13 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             });
         });
     }
-
     private void initWidgets(){
         mViewModel = new ViewModelProvider(Activity_ProductInquiry.this).get(VMProductInquiry.class);
         poMessage = new MessageBox(Activity_ProductInquiry.this);
         MaterialToolbar toolbar = findViewById(R.id.toolbar_Inquiry);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-//
+
         txtBrandNm = findViewById(R.id.lblBrand);
         txtModelCd = findViewById(R.id.lblModelCde);
         txtModelNm = findViewById(R.id.lblModelNme);
@@ -270,15 +271,6 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         getViewModelStore().clear();
         super.onDestroy();
     }
-    public void ValiDateTarget(SimpleDateFormat sFormat, Date dTargetDate){
-        try {
-            Date current = Calendar.getInstance().getTime();
-            sFormat.parse(sFormat.format(current));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
 
         private final View loView;
@@ -310,17 +302,22 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
                 String lsInput = txtDownPymnt.getText().toString().trim();
                 Double lnInput = FormatUIText.getParseDouble(lsInput);
+                mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
                 double lnMonthly = mViewModel.GetMonthlyAmortization(Integer.parseInt(mViewModel.getModel().getTermIDxx()));
                 txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
+
                 mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
                     @Override
                     public void OnCalculate(double lnResult) {
                         txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                        mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
                     }
 
                     @Override
                     public void OnFailed(String message) {
                         txtAmort.setText("0");
+
+                        mViewModel.getModel().setMonthAmr("0");
                     }
                 });
             }

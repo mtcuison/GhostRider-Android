@@ -162,8 +162,8 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/til_cashPrice"
                         style="@style/TextInputStyle"
+                        android:id="@+id/til_cashPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
@@ -173,6 +173,7 @@
                             android:id="@+id/txt_cashPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/footer_dark_grey"
                             android:enabled="false"/>
                     </com.google.android.material.textfield.TextInputLayout>
 

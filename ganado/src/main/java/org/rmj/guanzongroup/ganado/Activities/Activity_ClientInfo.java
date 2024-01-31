@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
+import org.rmj.g3appdriver.etc.LocationInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.utils.GeoLocator;
 import org.rmj.guanzongroup.ganado.R;
@@ -46,6 +48,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
     private MaterialAutoCompleteTextView spinner_relation;
     private MaterialButton btnContinue;
     private MaterialToolbar toolbar;
+    private GeoLocator poLocator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         poMessage = new MessageBox(Activity_ClientInfo.this);
         poDialogx = new LoadDialog(Activity_ClientInfo.this);
+        poLocator = new GeoLocator(this, Activity_ClientInfo.this);
         mViewModel.InitializeApplication(getIntent());
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
@@ -62,7 +66,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 ArrayList<String> string = new ArrayList<>();
                 for (int x = 0; x < eRelations.size(); x++) {
                     String lsColor = eRelations.get(x).getRelatnDs();
-//                        String lsTown =  loList.get(x).sProvName ;
                     string.add(lsColor);
 
                 }
@@ -75,7 +78,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         spinner_relation.setOnItemClickListener(new Activity_ClientInfo.OnItemClickListener(spinner_relation));
         mViewModel.GetTownProvinceList().observe(Activity_ClientInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
@@ -84,7 +86,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     ArrayList<String> string = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-//                        String lsTown =  loList.get(x).sProvName ;
                         string.add(lsTown);
 
                     }
@@ -143,7 +144,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     txtBirthDt.setText(lsDate);
                     Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-//                    Log.d(TAG, "Save formatted time: " + lsDate);
                     mViewModel.getModel().setBirthDte(lsDate);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -169,6 +169,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.getModel().setAddressx(txtAddress.getText().toString());
             mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
+
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
                 public void OnSave() {

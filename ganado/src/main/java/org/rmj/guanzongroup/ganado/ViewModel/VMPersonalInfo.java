@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
 import java.util.List;
+import java.util.Locale;
 
 public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
     private static final String TAG = VMPersonalInfo.class.getSimpleName();
@@ -37,6 +38,8 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
         this.poApp = new Ganado(application);
         this.poModel = new ClientInfo();
         this.poTown = new Town(application);
+
+        this.poApp.InitGeoLocation();
     }
     public ClientInfo getModel() {
         return poModel;
@@ -81,6 +84,7 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
                     message = poApp.getMessage();
                     return null;
                 }
+
                 String lsResult1 = (poApp.SaveInquiry(lsInfo.getsTransNox())) ? "" : null;
                 if (lsResult1 == null) {
                     message = poApp.getMessage();
