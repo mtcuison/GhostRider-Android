@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 
 import org.rmj.g3appdriver.GCircle.room.Entities.ENotificationMaster;
@@ -63,7 +64,8 @@ public class InquiryNotification implements iNotificationUI {
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_guanzon_logo)
                     .setContentTitle(lsTitlexx)
-                    .setContentText(lsMessage);
+                    .setContentText(lsMessage)
+                    .setColor(Color.rgb(255, 166, 77));
 
             int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 

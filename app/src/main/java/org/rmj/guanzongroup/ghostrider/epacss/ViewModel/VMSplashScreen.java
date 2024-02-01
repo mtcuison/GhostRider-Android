@@ -71,7 +71,6 @@ public class VMSplashScreen extends AndroidViewModel {
             public Object DoInBackground(Object args) {
                 return new AppTokenManager(instance).SaveFirebaseToken((String) args);
             }
-
             @Override
             public void OnPostExecute(Object object) {
             }
