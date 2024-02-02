@@ -1,5 +1,6 @@
 package org.rmj.guanzongroup.ganado.ViewModel;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 
@@ -10,11 +11,9 @@ import androidx.lifecycle.LiveData;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.GCircle.room.Entities.EGanadoOnline;
 import org.rmj.g3appdriver.GCircle.room.Entities.ERelation;
-import org.rmj.g3appdriver.etc.LocationInfo;
 import org.rmj.g3appdriver.lib.Etc.Town;
 import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.lib.Ganado.pojo.ClientInfo;
-import org.rmj.g3appdriver.utils.GeoLocator;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
 
@@ -38,8 +37,9 @@ public class VMPersonalInfo extends AndroidViewModel implements GanadoUI {
         this.poApp = new Ganado(application);
         this.poModel = new ClientInfo();
         this.poTown = new Town(application);
-
-        this.poApp.InitGeoLocation();
+    }
+    public void InitLocation(Activity activity){
+        this.poApp.InitGeoLocation(activity);
     }
     public ClientInfo getModel() {
         return poModel;

@@ -5,6 +5,7 @@ import static org.rmj.g3appdriver.dev.Api.ApiResult.getErrorMessage;
 import static org.rmj.g3appdriver.etc.AppConstants.getLocalMessage;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -45,8 +46,8 @@ public class Ganado {
     private final HttpHeaders poHeaders;
     private final Relation poRelate;
     private String message;
-    private double nLatitude;
-    private double nLongitude;
+    private String nLatitude;
+    private String nLongitude;
 
     public Ganado(Application instance) {
         this.instance = instance;
@@ -362,23 +363,41 @@ public class Ganado {
         Log.d(TAG, lsUniqIDx);
         return lsUniqIDx;
     }
-    public void InitGeoLocation(){
+    public void InitGeoLocation(Activity poActivty){
         int LOCATION_REFRESH_TIME = 2000; // 15 seconds to update
         int LOCATION_REFRESH_DISTANCE = 500; // 500 meters to update
 
         if (ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            LocationManager locManager = (LocationManager) instance.getSystemService(instance.LOCATION_SERVICE);
-            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                    LOCATION_REFRESH_DISTANCE, mLocationListener);
+
+            LocationManager locManager= (LocationManager) instance.getSystemService(instance.LOCATION_SERVICE);
+
+            Location location = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            Location location1 = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            Location location2 = locManager.getLastKnownLocation(LocationManager. PASSIVE_PROVIDER);
+            if (location != null) {
+                nLatitude = String.valueOf(location.getLatitude());
+                nLongitude = String.valueOf(location.getLongitude());
+            } else  if (location1 != null) {
+                nLatitude = String.valueOf(location1.getLatitude());
+                nLongitude = String.valueOf(location1.getLongitude());
+            } else  if (location2 != null) {
+                nLatitude = String.valueOf(location2.getLatitude());
+                nLongitude = String.valueOf(location2.getLongitude());
+            }else{
+                message = "Unable to Trace your location";
+//                listner.OnFailedRetrieve("Unable to Trace your location");
+            }
+//            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+//                    LOCATION_REFRESH_DISTANCE, mLocationListener);
+
+        }else {
+
+            ActivityCompat.requestPermissions(poActivty, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            nLatitude = location.getLatitude();
-            nLongitude = location.getLongitude();
-        }
-    };
+
 }

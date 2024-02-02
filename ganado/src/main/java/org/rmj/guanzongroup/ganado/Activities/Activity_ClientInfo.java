@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,15 +17,12 @@ import android.widget.RadioGroup;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DTownInfo;
 import org.rmj.g3appdriver.etc.LoadDialog;
-import org.rmj.g3appdriver.etc.LocationInfo;
 import org.rmj.g3appdriver.etc.MessageBox;
-import org.rmj.g3appdriver.utils.GeoLocator;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMPersonalInfo;
 
@@ -48,7 +44,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
     private MaterialAutoCompleteTextView spinner_relation;
     private MaterialButton btnContinue;
     private MaterialToolbar toolbar;
-    private GeoLocator poLocator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +53,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         poMessage = new MessageBox(Activity_ClientInfo.this);
         poDialogx = new LoadDialog(Activity_ClientInfo.this);
-        poLocator = new GeoLocator(this, Activity_ClientInfo.this);
         mViewModel.InitializeApplication(getIntent());
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
@@ -200,6 +194,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 @Override
                 public void OnFailed(String message) {
                     poDialogx.dismiss();
+
+                    mViewModel.InitLocation(Activity_ClientInfo.this);
+
                     poMessage.initDialog();
                     poMessage.setTitle("BENTA");
                     poMessage.setMessage(message);

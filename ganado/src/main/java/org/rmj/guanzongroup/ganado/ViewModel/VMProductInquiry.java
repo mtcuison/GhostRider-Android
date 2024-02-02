@@ -53,7 +53,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
         this.oApp = new Ganado(instance);
 
         this.poModel.setGanadoTp("1");
-        this.oApp.InitGeoLocation();
     }
     public InquiryInfo getModel() {
         return poModel;
