@@ -111,9 +111,7 @@ public class EmployeeAuthentication implements iAuth {
             poDao.RemoveSessions();
             poDao.SaveNewEmployeeSession(employeeInfo);
 
-
-
-            String lsClientx = null;//loResponse.getString("sClientID"); //TODO: CLIENT ID VALIDATION ON API
+            String lsClientx = loResponse.getString("sClientID");
             String lsUserIDx = loResponse.getString("sUserIDxx");
             String lsUserNme = loResponse.getString("sUserName");
             String lsLogNoxx = loResponse.getString("sLogNoxxx");
