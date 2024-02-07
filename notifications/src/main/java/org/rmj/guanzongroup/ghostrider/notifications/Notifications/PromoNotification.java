@@ -85,8 +85,7 @@ public class PromoNotification implements iNotificationUI {
                     .setAutoCancel(true)
                     .setSmallIcon(R.drawable.ic_guanzon_logo)
                     .setContentTitle(lsTitlexx)
-                    .setContentText(lsMessage)
-                    .setColor(Color.rgb(113, 148, 218));
+                    .setContentText(lsMessage);
 
             int lnChannelID = (int) ((new Date().getTime() / 1000L) % Integer.MAX_VALUE);
 

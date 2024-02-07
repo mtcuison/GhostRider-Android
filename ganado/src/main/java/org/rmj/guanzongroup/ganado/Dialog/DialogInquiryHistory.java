@@ -71,6 +71,7 @@ public class DialogInquiryHistory {
             if(foDetail.getPaymForm().equalsIgnoreCase("0")){
                 lnInstTerm.setVisibility(View.GONE);
                 lnCash.setVisibility(View.VISIBLE);
+                lblCashAmount.setText(FormatUIText.getCurrencyUIFormat(joProduct.getString("nSelPrice")));
 
             }else{
                 lnInstTerm.setVisibility(View.VISIBLE);
