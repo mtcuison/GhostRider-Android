@@ -30,15 +30,12 @@ import java.util.Objects;
 public class DialogInquiryHistory {
     private static final String TAG = DialogInquiryHistory.class.getSimpleName();
     private AlertDialog poDialogx;
-    private MaterialButton btnPositive;
     private MaterialButton btnClose;
     private MaterialTextView lblDate, lblStatus, lblclientName,
-            lblclientMbilNo, lblfinancierName, lblfinancierCountry,
+            lblclientMbilNo, lblTargetDt,
             lblModelNme, lblInquiryType, lblCashAmount , lblTerm,
             lblDownPayment, lblMonthAmrt;
     LinearLayoutCompat lnCash, lnInstTerm;
-    private MaterialTextView lblMsgxx;
-    private MaterialDivider midBorder;
     private final Context context;
     private String message = "";
     private String nMAort = "";
@@ -55,17 +52,17 @@ public class DialogInquiryHistory {
         poDialogx.setCancelable(false);
         initView(view);
         try {
-            Ganado poSys = new Ganado(apps);
             ProductInquiry poInq = new ProductInquiry(apps);
-            Country poCountry = new Country(apps);
 
             JSONObject joClient = new JSONObject(foDetail.getClntInfo());
             JSONObject joProduct = new JSONObject(foDetail.getProdInfo());
             lblStatus.setText(GConstants.INQUIRY_STATUS[Integer.parseInt(foDetail.getTranStat())]);
             lblclientName.setText(foDetail.getClientNm());
             lblclientMbilNo.setText(joClient.getString("sMobileNo"));
+            lblDate.setText(FormatUIText.formatGOCasBirthdate(foDetail.getTransact()));
 
             DGanadoOnline.McInfo mcInfo = poInq.GetMCInfo(joProduct.getString("sModelIDx"),joProduct.getString("sBrandIDx"), joProduct.getString("sColorIDx"));
+            lblTargetDt.setText(FormatUIText.formatGOCasBirthdate(foDetail.getTargetxx()));
             lblModelNme.setText(mcInfo.ModelNme);
             lblInquiryType.setText(GConstants.PAYMENT_FORM[Integer.parseInt(foDetail.getPaymForm())]);
             if(foDetail.getPaymForm().equalsIgnoreCase("0")){
@@ -96,11 +93,10 @@ public class DialogInquiryHistory {
     }
     private void initView(View v){
         lblDate = v.findViewById(R.id.lblDate);
+        lblTargetDt = v.findViewById(R.id.lblTargetDt);
         lblStatus = v.findViewById(R.id.lblStatus);
         lblclientName = v.findViewById(R.id.lbl_clientName);
         lblclientMbilNo = v.findViewById(R.id.lbl_clientMbilNo);
-        lblfinancierName = v.findViewById(R.id.lbl_financierName);
-        lblfinancierCountry = v.findViewById(R.id.lbl_financierCountry);
         lblModelNme = v.findViewById(R.id.lblModelNme);
         lblInquiryType = v.findViewById(R.id.lblInquiryType);
         lblCashAmount = v.findViewById(R.id.lblCashAmount);
