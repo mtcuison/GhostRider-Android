@@ -181,7 +181,7 @@
                         android:id="@+id/linearInstallment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility=""
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
