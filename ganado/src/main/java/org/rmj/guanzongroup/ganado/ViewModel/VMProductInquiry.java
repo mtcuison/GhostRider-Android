@@ -54,15 +54,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
 
         this.poModel.setGanadoTp("1");
     }
-    public InquiryInfo getModel() {
-        return poModel;
-    }
-    public void setBrandID(String args) {
-        this.psBrandID.setValue(args);
-    }
-    public void setModelID(String args) {
-        this.psModelID.setValue(args);
-    }
     public LiveData<String> GetModelID() {
         return psModelID;
     }
@@ -71,6 +62,18 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     }
     public LiveData<EMcModel> GetModelBrand(String BrandID, String ModelID){
         return poApp.GetModel(BrandID, ModelID);
+    }
+    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
+        return poApp.GetCashPrice(ModelID);
+    }
+    public InquiryInfo getModel() {
+        return poModel;
+    }
+    public void setBrandID(String args) {
+        this.psBrandID.setValue(args);
+    }
+    public void setModelID(String args) {
+        this.psModelID.setValue(args);
     }
     public void GetMinimumDownpayment(String ModelID, OnRetrieveInstallmentInfo listener) {
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
@@ -97,9 +100,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
                 listener.OnRetrieve(loResult);
             }
         });
-    }
-    public LiveData<DGanadoOnline.CashPrice> GetCashPrice(String ModelID){
-        return poApp.GetCashPrice(ModelID);
     }
     public void CalculateNewDownpayment(String ModelID, int term, double Downpayment, OnCalculateNewDownpayment listener){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
@@ -129,6 +129,16 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
     }
     public double GetMonthlyAmortization(int args1) {
         return poApp.GetMonthlyAmortization(psModelID.getValue(), args1);
+    }
+    public Boolean ValidateDownPayment(String sModelID, double newDownPaym){
+        InstallmentInfo loResult = poApp.GetMinimumDownpayment(sModelID);
+        double minDownPaym = loResult.getMinimumDownpayment();
+
+        if (newDownPaym < minDownPaym){
+            return false;
+        }else {
+            return true;
+        }
     }
     @Override
     public void InitializeApplication(Intent params) {

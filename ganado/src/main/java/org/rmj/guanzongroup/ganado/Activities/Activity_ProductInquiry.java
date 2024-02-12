@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -208,6 +209,23 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             });
         });
         btnContinue.setOnClickListener(view ->{
+            String lsInput = txtDownPymnt.getText().toString().trim();
+            Double lnInput = FormatUIText.getParseDouble(lsInput);
+
+            if (!mViewModel.ValidateDownPayment(lsModelID, lnInput)){
+                poMessage.initDialog();
+                poMessage.setTitle("Product Inquiry");
+                poMessage.setMessage("Downpayment should be above minimum downpayment");
+                poMessage.setPositiveButton("Close", new MessageBox.DialogButton() {
+                    @Override
+                    public void OnButtonClick(View view, AlertDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+                poMessage.show();
+                return;
+            }
+
             mViewModel.SaveData(new OnSaveInfoListener() {
                 @Override
                 public void OnSave(String args) {
