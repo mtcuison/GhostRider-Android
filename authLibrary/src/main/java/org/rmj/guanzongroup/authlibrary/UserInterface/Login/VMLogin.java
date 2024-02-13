@@ -42,8 +42,8 @@ public class VMLogin extends AndroidViewModel {
     public VMLogin(@NonNull Application application) {
         super(application);
         this.poSys = new AccountMaster(application).initGuanzonApp().getInstance(Auth.AUTHENTICATE);
-        poConfig = AppConfigPreference.getInstance(application);
-        poTlphony = new Telephony(application);
+        this.poConfig = AppConfigPreference.getInstance(application);
+        this.poTlphony = new Telephony(application);
     }
 
     @SuppressLint("NewApi")

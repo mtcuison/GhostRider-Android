@@ -22,6 +22,7 @@ import java.util.Date;
 public class RegularSysNotification implements RglNotification{
 
     private final Context mContext;
+
     private final ENotificationMaster poMessage;
     private NotificationManager loManager;
 

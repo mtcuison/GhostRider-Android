@@ -364,12 +364,8 @@ public class Ganado {
         return lsUniqIDx;
     }
     public void InitGeoLocation(Activity poActivty){
-        int LOCATION_REFRESH_TIME = 2000; // 15 seconds to update
-        int LOCATION_REFRESH_DISTANCE = 500; // 500 meters to update
-
         if (ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
 
             LocationManager locManager= (LocationManager) instance.getSystemService(instance.LOCATION_SERVICE);
 
@@ -389,10 +385,7 @@ public class Ganado {
                 nLongitude = String.valueOf(location2.getLongitude());
             }else{
                 message = "Unable to Trace your location";
-//                listner.OnFailedRetrieve("Unable to Trace your location");
             }
-//            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-//                    LOCATION_REFRESH_DISTANCE, mLocationListener);
 
         }else {
 

@@ -212,27 +212,32 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             String lsInput = txtDownPymnt.getText().toString().trim();
             Double lnInput = FormatUIText.getParseDouble(lsInput);
 
-            if (!mViewModel.ValidateDownPayment(lsModelID, lnInput)){
-                poMessage.initDialog();
-                poMessage.setTitle("Product Inquiry");
-                poMessage.setMessage("Downpayment should be above minimum downpayment");
-                poMessage.setPositiveButton("Close", new MessageBox.DialogButton() {
-                    @Override
-                    public void OnButtonClick(View view, AlertDialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                poMessage.show();
-                return;
-            }
-
-            mViewModel.SaveData(new OnSaveInfoListener() {
+            mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
+            mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
                 @Override
-                public void OnSave(String args) {
-                    Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ClientInfo.class);
-                    loIntent.putExtra("sTransNox", args);
-                    startActivity(loIntent);
-                    overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                public void OnCalculate(double lnResult) {
+                    txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnResult)));
+                    mViewModel.getModel().setMonthAmr(String.valueOf(lnResult));
+
+                    mViewModel.SaveData(new OnSaveInfoListener() {
+                        @Override
+                        public void OnSave(String args) {
+                            Intent loIntent = new Intent(Activity_ProductInquiry.this, Activity_ClientInfo.class);
+                            loIntent.putExtra("sTransNox", args);
+                            startActivity(loIntent);
+                            overridePendingTransition(R.anim.anim_intent_slide_in_right, R.anim.anim_intent_slide_out_left);
+                        }
+
+                        @Override
+                        public void OnFailed(String message) {
+                            poMessage.initDialog();
+                            poMessage.setTitle("Product Inquiry");
+                            poMessage.setMessage(message);
+                            poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                            poMessage.show();
+                        }
+                    });
+
                 }
 
                 @Override
@@ -242,6 +247,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
+                    txtAmort.setText("0");
+                    mViewModel.getModel().setMonthAmr("0");
                 }
             });
         });

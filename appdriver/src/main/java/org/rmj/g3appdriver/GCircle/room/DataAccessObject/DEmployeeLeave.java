@@ -31,6 +31,9 @@ public interface DEmployeeLeave {
     @Update
     void updateApplication(EEmployeeLeave poLeave);
 
+    @Query("DELETE FROM Employee_Leave")
+    void deleteApplication();
+
     @Query("SELECT * FROM Employee_Leave " +
             "WHERE sEntryByx=:EmployID " +
             "AND sPurposex=:Remarks " +
@@ -61,7 +64,7 @@ public interface DEmployeeLeave {
     @Query("UPDATE Employee_Leave SET cAppvSent = '1' WHERE sTransNox =:TransNox")
     void updatePostedApproval(String TransNox);
 
-    @Query("SELECT * FROM Employee_Leave WHERE cTranStat == '0' ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Leave WHERE cTranStat == '0' AND dTransact >= DATE('now', '-30 day') ORDER BY dTransact DESC")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
 
     @Query("SELECT * FROM Employee_Leave " +
