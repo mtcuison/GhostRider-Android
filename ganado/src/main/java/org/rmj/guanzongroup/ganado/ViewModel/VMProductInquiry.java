@@ -106,11 +106,6 @@ public class VMProductInquiry extends AndroidViewModel implements GanadoUI {
             @Override
             public Object DoInBackground(Object args) {
                 double lnResult = poApp.GetMonthlyAmortization(ModelID, term, Downpayment);
-
-                if (!ValidateDownPayment(ModelID, Downpayment)){
-                    message = "The downpayment should not be less than the minimum required amount";
-                    return 0.00;
-                }
                 if(lnResult == 0.0){
                     message = poApp.getMessage();
                     return 0.0;

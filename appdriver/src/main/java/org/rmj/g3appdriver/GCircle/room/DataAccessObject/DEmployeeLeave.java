@@ -64,7 +64,8 @@ public interface DEmployeeLeave {
     @Query("UPDATE Employee_Leave SET cAppvSent = '1' WHERE sTransNox =:TransNox")
     void updatePostedApproval(String TransNox);
 
-    @Query("SELECT * FROM Employee_Leave WHERE cTranStat == '0' AND dTransact >= DATE('now', '-30 day') ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Leave WHERE cTranStat = '0' AND (dDateFrom BETWEEN DATE('now', '-30 day') AND DATE(DATE('now', '-30 day'), \"+30 day\")) " +
+            "OR (dDateThru BETWEEN DATE('now', '-30 day') AND DATE(DATE('now', '-30 day'), \"+30 day\")) ORDER BY dTransact DESC")
     LiveData<List<EEmployeeLeave>> getEmployeeLeaveForApprovalList();
 
     @Query("SELECT * FROM Employee_Leave " +

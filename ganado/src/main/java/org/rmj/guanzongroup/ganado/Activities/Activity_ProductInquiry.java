@@ -50,6 +50,7 @@ public class Activity_ProductInquiry extends AppCompatActivity {
     private MaterialButton btnContinue,btnCalculate;
     private ShapeableImageView imgMC;
     private String lsModelID, lsBrandID, lsImgLink, lsBrandNm;
+    private Double nMinDownPay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +120,8 @@ public class Activity_ProductInquiry extends AppCompatActivity {
                 mViewModel.GetMinimumDownpayment(modelID, new VMProductInquiry.OnRetrieveInstallmentInfo() {
                     @Override
                     public void OnRetrieve(InstallmentInfo loResult) {
+                        nMinDownPay = loResult.getMinimumDownpayment();
+
                         mViewModel.getModel().setDownPaym(String.valueOf(loResult.getMinimumDownpayment()));
                         txtDownPymnt.setText(String.valueOf(loResult.getMinimumDownpayment()));
                         mViewModel.getModel().setMonthAmr(String.valueOf(loResult.getMonthlyAmortization()));
@@ -188,6 +191,16 @@ public class Activity_ProductInquiry extends AppCompatActivity {
             String lsInput = txtDownPymnt.getText().toString().trim();
             Double lnInput = FormatUIText.getParseDouble(lsInput);
 
+            if (nMinDownPay > lnInput){
+                poMessage.initDialog();
+                poMessage.setTitle("Product Inquiry");
+                poMessage.setMessage("The downpayment should not be less than the minimum required amount");
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+
+                return;
+            }
+
             mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
             mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
                 @Override
@@ -211,6 +224,16 @@ public class Activity_ProductInquiry extends AppCompatActivity {
         btnContinue.setOnClickListener(view ->{
             String lsInput = txtDownPymnt.getText().toString().trim();
             Double lnInput = FormatUIText.getParseDouble(lsInput);
+
+            if (nMinDownPay > lnInput){
+                poMessage.initDialog();
+                poMessage.setTitle("Product Inquiry");
+                poMessage.setMessage("The downpayment should not be less than the minimum required amount");
+                poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                poMessage.show();
+
+                return;
+            }
 
             mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
             mViewModel.CalculateNewDownpayment(lsModelID, Integer.parseInt(mViewModel.getModel().getTermIDxx()), lnInput, new VMProductInquiry.OnCalculateNewDownpayment() {
@@ -327,7 +350,19 @@ public class Activity_ProductInquiry extends AppCompatActivity {
 
                 String lsInput = txtDownPymnt.getText().toString().trim();
                 Double lnInput = FormatUIText.getParseDouble(lsInput);
+
+                if (nMinDownPay > lnInput){
+                    poMessage.initDialog();
+                    poMessage.setTitle("Product Inquiry");
+                    poMessage.setMessage("The downpayment should not be less than the minimum required amount");
+                    poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
+                    poMessage.show();
+
+                    return;
+                }
+
                 mViewModel.getModel().setDownPaym(String.valueOf(lnInput));
+
                 double lnMonthly = mViewModel.GetMonthlyAmortization(Integer.parseInt(mViewModel.getModel().getTermIDxx()));
                 txtAmort.setText(FormatUIText.getCurrencyUIFormat(String.valueOf(lnMonthly)));
 
