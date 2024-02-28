@@ -363,7 +363,7 @@ public class Ganado {
         Log.d(TAG, lsUniqIDx);
         return lsUniqIDx;
     }
-    public void InitGeoLocation(Activity poActivty){
+    public void InitGeoLocation(){
         if (ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(instance, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -387,9 +387,6 @@ public class Ganado {
                 message = "Unable to Trace your location";
             }
 
-        }else {
-
-            ActivityCompat.requestPermissions(poActivty, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
 

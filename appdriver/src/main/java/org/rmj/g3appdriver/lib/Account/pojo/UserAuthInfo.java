@@ -18,10 +18,6 @@ public class UserAuthInfo {
         return Password;
     }
 
-    /*public String getMobileNo() {
-        return MobileNo;
-    }*/
-
     public String getMessage(){
         return message;
     }
@@ -34,7 +30,6 @@ public class UserAuthInfo {
             return false;
         }
         return true;
-        //return isMobileNoValid(); //mobile no is not required
     }
 
     private boolean isEmailValid(){
@@ -52,20 +47,4 @@ public class UserAuthInfo {
         }
         return true;
     }
-
-    /*private boolean isMobileNoValid(){
-        if(MobileNo.isEmpty()){
-            message = "Please enter mobile no.";
-            return false;
-        }
-        if(MobileNo.length()!=11){
-            message = "Mobile number must be 11 characters";
-            return false;
-        }
-        if(!MobileNo.substring(0, 2).equalsIgnoreCase("09")){
-            message = "Mobile number must start with '09'";
-            return false;
-        }
-        return true;
-    }*/
 }

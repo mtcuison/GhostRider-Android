@@ -54,6 +54,7 @@ public class Activity_ClientInfo extends AppCompatActivity {
         poMessage = new MessageBox(Activity_ClientInfo.this);
         poDialogx = new LoadDialog(Activity_ClientInfo.this);
         mViewModel.InitializeApplication(getIntent());
+        mViewModel.InitLocation();
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
             try {
@@ -155,6 +156,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
             }
         });
         btnContinue.setOnClickListener(v ->{
+            mViewModel.InitLocation();
+
             mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
             mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
             mViewModel.getModel().setLastName(txtLastNm.getText().toString());
@@ -194,8 +197,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 @Override
                 public void OnFailed(String message) {
                     poDialogx.dismiss();
-
-                    mViewModel.InitLocation(Activity_ClientInfo.this);
 
                     poMessage.initDialog();
                     poMessage.setTitle("BENTA");
