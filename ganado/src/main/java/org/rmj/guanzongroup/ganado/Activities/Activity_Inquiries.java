@@ -19,6 +19,7 @@ import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ganado.Adapter.InquiryListAdapter;
 import org.rmj.guanzongroup.ganado.Adapter.RecyclerViewAdapter_BrandSelection;
+import org.rmj.guanzongroup.ganado.Dialog.DialogInquiryHistory;
 import org.rmj.guanzongroup.ganado.R;
 import org.rmj.guanzongroup.ganado.ViewModel.VMBrandList;
 import org.rmj.guanzongroup.ganado.ViewModel.VMInquiry;
@@ -75,6 +76,15 @@ public class Activity_Inquiries extends AppCompatActivity {
                 InquiryListAdapter adapter= new InquiryListAdapter(getApplication(), inquiries, new InquiryListAdapter.OnModelClickListener() {
                     @Override
                     public void OnClick(String TransNox) {
+                        DialogInquiryHistory dHistory = new DialogInquiryHistory(Activity_Inquiries.this);
+                        dHistory.initDialog(getApplication(), mViewModel.GetInquiry(TransNox));
+                        dHistory.setPositiveButton("Close", new DialogInquiryHistory.DialogButton() {
+                            @Override
+                            public void OnButtonClick(View view, AlertDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dHistory.show();
 //                        Intent intent = new Intent(Activity_Inquiries.this, Activity_ProductSelection.class);
 //                        intent.putExtra("TransNox",TransNox);
 //                        startActivity(intent);

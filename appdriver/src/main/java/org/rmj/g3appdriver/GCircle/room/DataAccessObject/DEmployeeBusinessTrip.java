@@ -13,6 +13,7 @@ package org.rmj.g3appdriver.GCircle.room.DataAccessObject;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -30,6 +31,8 @@ public interface DEmployeeBusinessTrip {
 
     @Update()
     void update(EEmployeeBusinessTrip obLeave);
+    @Query("DELETE FROM Employee_Business_Trip")
+    void delete();
 
     @Query("SELECT * FROM User_Info_Master")
     EEmployeeInfo GetEmployeeInfo();
@@ -65,7 +68,8 @@ public interface DEmployeeBusinessTrip {
     @Query("UPDATE Employee_Business_Trip SET cSendStat = '1' WHERE sTransNox=:TransNox")
     void updateObApprovalPostedStatus(String TransNox);
 
-    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL ORDER BY dTransact DESC")
+    @Query("SELECT * FROM Employee_Business_Trip WHERE sApproved IS NULL AND dApproved IS NULL AND (dDateFrom BETWEEN DATE('now', '-30 day') AND DATE(DATE('now', '-30 day'), \"+30 day\")) " +
+            "OR (dDateThru BETWEEN DATE('now', '-30 day') AND DATE(DATE('now', '-30 day'), \"+30 day\")) ORDER BY dTransact DESC")
     LiveData<List<EEmployeeBusinessTrip>> getOBListForApproval();
 
     @Query("SELECT * FROM Employee_Business_Trip " +

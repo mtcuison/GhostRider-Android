@@ -30,6 +30,7 @@ import org.rmj.g3appdriver.lib.Etc.Barangay;
 import org.rmj.g3appdriver.lib.Etc.Branch;
 import org.rmj.g3appdriver.lib.Etc.Province;
 import org.rmj.g3appdriver.lib.Etc.Town;
+import org.rmj.g3appdriver.lib.Ganado.Obj.Ganado;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnDoBackgroundTaskListener;
 import org.rmj.g3appdriver.utils.Task.OnLoadApplicationListener;
@@ -45,6 +46,7 @@ public class VMSplashScreen extends AndroidViewModel {
     private final AppConfigPreference poConfig;
     private final EmployeeMaster poUser;
     private final EmployeeSession poSession;
+    private Ganado poGanado;
 
     private String message;
 
@@ -71,7 +73,6 @@ public class VMSplashScreen extends AndroidViewModel {
             public Object DoInBackground(Object args) {
                 return new AppTokenManager(instance).SaveFirebaseToken((String) args);
             }
-
             @Override
             public void OnPostExecute(Object object) {
             }

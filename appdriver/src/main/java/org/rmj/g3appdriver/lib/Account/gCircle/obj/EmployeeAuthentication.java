@@ -40,7 +40,6 @@ public class EmployeeAuthentication implements iAuth {
     private final AppConfigPreference poConfig;
     private final Telephony poDevID;
     private final AppVersion poVersion;
-
     private String message;
 
     public EmployeeAuthentication(Application instance) {
@@ -64,7 +63,7 @@ public class EmployeeAuthentication implements iAuth {
             }
 
             if(poConfig.getMobileNo().isEmpty()){
-                poConfig.setMobileNo(loInfo.getMobileNo());
+                poConfig.setMobileNo(poDevID.getMobilNumbers());
                 Log.d(TAG, "Mobile number has been initialized.");
             }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.RadioGroup;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -34,38 +34,33 @@ import java.util.List;
 import java.util.Objects;
 
 public class Activity_ClientInfo extends AppCompatActivity {
-
     private VMPersonalInfo mViewModel;
     private MessageBox poMessage;
     private LoadDialog poDialogx;
-
     private TextInputEditText txtLastNm, txtFrstNm, txtMiddNm, txtSuffixx,  txtBirthDt,
             txtEmailAdd, txtMobileNo,  txtHouseNox, txtAddress;
-
     private MaterialAutoCompleteTextView txtMunicipl,txtBPlace;
     private RadioGroup rgGender;
     private MaterialAutoCompleteTextView spinner_relation;
-    private MaterialButton btnContinue, btnPrev;
-    private MaterialCheckBox txtMobileType1, txtMobileType2, txtMobileType3;
-
+    private MaterialButton btnContinue;
     private MaterialToolbar toolbar;
-    private String sTansNox = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        poMessage = new MessageBox(Activity_ClientInfo.this);
-        poDialogx = new LoadDialog(Activity_ClientInfo.this);
         setContentView(R.layout.activity_client_info);
         initWidgets();
+
+        poMessage = new MessageBox(Activity_ClientInfo.this);
+        poDialogx = new LoadDialog(Activity_ClientInfo.this);
         mViewModel.InitializeApplication(getIntent());
+        mViewModel.InitLocation();
 
         mViewModel.getRelation().observe(Activity_ClientInfo.this, eRelations->{
             try {
                 ArrayList<String> string = new ArrayList<>();
                 for (int x = 0; x < eRelations.size(); x++) {
                     String lsColor = eRelations.get(x).getRelatnDs();
-//                        String lsTown =  loList.get(x).sProvName ;
                     string.add(lsColor);
 
                 }
@@ -78,7 +73,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
         spinner_relation.setOnItemClickListener(new Activity_ClientInfo.OnItemClickListener(spinner_relation));
         mViewModel.GetTownProvinceList().observe(Activity_ClientInfo.this, new Observer<List<DTownInfo.TownProvinceInfo>>() {
             @Override
@@ -87,7 +81,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     ArrayList<String> string = new ArrayList<>();
                     for (int x = 0; x < loList.size(); x++) {
                         String lsTown = loList.get(x).sTownName + ", " + loList.get(x).sProvName;
-//                        String lsTown =  loList.get(x).sProvName ;
                         string.add(lsTown);
 
                     }
@@ -146,7 +139,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
                     txtBirthDt.setText(lsDate);
                     Date loDate = new SimpleDateFormat("MMMM dd, yyyy").parse(lsDate);
                     lsDate = new SimpleDateFormat("yyyy-MM-dd").format(loDate);
-//                    Log.d(TAG, "Save formatted time: " + lsDate);
                     mViewModel.getModel().setBirthDte(lsDate);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -155,7 +147,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
             StartTime.getDatePicker().setMaxDate(new Date().getTime());
             StartTime.show();
         });
-
         rgGender.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rb_male) {
                 mViewModel.getModel().setGenderCd("0");
@@ -164,8 +155,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 mViewModel.getModel().setGenderCd("1");
             }
         });
-
         btnContinue.setOnClickListener(v ->{
+            mViewModel.InitLocation();
 
             mViewModel.getModel().setFrstName(txtFrstNm.getText().toString());
             mViewModel.getModel().setMiddName(txtMiddNm.getText().toString());
@@ -175,10 +166,11 @@ public class Activity_ClientInfo extends AppCompatActivity {
             mViewModel.getModel().setAddressx(txtAddress.getText().toString());
             mViewModel.getModel().setEmailAdd(txtEmailAdd.getText().toString());
             mViewModel.getModel().setMobileNo(txtMobileNo.getText().toString());
+
             mViewModel.SaveData(new VMPersonalInfo.OnSaveInquiry() {
                 @Override
                 public void OnSave() {
-                    poDialogx.initDialog("Ganado", "Saving inquiry. Please wait...", false);
+                    poDialogx.initDialog("BENTA", "Saving inquiry. Please wait...", false);
                     poDialogx.show();
                 }
 
@@ -186,10 +178,16 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 public void OnSuccess(String args) {
                     poDialogx.dismiss();
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("BENTA");
                     poMessage.setMessage(args);
                     poMessage.setPositiveButton("Okay", (view, dialog) -> {
                         dialog.dismiss();
+                        Intent loIntent = new Intent(Activity_ClientInfo.this, Activity_BrandSelection.class);
+                        loIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        startActivity(loIntent);
+                        overridePendingTransition(org.rmj.g3appdriver.R.anim.anim_intent_slide_in_right, org.rmj.g3appdriver.R.anim.anim_intent_slide_out_left);
+
                         finish();
                     });
                     poMessage.show();
@@ -199,8 +197,9 @@ public class Activity_ClientInfo extends AppCompatActivity {
                 @Override
                 public void OnFailed(String message) {
                     poDialogx.dismiss();
+
                     poMessage.initDialog();
-                    poMessage.setTitle("Ganado");
+                    poMessage.setTitle("BENTA");
                     poMessage.setMessage(message);
                     poMessage.setPositiveButton("Okay", (view1, dialog) -> dialog.dismiss());
                     poMessage.show();
@@ -208,7 +207,6 @@ public class Activity_ClientInfo extends AppCompatActivity {
             });
         });
     }
-
     private void initWidgets() {
         toolbar = findViewById(R.id.toolbar_PersonalInfo);
         mViewModel = new ViewModelProvider(Activity_ClientInfo.this).get(VMPersonalInfo.class);
@@ -232,13 +230,11 @@ public class Activity_ClientInfo extends AppCompatActivity {
 
         btnContinue = findViewById(R.id.btnContinue);
     }
-
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_intent_slide_in_left, R.anim.anim_intent_slide_out_right);
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home){
@@ -246,11 +242,8 @@ public class Activity_ClientInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private class OnItemClickListener implements AdapterView.OnItemClickListener {
-
         private final View loView;
-
         public OnItemClickListener(View loView) {
             this.loView = loView;
         }

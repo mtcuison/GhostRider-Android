@@ -31,13 +31,10 @@ import java.util.concurrent.Future;
 public class VMForgotPassword extends AndroidViewModel {
     public static final String TAG = VMForgotPassword.class.getSimpleName();
     private List<Future<String>> futureList;
-
     private final iAuth poSys;
     private ConnectionUtil conn;
     private Application instance;
     private String message;
-    //    private GCircleApi webApi;
-    //    private HttpHeaders headers;
 
     public VMForgotPassword(@NonNull Application application) {
         super(application);

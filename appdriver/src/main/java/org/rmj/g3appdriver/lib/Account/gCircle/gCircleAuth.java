@@ -32,7 +32,7 @@ public class gCircleAuth implements iAccount {
                 return new Register(instance);
             case CHANGE_PASSWORD:
                 Log.d(TAG, "Initialize account update.");
-                return new ChangePassword(instance);
+                return new ForgotPassword(instance);
             case DEACTIVATE:
                 Log.d(TAG, "Initialize account deactivate.");
                 return new TerminateAccount(instance);

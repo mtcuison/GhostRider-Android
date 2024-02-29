@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.rmj.apprdiver.util.SQLUtil;
 import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeBusinessTrip;
+import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeLeave;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeInfo;
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DEmployeeRole;
@@ -48,6 +50,9 @@ public class EmployeeMaster {
     private final DEmployeeInfo poDao;
     private final DEmployeeRole roleDao;
 
+    private DEmployeeLeave leaveDao;
+    private DEmployeeBusinessTrip btripDao;
+
     private final LiveData<EEmployeeInfo> employeeInfo;
     private final EmployeeSession poSession;
     private final GCircleApi webApi;
@@ -60,6 +65,8 @@ public class EmployeeMaster {
     public EmployeeMaster(Application application){
         this.instance = application;
         this.poDao = GGC_GCircleDB.getInstance(instance).EmployeeDao();
+        this.leaveDao = GGC_GCircleDB.getInstance(instance).employeeLeaveDao();
+        this.btripDao = GGC_GCircleDB.getInstance(instance).employeeOBDao();
         this.roleDao = GGC_GCircleDB.getInstance(instance).employeeRoleDao();
         this.employeeInfo = poDao.getEmployeeInfo();
         this.poSession = EmployeeSession.getInstance(instance);
@@ -118,6 +125,10 @@ public class EmployeeMaster {
     public void LogoutUserSession(){
         poDao.LogoutUser();
         poDao.ClearAuthorizeFeatures();
+
+        leaveDao.deleteApplication();
+        btripDao.delete();
+
         poSession.initUserLogout();
     }
     

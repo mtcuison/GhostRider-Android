@@ -24,7 +24,7 @@ android {
         minSdk 24
         targetSdk 34
         versionCode 67
-        versionName "Guanzon Circle v3.16.057.067 s"
+        versionName "Guanzon Circle v3.17.058.068 s"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -61,17 +61,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
 
     private AppConfigPreference poConfigx;
 
-    private final ActivityResultLauncher<String[]> poRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
-        @Override
-        public void onActivityResult(Map<String, Boolean> result) {
-            try{
-                tieMobileNo.setText(mViewModel.getMobileNo());
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    });
-
     public static Fragment_Login newInstance() {
         return new Fragment_Login();
     }
@@ -95,9 +84,6 @@ public class Fragment_Login extends Fragment implements LoginCallback{
         cbAgree = v.findViewById(R.id.cbAgree);
         btnLogin = v.findViewById(R.id.btn_login);
 
-        tieMobileNo.setText(mViewModel.getMobileNo());
-        tilMobileNo.setVisibility(mViewModel.hasMobileNo());
-
         cbAgree.setChecked(mViewModel.isAgreed());
 
         cbAgree.setOnCheckedChangeListener((buttonView, isChecked) -> mViewModel.setAgreedOnTerms(isChecked));
@@ -106,7 +92,7 @@ public class Fragment_Login extends Fragment implements LoginCallback{
             String email = Objects.requireNonNull(tieEmail.getText()).toString();
             String password = Objects.requireNonNull(tiePassword.getText()).toString();
             String mobileNo = Objects.requireNonNull(tieMobileNo.getText()).toString();
-            mViewModel.Login(new UserAuthInfo(email,password, mobileNo), Fragment_Login.this);
+            mViewModel.Login(new UserAuthInfo(email,password), Fragment_Login.this);
         });
 
         lblVersion.setText(poConfigx.getVersionInfo());

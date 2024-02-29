@@ -40,7 +40,6 @@ import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.g3appdriver.etc.TransparentToolbar;
 import org.rmj.g3appdriver.utils.AppDirectoryCreator;
 import org.rmj.g3appdriver.utils.ServiceScheduler;
-import org.rmj.guanzongroup.authlibrary.Activity.Activity_Authenticate;
 import org.rmj.guanzongroup.authlibrary.Activity.Activity_Login;
 import org.rmj.guanzongroup.ghostrider.dailycollectionplan.Service.GLocatorService;
 import org.rmj.guanzongroup.ghostrider.epacss.BuildConfig;
@@ -142,6 +141,9 @@ public class Activity_SplashScreen extends AppCompatActivity {
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.READ_PHONE_STATE);
         }
+        if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+            lsPermissions.add(Manifest.permission.READ_PHONE_NUMBERS);
+        }
         if(ActivityCompat.checkSelfPermission(Activity_SplashScreen.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             lsPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -209,6 +211,7 @@ public class Activity_SplashScreen extends AppCompatActivity {
         });
 
         poLogin = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            Log.d(TAG, String.valueOf(result.getResultCode()));
             if (result.getResultCode() == RESULT_OK) {
                 startActivity(new Intent(Activity_SplashScreen.this, Activity_Main.class));
                 ServiceScheduler.scheduleJob(Activity_SplashScreen.this, DataDownloadService.class, FIFTEEN_MINUTE_PERIODIC, AppConstants.DataServiceID);
