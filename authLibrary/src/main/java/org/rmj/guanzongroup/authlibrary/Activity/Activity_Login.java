@@ -33,6 +33,7 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
     private VMLogin mViewModel;
     private LoadDialog podialog;
     private AppConfigPreference poConfigx;
+    private MaterialTextView tvTerms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,15 @@ public class Activity_Login extends AppCompatActivity implements LoginCallback {
         mtv_createaccount = findViewById(R.id.mtv_createaccount);
         mtv_forgotpassw = findViewById(R.id.mtv_forgotpassw);
         btn_log = findViewById(R.id.btn_log);
+        tvTerms = findViewById(R.id.tvTerms);
+
+        tvTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentTerms = new Intent(Activity_Login.this, Activity_TermsAndConditions.class);
+                startActivity(intentTerms);
+            }
+        });
 
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
