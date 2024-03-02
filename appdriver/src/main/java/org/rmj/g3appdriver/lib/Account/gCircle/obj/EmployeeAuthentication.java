@@ -75,6 +75,7 @@ public class EmployeeAuthentication implements iAuth {
                     poApi.getUrlAuthEmployee(),
                     params.toString(),
                     poHeaders.getHeaders());
+
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
                 return 0;
