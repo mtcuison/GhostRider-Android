@@ -68,7 +68,7 @@ public class EmployeeAuthentication implements iAuth {
             }
 
             JSONObject params = new JSONObject();
-            params.put("user", loInfo.getEmail());
+            params.put("user",  loInfo.getEmail().trim());
             params.put("pswd", loInfo.getPassword());
 
             String lsResponse = WebClient.sendRequest(
