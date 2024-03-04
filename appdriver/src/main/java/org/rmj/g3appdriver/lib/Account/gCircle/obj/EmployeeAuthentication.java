@@ -63,7 +63,7 @@ public class EmployeeAuthentication implements iAuth {
             }
 
             if(poConfig.getMobileNo().isEmpty()){
-                poConfig.setMobileNo(poDevID.getMobilNumbers());
+                poConfig.setMobileNo(poDevID.getFormattedMobileNo(poDevID.getMobilNumbers()));
                 Log.d(TAG, "Mobile number has been initialized.");
             }
 
