@@ -62,10 +62,9 @@ public class EmployeeAuthentication implements iAuth {
                 return 0;
             }
 
-            if(poConfig.getMobileNo().isEmpty()){
-                poConfig.setMobileNo(poDevID.getFormattedMobileNo(poDevID.getMobilNumbers()));
-                Log.d(TAG, "Mobile number has been initialized.");
-            }
+            //set device mobile number configuration
+            poConfig.setMobileNo(poDevID.getFormattedMobileNo(poDevID.getMobilNumbers()));
+            Log.d(TAG, "Device mobile number has been initialized.");
 
             JSONObject params = new JSONObject();
             params.put("user",  loInfo.getEmail().trim());
@@ -89,6 +88,15 @@ public class EmployeeAuthentication implements iAuth {
                 return 0;
             }
 
+            //set user mobile number configuration
+            if(poConfig.getMobileNo().isEmpty()){
+                String jsonMobile = loResponse.getString("sMobileNo");
+                if (!jsonMobile.isEmpty()){
+                    poConfig.setMobileNo(jsonMobile);
+                    Log.d(TAG, "User mobile number has been initialized.");
+                }
+            }
+
             EEmployeeInfo employeeInfo = new EEmployeeInfo();
             employeeInfo.setClientID(loResponse.getString("sClientID"));
             employeeInfo.setBranchCD(loResponse.getString("sBranchCD"));
@@ -106,7 +114,7 @@ public class EmployeeAuthentication implements iAuth {
             employeeInfo.setEmployID(loResponse.getString("sEmployID"));
             employeeInfo.setDeviceID(poDevID.getDeviceID());
             employeeInfo.setModelIDx(Build.MODEL);
-            employeeInfo.setMobileNo(poConfig.getMobileNo());
+            employeeInfo.setMobileNo(loResponse.getString("sMobileNo"));
             employeeInfo.setLoginxxx(AppConstants.DATE_MODIFIED());
             employeeInfo.setSessionx(AppConstants.CURRENT_DATE());
             poDao.RemoveSessions();
