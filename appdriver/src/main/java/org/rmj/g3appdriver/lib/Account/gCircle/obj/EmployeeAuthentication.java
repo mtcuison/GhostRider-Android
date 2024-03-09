@@ -62,10 +62,6 @@ public class EmployeeAuthentication implements iAuth {
                 return 0;
             }
 
-            //set device mobile number configuration
-            poConfig.setMobileNo(poDevID.getFormattedMobileNo(poDevID.getMobilNumbers()));
-            Log.d(TAG, "Device mobile number has been initialized.");
-
             JSONObject params = new JSONObject();
             params.put("user",  loInfo.getEmail().trim());
             params.put("pswd", loInfo.getPassword());
@@ -86,15 +82,6 @@ public class EmployeeAuthentication implements iAuth {
                 JSONObject loError = loResponse.getJSONObject("error");
                 message = getErrorMessage(loError);
                 return 0;
-            }
-
-            //set user mobile number configuration
-            if(poConfig.getMobileNo().isEmpty()){
-                String jsonMobile = loResponse.getString("sMobileNo");
-                if (!jsonMobile.isEmpty()){
-                    poConfig.setMobileNo(jsonMobile);
-                    Log.d(TAG, "User mobile number has been initialized.");
-                }
             }
 
             EEmployeeInfo employeeInfo = new EEmployeeInfo();
