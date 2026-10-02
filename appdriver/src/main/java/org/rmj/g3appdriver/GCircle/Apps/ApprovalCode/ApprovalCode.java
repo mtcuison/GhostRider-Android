@@ -416,11 +416,13 @@ public class ApprovalCode {
                     params.toString(),
                     poHeaders.getHeaders());
 
-            Log.d(TAG, lsResponse);
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
                 return false;
             }
+
+            //clear data to get accurate request
+            poCASReqDao.clear();
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");
@@ -431,7 +433,6 @@ public class ApprovalCode {
                 return false;
             }
 
-            poCASReqDao.clear();
             JSONArray laDetail = loResponse.getJSONArray("detail");
             for (int i = 0; i < laDetail.length(); i++) {
 

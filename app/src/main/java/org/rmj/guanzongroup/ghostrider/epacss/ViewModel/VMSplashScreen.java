@@ -70,18 +70,6 @@ public class VMSplashScreen extends AndroidViewModel {
         CheckConnection();
     }
 
-    public void SaveFirebaseToken(String fsVal){
-        TaskExecutor.Execute(fsVal, new OnDoBackgroundTaskListener() {
-            @Override
-            public Object DoInBackground(Object args) {
-                return new AppTokenManager(instance).SaveFirebaseToken((String) args);
-            }
-            @Override
-            public void OnPostExecute(Object object) {
-            }
-        });
-    }
-
     public void CheckConnection(){
         TaskExecutor.Execute(null, new OnDoBackgroundTaskListener() {
             @Override

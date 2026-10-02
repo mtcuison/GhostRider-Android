@@ -53,7 +53,7 @@ android {
         }
     }
     namespace 'org.rmj.guanzongroup.ghostrider.ahmonitoring'
-    ndkVersion '27.0.11902837'
+    ndkVersion '30.0.15729638 rc2'
 }
 
 dependencies {

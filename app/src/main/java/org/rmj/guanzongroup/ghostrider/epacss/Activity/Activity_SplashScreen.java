@@ -31,8 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
 import org.rmj.g3appdriver.etc.AppConfigPreference;
 import org.rmj.g3appdriver.etc.AppConstants;
 import org.rmj.g3appdriver.etc.MessageBox;
@@ -51,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("CustomSplashScreen")
-public class Activity_SplashScreen extends AppCompatActivity {
+public class Activity_SplashScreen extends AppCompatActivity{
     public static final String TAG = Activity_SplashScreen.class.getSimpleName();
 
     private VMSplashScreen mViewModel;
@@ -83,24 +81,6 @@ public class Activity_SplashScreen extends AppCompatActivity {
 
         InitActivityResultLaunchers();
         InitializeAppContentDisclosure();
-
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                        Log.d("FIREBASE TOKEEN", task.getResult());
-                        Log.d("FIREBASE TOKEEN", task.getException().getMessage());
-                        return;
-                    }
-
-                    // Get new FCM registration token
-                    String token = task.getResult();
-
-                    Log.d("FIREBASE TOKEEN", token);
-
-                    mViewModel.SaveFirebaseToken(token);
-                    AppConfigPreference.getInstance(Activity_SplashScreen.this).setAppToken(token);
-                });
 
         AppDirectoryCreator loCreator = new AppDirectoryCreator();
         if(loCreator.createAppDirectory(Activity_SplashScreen.this)){

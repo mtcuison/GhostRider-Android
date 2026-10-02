@@ -1,6 +1,8 @@
 package org.rmj.g3appdriver.etc.FileViewer.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
@@ -13,12 +15,14 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class VMLoadPDF extends AndroidViewModel {
 
     private String lsMessage;
+    private Context loInstance;
 
     public interface OnStreamPDF {
         void OnLoading();
@@ -34,6 +38,8 @@ public class VMLoadPDF extends AndroidViewModel {
 
     public VMLoadPDF(@NonNull Application application) {
         super(application);
+
+        loInstance = application;
     }
 
     public void StreamPDF(String url, OnStreamPDF callback){
@@ -50,9 +56,10 @@ public class VMLoadPDF extends AndroidViewModel {
                 try {
                     // initialize target directory
                     File parentDir = new File(
-                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+                            getApplication().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
                             "GCircleExports/PDFViewer/"
                     );
+
                     if (!parentDir.exists() || !parentDir.isDirectory()) {
                         parentDir.mkdirs();
                     }

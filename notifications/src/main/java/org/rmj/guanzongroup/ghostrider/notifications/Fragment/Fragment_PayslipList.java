@@ -17,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.rmj.g3appdriver.GCircle.room.DataAccessObject.DPayslip;
+import org.rmj.g3appdriver.etc.FileViewer.Activity.Activity_PDFViewer;
 import org.rmj.g3appdriver.etc.LoadDialog;
 import org.rmj.g3appdriver.etc.MessageBox;
 import org.rmj.guanzongroup.ghostrider.notifications.Adapter.AdapterPayslip;
@@ -77,10 +79,19 @@ public class Fragment_PayslipList extends Fragment {
                                 @Override
                                 public void OnSuccess(Uri payslip) {
                                     poLoad.dismiss();
-                                    Intent loIntent = new Intent(Intent.ACTION_VIEW);
-                                    loIntent.setDataAndTypeAndNormalize(payslip, "application/pdf");
-                                    loIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    requireActivity().startActivity(loIntent);
+
+                                    try{
+
+                                        Intent loIntent = new Intent(Intent.ACTION_VIEW);
+                                        loIntent.setDataAndTypeAndNormalize(payslip, "application/pdf");
+                                        loIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                                        requireActivity().startActivity(loIntent);
+
+                                    }catch (Exception e){
+                                        Toast.makeText(requireActivity(), "No application/s found to open the file", Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override

@@ -16,17 +16,35 @@ plugins {
 }
 
 android {
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "org.rmj.guanzongroup.ghostrider.epacss"
         minSdk 24
-        targetSdk 35
-        versionCode 102
+        targetSdk 36
+        versionCode 107
         versionName "Guanzon Circle v4.28.071.097 s"
         multiDexEnabled true
 
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters "arm64-v8a"
+        }
+
+        // Load CMake build
+        externalNativeBuild {
+            cmake {
+                file("src/main/cpp/CMakeLists.txt")
+            }
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    externalNativeBuild {
+        cmake {
+            version "3.22.1"
+        }
     }
 
     buildTypes {
@@ -60,12 +78,17 @@ android {
             // This requires the library to be page-aligned (16KB for Android 15).
             useLegacyPackaging = false
 
-            // Permanently remove x86 and x86_64 libraries to resolve conflicts
-            // and ensure 16KB page size compatibility.
-            excludes.add("lib/arm64-v8a/**")
-            excludes.add("lib/x86_64/**")
-            excludes.add("lib/x86/**")
-            excludes.add("lib/armeabi-v7a/**")
+            // Remove unsupported architectures and specific non-compliant .so files
+            excludes.addAll(
+                    "lib/mips/**",
+                    "lib/mips64/**",
+                    "lib/armeabi/**",
+                    "lib/arm64-v8a/**",
+                    "lib/armeabi-v7a/**",
+                    "lib/x86_64/libopencv_java4.so",
+                    "lib/x86_64/libc++_shared.so",
+                    "lib/x86_64/libucs-credential.so"
+            )
         }
         dex {
             useLegacyPackaging = false
@@ -99,11 +122,11 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.1'
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation platform('com.google.firebase:firebase-bom:34.16.0')
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
+    implementation 'com.google.firebase:firebase-inappmessaging-display'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging'
@@ -111,7 +134,6 @@ dependencies {
     implementation("io.grpc:grpc-okhttp:1.68.1")
     implementation 'androidx.work:work-runtime:2.9.1'
     implementation 'commons-io:commons-io:2.18.0'
-    implementation 'com.github.mhiew:android-pdf-viewer:3.2.0-beta.3'
     implementation project(path: ':authLibrary')
     implementation project(path: ':documentScanner')
     implementation project(path: ':ahMonitoring')

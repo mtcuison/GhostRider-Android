@@ -32,7 +32,6 @@ import org.rmj.g3appdriver.GCircle.Account.EmployeeMaster;
 import org.rmj.g3appdriver.GCircle.Account.EmployeeSession;
 import org.rmj.g3appdriver.GCircle.Apps.SelfieLog.SelfieLog;
 import org.rmj.g3appdriver.GCircle.Apps.CashCount.CashCount;
-import org.rmj.g3appdriver.lib.FacialRecognition.FRUtility;
 import org.rmj.g3appdriver.lib.Location.GmsLocationRetriever;
 import org.rmj.g3appdriver.lib.Location.HmsLocationRetriever;
 import org.rmj.g3appdriver.lib.Location.LocationRetriever;
@@ -46,7 +45,6 @@ public class VMSelfieLog extends AndroidViewModel {
 
     private final Application instance;
     private final SelfieLog poSys;
-    private final FRUtility poFR;
     private final CashCount poCash;
     private final Branch pobranch;
     private final ConnectionUtil poConn;
@@ -92,7 +90,6 @@ public class VMSelfieLog extends AndroidViewModel {
         this.poUser = new EmployeeMaster(instance);
         this.poSys = new SelfieLog(instance);
         this.pobranch = new Branch(instance);
-        this.poFR = new FRUtility(instance);
         this.poCash = new CashCount(instance);
         this.poConn = new ConnectionUtil(instance);
         this.poSession = EmployeeSession.getInstance(instance);
