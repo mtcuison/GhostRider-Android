@@ -17,14 +17,12 @@ import org.rmj.g3appdriver.lib.Account.pojo.PasswordUpdate;
 public class ChangePassword implements iAuth {
     private static final String TAG = ChangePassword.class.getSimpleName();
 
-    private final Application instance;
     private final GCircleApi poApi;
     private final HttpHeaders poHeaders;
 
     private String message;
 
     public ChangePassword(Application instance) {
-        this.instance = instance;
         this.poApi = new GCircleApi(instance);
         this.poHeaders = HttpHeaders.getInstance(instance);
     }
@@ -42,14 +40,20 @@ public class ChangePassword implements iAuth {
             params.put("oldpswd", loInfo.getOldPassword());
             params.put("newpswd", loInfo.getNewPassword());
 
+            if (!loInfo.getsUserIDxx().isEmpty()){
+                params.put("sUserIDxx", loInfo.getsUserIDxx());
+            }
+
             String lsResponse = WebClient.sendRequest(
                     poApi.getUrlChangePassword(),
                     params.toString(),
                     poHeaders.getHeaders());
+
             if(lsResponse == null){
                 message = SERVER_NO_RESPONSE;
                 return 0;
             }
+            Log.d("Password Update", lsResponse);
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");

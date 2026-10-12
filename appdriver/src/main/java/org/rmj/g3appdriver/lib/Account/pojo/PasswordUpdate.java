@@ -1,13 +1,15 @@
 package org.rmj.g3appdriver.lib.Account.pojo;
 
 public class PasswordUpdate {
+    private final String sUserIDxx;
     private final String sOldPwrdx;
     private final String sNewPwrdx;
     private final String sPwrdCfrm;
 
     private String message;
 
-    public PasswordUpdate(String OldPassword, String NewPassword, String ConfirmPassword) {
+    public PasswordUpdate(String sUserIDxx, String OldPassword, String NewPassword, String ConfirmPassword) {
+        this.sUserIDxx = sUserIDxx;
         this.sOldPwrdx = OldPassword;
         this.sNewPwrdx = NewPassword;
         this.sPwrdCfrm = ConfirmPassword;
@@ -16,6 +18,8 @@ public class PasswordUpdate {
     public String getMessage() {
         return message;
     }
+
+    public String getsUserIDxx(){return sUserIDxx;}
 
     public String getOldPassword() {
         return sOldPwrdx;
@@ -26,10 +30,10 @@ public class PasswordUpdate {
     }
 
     public boolean isDataValid(){
-        if(sOldPwrdx.isEmpty()){
-            message = "Please enter old password";
-            return false;
-        }
+//        if(sOldPwrdx.isEmpty()){
+//            message = "Please enter old password";
+//            return false;
+//        }
         if(sNewPwrdx.isEmpty()){
             message = "Please enter new password";
             return false;

@@ -61,6 +61,7 @@ public class ForgotPassword implements iAuth {
                 message = SERVER_NO_RESPONSE;
                 return 0;
             }
+            Log.d("FORGOT PASS", lsResponse);
 
             JSONObject loResponse = new JSONObject(lsResponse);
             String lsResult = loResponse.getString("result");

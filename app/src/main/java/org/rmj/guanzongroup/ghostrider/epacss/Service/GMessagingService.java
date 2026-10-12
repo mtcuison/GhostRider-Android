@@ -42,8 +42,6 @@ public class GMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
 
-        Log.d(TAG, "Message Received: " + message);
-
         iNotification loSys = new NMM(getApplication()).getInstance(message);
 
         String lsResult = loSys.Save(message);

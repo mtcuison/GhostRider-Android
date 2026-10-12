@@ -14,6 +14,7 @@ public class GCircleApi extends WebApi {
     private static final String URL_FORGOT_PASSWORD = "security/forgotpswd.php";
     private static final String URL_CHANGE_PASSWORD = "security/acctupdate.php";
     private static final String DEACTIVATE_ACCOUNT = "security/account_deactivate.php";
+    private static final String URL_SEND_VERIFICATION = "security/send_verification_code.php";
     private static final String URL_KNOX = "samsung/knox.php";
     private static final String IMPORT_BRANCH_PERFORMANCE = "integsys/bullseye/import_mc_branch_performance.php";
     private static final String IMPORT_AREA_PERFORMANCE = "integsys/bullseye/import_mc_area_performance.php";
@@ -181,6 +182,15 @@ public class GCircleApi extends WebApi {
         }
         Log.d(TAG, "Initialize api:" + LIVE + DEACTIVATE_ACCOUNT);
         return LIVE + DEACTIVATE_ACCOUNT;
+    }
+
+    public String getUrlSendVerification() {
+        if(isUnitTest()){
+            Log.d(TAG, "Initialize api:" + LOCAL + URL_SEND_VERIFICATION);
+            return LOCAL + URL_SEND_VERIFICATION;
+        }
+        Log.d(TAG, "Initialize api:" + LIVE + URL_SEND_VERIFICATION);
+        return LIVE + URL_SEND_VERIFICATION;
     }
 
     public String getUrlKnox() {

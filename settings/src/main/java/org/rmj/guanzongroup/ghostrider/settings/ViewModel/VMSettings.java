@@ -30,6 +30,10 @@ import org.rmj.g3appdriver.GCircle.Api.GCircleApi;
 import org.rmj.g3appdriver.dev.Api.HttpHeaders;
 import org.rmj.g3appdriver.dev.Api.WebClient;
 import org.rmj.g3appdriver.etc.AppConstants;
+import org.rmj.g3appdriver.lib.Account.AccountMaster;
+import org.rmj.g3appdriver.lib.Account.Model.Auth;
+import org.rmj.g3appdriver.lib.Account.Model.iAuth;
+import org.rmj.g3appdriver.lib.Account.pojo.PasswordUpdate;
 import org.rmj.g3appdriver.utils.ConnectionUtil;
 import org.rmj.g3appdriver.utils.Task.OnTaskExecuteListener;
 import org.rmj.g3appdriver.utils.Task.TaskExecutor;
@@ -38,8 +42,7 @@ public class VMSettings extends AndroidViewModel {
 
     private final Application instance;
     private final ConnectionUtil poConn;
-    private final HttpHeaders poHeaders;
-    private final GCircleApi poApi;
+    private final iAuth poSys;
 
     private final MutableLiveData<Boolean> pbGranted = new MutableLiveData<>();
     private final MutableLiveData<Boolean> locGranted = new MutableLiveData<>();
@@ -95,8 +98,7 @@ public class VMSettings extends AndroidViewModel {
         storageGranted.setValue(hasPermissions(application.getApplicationContext(), storagePermission.getValue()));
 
         this.poConn = new ConnectionUtil(instance);
-        this.poHeaders = HttpHeaders.getInstance(instance);
-        this.poApi = new GCircleApi(instance);
+        this.poSys = new AccountMaster(instance).initGuanzonApp().getInstance(Auth.CHANGE_PASSWORD);
     }
 
     public void setCameraSummary(String camSummary){
@@ -144,65 +146,44 @@ public class VMSettings extends AndroidViewModel {
 
     public void ChangePassword(String Old, String New, ChangePasswordCallback callback){
 
-        try {
-            JSONObject param = new JSONObject();
-            param.put("oldpswd", Old);
-            param.put("newpswd", New);
+        PasswordUpdate loParam = new PasswordUpdate(
+                "",
+                Old,
+                New,
+                New
+        );
 
-            TaskExecutor.Execute(param, new OnTaskExecuteListener() {
-                @Override
-                public void OnPreExecute() {
-                    callback.OnLoad("Change Password", "Updating account. Please wait...");
+        TaskExecutor.Execute(loParam, new OnTaskExecuteListener() {
+            @Override
+            public void OnPreExecute() {
+                callback.OnLoad("Change Password", "Updating account. Please wait...");
+            }
+
+            @Override
+            public Object DoInBackground(Object args) {
+
+                if (!poConn.isDeviceConnected()){
+                    return false;
                 }
 
-                @Override
-                public Object DoInBackground(Object args) {
-
-                    String lsResult;
-                    try{
-                        JSONObject param = (JSONObject) args;
-                        if(!poConn.isDeviceConnected()){
-                            lsResult = AppConstants.NO_INTERNET();
-                        } else {
-                            lsResult = WebClient.sendRequest(poApi.getUrlChangePassword(), param.toString(), poHeaders.getHeaders());
-                            if(lsResult == null){
-                                lsResult = AppConstants.SERVER_NO_RESPONSE();
-                            }
-                        }
-                    } catch (Exception e){
-                        e.printStackTrace();
-                        lsResult = AppConstants.LOCAL_EXCEPTION_ERROR(e.getMessage());
-                    }
-                    return lsResult;
-
+                PasswordUpdate loArgs = (PasswordUpdate) args;
+                if (poSys.DoAction(loArgs) == 0){
+                    return false;
                 }
+                return true;
+            }
 
-                @Override
-                public void OnPostExecute(Object object) {
+            @Override
+            public void OnPostExecute(Object object) {
 
-                    try {
-                        JSONObject loJson = new JSONObject((String) object);
-                        String lsResult = loJson.getString("result");
-                        if(lsResult.equalsIgnoreCase("success")){
-                            callback.OnSuccess();
-                        } else {
-                            JSONObject loError = loJson.getJSONObject("error");
-                            String message = getErrorMessage(loError);;
-                            callback.OnFailed(message);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        callback.OnFailed(e.getMessage());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        callback.OnFailed(e.getMessage());
-                    }
-
+                if (!(Boolean) object){
+                    callback.OnFailed(poSys.getMessage());
+                    return;
                 }
-            });
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
+                callback.OnSuccess();
+            }
+        });
+
     }
 
 }
